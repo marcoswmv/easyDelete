@@ -10,4 +10,5 @@ import UIKit
 
 struct Constants {
     
+    static let mainViewTitle = "Contacts"
 }

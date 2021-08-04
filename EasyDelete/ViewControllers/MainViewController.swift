@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = Constants.ContactsTableView.title
+        navigationItem.title = Constants.mainViewTitle
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 }
