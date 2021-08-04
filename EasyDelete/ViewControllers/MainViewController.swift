@@ -17,9 +17,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = Constants.mainViewTitle
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
+        configureNavigationBar()
         configureTableView()
     }
     
@@ -35,6 +33,12 @@ class MainViewController: UIViewController {
         populateData()
     }
     
+    private func configureNavigationBar() {
+        navigationItem.title = Constants.mainViewTitle
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+    }
+    
     private func populateData() {
         sections = Helpers.generateSections(from: contacts)
     }
@@ -42,7 +46,21 @@ class MainViewController: UIViewController {
 
 // MARK: - Data source
 
-extension MainViewController: UITableViewDataSource, UITableViewDelegate {
+extension MainViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            sections[indexPath.section].names.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            print("Row was deleted")
+            
+            if sections[indexPath.section].names.isEmpty {
+                sections.remove(at: indexPath.section)
+                tableView.reloadData()
+                print("Section was deleted")
+            }
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
@@ -66,5 +84,14 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.text = contactName
         
         return cell
+    }
+}
+
+// MARK: - Delegate
+
+extension MainViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
