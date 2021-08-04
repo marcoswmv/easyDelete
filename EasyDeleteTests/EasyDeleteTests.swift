@@ -12,12 +12,12 @@ import XCTest
 class EasyDeleteTests: XCTestCase {
 
     func testGenerateSections() {
-        let contacts: [String] = ["Marcos Vicente"]
+        let contacts: [Contact] = [Contact(givenName: "Marcos", familyName: "Vicente")]
         let sections = Helpers.generateSections(from: contacts)
         
-        let (letter, names) = sections.first ?? ("", [""])
+        let (letter, names) = sections.first ?? ("", [Contact(givenName: "", familyName: "")])
         
-        XCTAssertEqual(letter, String(contacts.first?.first ?? " "))
+        XCTAssertEqual(letter, String(contacts.first?.givenName.first ?? " "))
         XCTAssertEqual(names, contacts)
     }
 
