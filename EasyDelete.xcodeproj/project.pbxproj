@@ -9,13 +9,16 @@
 /* Begin PBXBuildFile section */
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
-		F722DDEA26A8702A0017493B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* MainViewController.swift */; };
+		F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsViewController.swift */; };
 		F722DDEF26A8702C0017493B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F722DDEE26A8702C0017493B /* Assets.xcassets */; };
 		F722DDF226A8702C0017493B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F722DDF026A8702C0017493B /* LaunchScreen.storyboard */; };
 		F722DE0226A8773D0017493B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DE0126A8773D0017493B /* Constants.swift */; };
 		F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */; };
 		F7BC54B326BACCE4006C41A5 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54B226BACCE4006C41A5 /* Helpers.swift */; };
 		F7BC54BB26BACE05006C41A5 /* EasyDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54BA26BACE05006C41A5 /* EasyDeleteTests.swift */; };
+		F7BC54C726BB05CD006C41A5 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* Contact.swift */; };
+		F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */; };
+		F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +35,7 @@
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F722DDE926A8702A0017493B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		F722DDE926A8702A0017493B /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		F722DDEE26A8702C0017493B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F722DDF126A8702C0017493B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F722DDF326A8702C0017493B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,6 +45,9 @@
 		F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDeleteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BC54BA26BACE05006C41A5 /* EasyDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteTests.swift; sourceTree = "<group>"; };
 		F7BC54BC26BACE05006C41A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7BC54C626BB05CD006C41A5 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDataSource.swift; sourceTree = "<group>"; };
+		F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,14 +89,11 @@
 		F722DDE426A8702A0017493B /* EasyDelete */ = {
 			isa = PBXGroup;
 			children = (
+				F7BC54C426BB05B2006C41A5 /* Data */,
 				F7BC54AE26BA9C4A006C41A5 /* Extensions */,
-				F722DE0026A8772B0017493B /* Utils */,
-				F722DDFD26A875720017493B /* Views */,
 				F722DDFC26A874EB0017493B /* Supporting Files */,
-				F722DDFB26A874E30017493B /* ViewControllers */,
-				F722DDEE26A8702C0017493B /* Assets.xcassets */,
-				F722DDF026A8702C0017493B /* LaunchScreen.storyboard */,
-				F722DDF326A8702C0017493B /* Info.plist */,
+				F7BC54CE26BB0A4D006C41A5 /* UI */,
+				F722DE0026A8772B0017493B /* Utils */,
 			);
 			path = EasyDelete;
 			sourceTree = "<group>";
@@ -98,7 +101,7 @@
 		F722DDFB26A874E30017493B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				F722DDE926A8702A0017493B /* MainViewController.swift */,
+				F722DDE926A8702A0017493B /* ContactsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -108,6 +111,9 @@
 			children = (
 				F722DDE526A8702A0017493B /* AppDelegate.swift */,
 				F722DDE726A8702A0017493B /* SceneDelegate.swift */,
+				F722DDF326A8702C0017493B /* Info.plist */,
+				F722DDF026A8702C0017493B /* LaunchScreen.storyboard */,
+				F722DDEE26A8702C0017493B /* Assets.xcassets */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -143,6 +149,41 @@
 				F7BC54BC26BACE05006C41A5 /* Info.plist */,
 			);
 			path = EasyDeleteTests;
+			sourceTree = "<group>";
+		};
+		F7BC54C426BB05B2006C41A5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F7BC54C826BB0867006C41A5 /* DataSource */,
+				F7BC54C526BB05C0006C41A5 /* Models */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F7BC54C526BB05C0006C41A5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F7BC54C626BB05CD006C41A5 /* Contact.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F7BC54C826BB0867006C41A5 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */,
+				F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		F7BC54CE26BB0A4D006C41A5 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F722DDFB26A874E30017493B /* ViewControllers */,
+				F722DDFD26A875720017493B /* Views */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,11 +286,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F722DE0226A8773D0017493B /* Constants.swift in Sources */,
-				F722DDEA26A8702A0017493B /* MainViewController.swift in Sources */,
+				F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */,
+				F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */,
 				F7BC54B326BACCE4006C41A5 /* Helpers.swift in Sources */,
 				F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */,
 				F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */,
+				F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */,
 				F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */,
+				F7BC54C726BB05CD006C41A5 /* Contact.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +450,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WWR54AX99P;
-				INFOPLIST_FILE = EasyDelete/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -414,7 +458,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwmv.EasyDelete;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -425,7 +469,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WWR54AX99P;
-				INFOPLIST_FILE = EasyDelete/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,7 +477,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwmv.EasyDelete;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
