@@ -14,7 +14,19 @@
 		F722DDF226A8702C0017493B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F722DDF026A8702C0017493B /* LaunchScreen.storyboard */; };
 		F722DE0226A8773D0017493B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DE0126A8773D0017493B /* Constants.swift */; };
 		F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */; };
+		F7BC54B326BACCE4006C41A5 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54B226BACCE4006C41A5 /* Helpers.swift */; };
+		F7BC54BB26BACE05006C41A5 /* EasyDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54BA26BACE05006C41A5 /* EasyDeleteTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F7BC54BD26BACE05006C41A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F722DDDA26A8702A0017493B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F722DDE126A8702A0017493B;
+			remoteInfo = EasyDelete;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -26,10 +38,21 @@
 		F722DDF326A8702C0017493B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F722DE0126A8773D0017493B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		F7BC54B226BACCE4006C41A5 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDeleteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7BC54BA26BACE05006C41A5 /* EasyDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteTests.swift; sourceTree = "<group>"; };
+		F7BC54BC26BACE05006C41A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F722DDDF26A8702A0017493B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7BC54B526BACE05006C41A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -43,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				F722DDE426A8702A0017493B /* EasyDelete */,
+				F7BC54B926BACE05006C41A5 /* EasyDeleteTests */,
 				F722DDE326A8702A0017493B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				F722DDE226A8702A0017493B /* EasyDelete.app */,
+				F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				F7BC54AE26BA9C4A006C41A5 /* Extensions */,
-				F722DE0026A8772B0017493B /* Helpers */,
+				F722DE0026A8772B0017493B /* Utils */,
 				F722DDFD26A875720017493B /* Views */,
 				F722DDFC26A874EB0017493B /* Supporting Files */,
 				F722DDFB26A874E30017493B /* ViewControllers */,
@@ -94,12 +119,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		F722DE0026A8772B0017493B /* Helpers */ = {
+		F722DE0026A8772B0017493B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				F722DE0126A8773D0017493B /* Constants.swift */,
+				F7BC54B226BACCE4006C41A5 /* Helpers.swift */,
 			);
-			path = Helpers;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		F7BC54AE26BA9C4A006C41A5 /* Extensions */ = {
@@ -108,6 +134,15 @@
 				F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F7BC54B926BACE05006C41A5 /* EasyDeleteTests */ = {
+			isa = PBXGroup;
+			children = (
+				F7BC54BA26BACE05006C41A5 /* EasyDeleteTests.swift */,
+				F7BC54BC26BACE05006C41A5 /* Info.plist */,
+			);
+			path = EasyDeleteTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,6 +165,24 @@
 			productReference = F722DDE226A8702A0017493B /* EasyDelete.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F7BC54B726BACE05006C41A5 /* EasyDeleteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7BC54BF26BACE05006C41A5 /* Build configuration list for PBXNativeTarget "EasyDeleteTests" */;
+			buildPhases = (
+				F7BC54B426BACE05006C41A5 /* Sources */,
+				F7BC54B526BACE05006C41A5 /* Frameworks */,
+				F7BC54B626BACE05006C41A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7BC54BE26BACE05006C41A5 /* PBXTargetDependency */,
+			);
+			name = EasyDeleteTests;
+			productName = EasyDeleteTests;
+			productReference = F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -141,6 +194,10 @@
 				TargetAttributes = {
 					F722DDE126A8702A0017493B = {
 						CreatedOnToolsVersion = 12.5.1;
+					};
+					F7BC54B726BACE05006C41A5 = {
+						CreatedOnToolsVersion = 12.5.1;
+						TestTargetID = F722DDE126A8702A0017493B;
 					};
 				};
 			};
@@ -158,6 +215,7 @@
 			projectRoot = "";
 			targets = (
 				F722DDE126A8702A0017493B /* EasyDelete */,
+				F7BC54B726BACE05006C41A5 /* EasyDeleteTests */,
 			);
 		};
 /* End PBXProject section */
@@ -172,6 +230,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7BC54B626BACE05006C41A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -181,13 +246,30 @@
 			files = (
 				F722DE0226A8773D0017493B /* Constants.swift in Sources */,
 				F722DDEA26A8702A0017493B /* MainViewController.swift in Sources */,
+				F7BC54B326BACCE4006C41A5 /* Helpers.swift in Sources */,
 				F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */,
 				F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */,
 				F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7BC54B426BACE05006C41A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7BC54BB26BACE05006C41A5 /* EasyDeleteTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F7BC54BE26BACE05006C41A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F722DDE126A8702A0017493B /* EasyDelete */;
+			targetProxy = F7BC54BD26BACE05006C41A5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F722DDF026A8702C0017493B /* LaunchScreen.storyboard */ = {
@@ -355,6 +437,48 @@
 			};
 			name = Release;
 		};
+		F7BC54C026BACE05006C41A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WWR54AX99P;
+				INFOPLIST_FILE = EasyDeleteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mwmv.EasyDeleteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EasyDelete.app/EasyDelete";
+			};
+			name = Debug;
+		};
+		F7BC54C126BACE05006C41A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WWR54AX99P;
+				INFOPLIST_FILE = EasyDeleteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mwmv.EasyDeleteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EasyDelete.app/EasyDelete";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -372,6 +496,15 @@
 			buildConfigurations = (
 				F722DDF726A8702C0017493B /* Debug */,
 				F722DDF826A8702C0017493B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7BC54BF26BACE05006C41A5 /* Build configuration list for PBXNativeTarget "EasyDeleteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7BC54C026BACE05006C41A5 /* Debug */,
+				F7BC54C126BACE05006C41A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
