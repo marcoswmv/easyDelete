@@ -32,21 +32,15 @@ class MainViewController: UIViewController {
         tableView.enableAutoLayout()
         tableView.setConstraints(to: view)
         
-        generateSections()
+        populateData()
     }
     
-    private func generateSections() {
-        sections = Dictionary(grouping: contacts) { (name) -> Character in
-            return name.first!
-        }
-        .map { (key: Character, value: [String]) -> (letter: String, names: [String]) in
-            (letter: String(key), names: value)
-        }
-        .sorted { (left, right) -> Bool in
-            left.letter < right.letter
-        }
+    private func populateData() {
+        sections = Helpers.generateSections(from: contacts)
     }
 }
+
+// MARK: - Data source
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
