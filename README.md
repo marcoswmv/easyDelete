@@ -1,1 +1,1 @@
-# easyDelete
+# Easy Delete
