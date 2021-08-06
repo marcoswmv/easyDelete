@@ -9,7 +9,7 @@ import UIKit
 
 class ContactsViewController: UIViewController {
     
-    var tableView: UITableView = UITableView()
+    private var tableView: UITableView = UITableView()
     private let searchController: UISearchController = UISearchController(searchResultsController: nil)
     
     var dataSource: ContactsDataSource?
@@ -25,6 +25,12 @@ class ContactsViewController: UIViewController {
         configureSearchBarController()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        editingMode(disable: true)
+    }
+    
     private func setupDataSource() {
         dataSource = ContactsDataSource(tableView: tableView)
         dataSource?.reload()
@@ -33,28 +39,31 @@ class ContactsViewController: UIViewController {
     private func configureTableView() {
         view.addSubview(tableView)
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.ContactsList.cell)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.ContactsList.cell)
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.enableAutoLayout()
         tableView.setConstraints(to: view)
     }
     
-    private func configureNavigationBar() {
-        navigationItem.title = Constants.mainViewTitle
+    fileprivate func configureNavigationBar() {
+        navigationItem.title = Consts.ContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .done, target: self, action: #selector(handleSelect))
+        let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .done, target: self, action: #selector(handlePushDeleted))
+        let rightNavBarButton = UIBarButtonItem(title: Consts.ContactsList.select, style: .done, target: self, action: #selector(handleSelect))
+        navigationItem.leftBarButtonItem = leftNavBarButton
+        navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
-    private func configureToolbar() {
+    fileprivate func configureToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let deleteButton = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(handleDelete))
+        let deleteButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .done, target: self, action: #selector(handleDelete))
         deleteButton.tintColor = .red
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(handleDone))
+        let doneButton = UIBarButtonItem(title: Consts.ContactsList.done, style: .done, target: self, action: #selector(handleDone))
         
         toolbarItems = [deleteButton, flexibleSpace, doneButton]
     }
     
-    private func configureSearchBarController() {
+    fileprivate func configureSearchBarController() {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         self.definesPresentationContext = true
@@ -62,16 +71,16 @@ class ContactsViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
     }
     
-    private func enableEditingMode(enable: Bool) {
-        navigationItem.rightBarButtonItem?.isEnabled = enable
-        navigationController?.setToolbarHidden(enable, animated: true)
-        tableView.setEditing(!enable, animated: enable)
+    fileprivate func editingMode(disable: Bool) {
+        navigationItem.rightBarButtonItem?.isEnabled = disable
+        navigationController?.setToolbarHidden(disable, animated: true)
+        tableView.setEditing(!disable, animated: disable)
     }
     
     // MARK: - Handlers
 
     @objc private func handleSelect() {
-        enableEditingMode(enable: false)
+        editingMode(disable: false)
     }
     
     @objc private func handleDelete() {
@@ -83,6 +92,11 @@ class ContactsViewController: UIViewController {
     }
     
     @objc private func handleDone() {
-        enableEditingMode(enable: true)
+        editingMode(disable: true)
+    }
+    
+    @objc private func handlePushDeleted() {
+        let deletedContactsVC = DeletedContactsViewController()
+        navigationController?.pushViewController(deletedContactsVC, animated: true)
     }
 }

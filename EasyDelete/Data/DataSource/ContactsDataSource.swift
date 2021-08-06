@@ -74,7 +74,7 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.ContactsList.cell)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: Consts.ContactsList.cell)!
         
         if isSearching {
             cell.textLabel?.attributedText = nameAttributedString(contact: filteredData[indexPath.row])
@@ -95,19 +95,19 @@ class ContactsDataSource: BaseDataSource {
     
     func deleteContact(_ tableView: UITableView, at indexPath: IndexPath) {
         if data[indexPath.section].names.count <= 1 {
-                    data.remove(at: indexPath.section)
-                    tableView.deleteSections(IndexSet(integer: indexPath.section), with: .left)
-                } else {
-                    data[indexPath.section].names.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .left)
-                }
+            data.remove(at: indexPath.section)
+            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .left)
+        } else {
+            data[indexPath.section].names.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+        }
     }
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: "\(contact.givenName) ")
         let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
         let boldString = NSMutableAttributedString(string: contact.familyName, attributes: attributes)
-
+        
         attributedString.append(boldString)
         return attributedString
     }
