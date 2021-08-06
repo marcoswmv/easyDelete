@@ -42,8 +42,10 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if isSearching || data.isEmpty {
+        if isSearching {
             return 1
+        } else if data.isEmpty {
+            return 0
         }
         return data.count
     }
@@ -93,13 +95,13 @@ class ContactsDataSource: BaseDataSource {
     }
     
     func deleteContact(_ tableView: UITableView, at indexPath: IndexPath) {
-        data[indexPath.section].names.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .left)
-        
-        if data[indexPath.section].names.isEmpty {
-            data.remove(at: indexPath.section)
-            tableView.reloadData()
-        }
+        if data[indexPath.section].names.count <= 1 {
+                    data.remove(at: indexPath.section)
+                    tableView.deleteSections(IndexSet(integer: indexPath.section), with: .left)
+                } else {
+                    data[indexPath.section].names.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                }
     }
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
