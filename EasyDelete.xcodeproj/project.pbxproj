@@ -19,6 +19,7 @@
 		F7BC54C726BB05CD006C41A5 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* Contact.swift */; };
 		F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */; };
 		F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */; };
+		F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		F7BC54C626BB05CD006C41A5 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDataSource.swift; sourceTree = "<group>"; };
 		F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDataSource.swift; sourceTree = "<group>"; };
+		F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */,
+				F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */,
 				F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */,
 				F7BC54B326BACCE4006C41A5 /* Helpers.swift in Sources */,
+				F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */,
 				F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */,
 				F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */,
 				F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */,
