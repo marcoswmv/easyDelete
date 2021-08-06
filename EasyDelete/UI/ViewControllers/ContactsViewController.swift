@@ -76,7 +76,7 @@ class ContactsViewController: UIViewController {
     
     @objc private func handleDelete() {
         if let indexPaths = tableView.indexPathsForSelectedRows {
-            for indexPath in indexPaths.reversed() {
+            for indexPath in indexPaths.sorted(by: { $0.section > $1.section }) {
                 dataSource?.deleteContact(tableView, at: indexPath)
             }
         }
