@@ -10,6 +10,8 @@ import UIKit
 class ContactsDataSource: BaseDataSource {
     
     private(set) var data: Helpers.ContactSectionsType = Helpers.ContactSectionsType()
+    private(set) var filteredData: [Contact] = [Contact]()
+    private var isSearching: Bool = false
     
     override func setup() {
         super.setup()
@@ -18,6 +20,7 @@ class ContactsDataSource: BaseDataSource {
     override func reload() {
         let contacts: [Contact] = [
             Contact(givenName: "Marcos", familyName: "Vicente"),
+            Contact(givenName: "Márcia", familyName: "Jeremias"),
             Contact(givenName: "Cássia", familyName: "Carmo"),
             Contact(givenName: "Walter", familyName: "Morgado"),
             Contact(givenName: "Danilson", familyName: "Pombal"),
@@ -39,31 +42,55 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return data.isEmpty ? 1 : data.count
+        if isSearching || data.isEmpty {
+            return 1
+        }
+        return data.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return data.isEmpty ? nil : data[section].letter
+        if isSearching || data.isEmpty {
+            return nil
+        }
+        return data[section].letter
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return data.isEmpty ? nil : data.map { $0.letter }
+        if isSearching || data.isEmpty {
+            return nil
+        }
+        return data.map { $0.letter }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.isEmpty ? 0 : data[section].names.count
+        if isSearching {
+            return filteredData.count
+        } else if !data.isEmpty {
+            return data[section].names.count
+        }
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.ContactsList.cell)!
-        let contactName = data[indexPath.section].names[indexPath.row]
         
-        cell.textLabel?.text = "\(contactName.givenName) \(contactName.familyName)"
-        
+        if isSearching {
+            cell.textLabel?.attributedText = nameAttributedString(contact: filteredData[indexPath.row])
+        } else {
+            cell.textLabel?.attributedText = nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+        }
         return cell
     }
     
     // MARK: - Helpers
+    
+    func startQuery(with text: String) {
+        isSearching = text.isEmpty ? false : true
+        filteredData = data
+            .flatMap({ $0.names })
+            .filter { $0.givenName.lowercased().contains(text.lowercased()) || $0.familyName.lowercased().contains(text.lowercased()) }
+        tableView.reloadData()
+    }
     
     func deleteContact(_ tableView: UITableView, at indexPath: IndexPath) {
         data[indexPath.section].names.remove(at: indexPath.row)
@@ -73,5 +100,14 @@ class ContactsDataSource: BaseDataSource {
             data.remove(at: indexPath.section)
             tableView.reloadData()
         }
+    }
+    
+    func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: "\(contact.givenName) ")
+        let boldString = NSMutableAttributedString(string: contact.familyName,
+                                                   attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17)])
+
+        attributedString.append(boldString)
+        return attributedString
     }
 }

@@ -9,9 +9,11 @@ import UIKit
 
 class ContactsViewController: UIViewController {
     
-    private var tableView: UITableView = UITableView()
+    var tableView: UITableView = UITableView()
+    private let searchController: UISearchController = UISearchController(searchResultsController: nil)
     
     var dataSource: ContactsDataSource?
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,7 @@ class ContactsViewController: UIViewController {
         configureTableView()
         configureNavigationBar()
         configureToolbar()
+        configureSearchBarController()
     }
     
     private func setupDataSource() {
@@ -51,6 +54,14 @@ class ContactsViewController: UIViewController {
         toolbarItems = [deleteButton, flexibleSpace, doneButton]
     }
     
+    private func configureSearchBarController() {
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        self.definesPresentationContext = true
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+    }
+    
     private func enableEditingMode(enable: Bool) {
         navigationItem.rightBarButtonItem?.isEnabled = enable
         navigationController?.setToolbarHidden(enable, animated: true)
@@ -69,7 +80,6 @@ class ContactsViewController: UIViewController {
                 dataSource?.deleteContact(tableView, at: indexPath)
             }
         }
-        enableEditingMode(enable: true)
     }
     
     @objc private func handleDone() {
