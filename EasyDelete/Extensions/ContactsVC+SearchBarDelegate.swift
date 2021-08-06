@@ -47,9 +47,7 @@ extension ContactsViewController: UISearchBarDelegate {
     }
     
     fileprivate func search(query: String?) {
-        print(query ?? "none")
         guard let searchText = query else { return }
         dataSource?.startQuery(with: searchText)
     }
-    
 }
