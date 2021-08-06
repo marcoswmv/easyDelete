@@ -83,7 +83,6 @@ class ContactsDataSource: BaseDataSource {
     }
     
     // MARK: - Helpers
-    
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
         filteredData = data
@@ -104,8 +103,8 @@ class ContactsDataSource: BaseDataSource {
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: "\(contact.givenName) ")
-        let boldString = NSMutableAttributedString(string: contact.familyName,
-                                                   attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17)])
+        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+        let boldString = NSMutableAttributedString(string: contact.familyName, attributes: attributes)
 
         attributedString.append(boldString)
         return attributedString
