@@ -57,8 +57,9 @@ class DeletedContactsViewController: UIViewController {
         let deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, style: .done, target: self, action: #selector(handleDelete))
         deleteButton.tintColor = .red
         let doneButton = UIBarButtonItem(title: Consts.DeletedContactsList.done, style: .done, target: self, action: #selector(handleDone))
+        let recoverButton = UIBarButtonItem(title: Consts.DeletedContactsList.recover, style: .done, target: self, action: #selector(handleRecover))
         
-        toolbarItems = [deleteButton, flexibleSpace, doneButton]
+        toolbarItems = [deleteButton, flexibleSpace, recoverButton, flexibleSpace, doneButton]
     }
     
     fileprivate func configureSearchBarController() {
@@ -85,8 +86,8 @@ class DeletedContactsViewController: UIViewController {
             guard let self = self else { return }
             if confirmation {
                 if let indexPaths = self.tableView.indexPathsForSelectedRows {
-                    for indexPath in indexPaths.sorted(by: { $0.section > $1.section }) {
-        //                dataSource?.deleteContact(tableView, at: indexPath)
+                    for indexPath in indexPaths.sorted(by: { $0.row > $1.row }) {
+                        self.dataSource?.deleteContact(at: indexPath)
                     }
                 }
             }
@@ -95,5 +96,13 @@ class DeletedContactsViewController: UIViewController {
     
     @objc private func handleDone() {
         manageDeletedContacts(enable: false)
+    }
+    
+    @objc private func handleRecover() {
+        if let indexPaths = self.tableView.indexPathsForSelectedRows {
+            for indexPath in indexPaths.sorted(by: { $0.row > $1.row }) {
+                dataSource?.recoverContact(at: indexPath)
+            }
+        }
     }
 }

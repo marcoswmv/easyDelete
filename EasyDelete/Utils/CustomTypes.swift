@@ -6,3 +6,6 @@
 //
 
 import Foundation
+
+typealias ContactsListType = [Contact]
+typealias ContactSectionsType = [(letter: String, names: ContactsListType)]
