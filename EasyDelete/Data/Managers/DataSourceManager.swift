@@ -7,11 +7,9 @@
 
 import UIKit
 
-struct Helpers {
+struct DataSourceManager {
     
-    typealias ContactSectionsType = [(letter: String, names: [Contact])]
-    
-    static let dummyContactData: [Contact] = [
+    static let dummyContactData: Consts.ContactsListType = [
         Contact(givenName: "Marcos", familyName: "Vicente"),
         Contact(givenName: "Marta", familyName: "José"),
         Contact(givenName: "Mario", familyName: "Cruz"),
@@ -20,24 +18,29 @@ struct Helpers {
         Contact(givenName: "Danilson", familyName: "Pombal"),
         Contact(givenName: "Sidney", familyName: "Ribeiro")]
     
-    static func filter(_ contacts: [Contact], deleted: Bool) -> [Contact] {
+    static func filter(_ contacts: Consts.ContactsListType, deleted: Bool) -> Consts.ContactsListType {
         return contacts.filter { $0.isDeleted == deleted }
     }
     
-    static func sort(_ contacts: [Contact]) -> [Contact] {
+    static func sort(_ contacts: Consts.ContactsListType) -> Consts.ContactsListType {
         return contacts.sorted { $0.givenName < $1.givenName }
     }
     
-    static func groupContactsBySections(_ contacts: [Contact], deleted: Bool) -> ContactSectionsType {
+    static func groupContactsBySections(_ contacts: Consts.ContactsListType, deleted: Bool) -> Consts.ContactSectionsType {
         let filteredContacts = filter(contacts, deleted: deleted)
         let sortedContacts = sort(filteredContacts)
         
         return Dictionary(grouping: sortedContacts) { (name) -> Character in
             return name.givenName.first!
         }
-        .map { (key: Character, value: [Contact]) -> (letter: String, names: [Contact]) in
+        .map { (key: Character, value: Consts.ContactsListType) -> (letter: String, names: ContactsListType) in
             (letter: String(key), names: value)
         }
         .sorted { $0.letter < $1.letter }
+    }
+    
+    static func listContacts(_ contacts: Consts.ContactsListType, deleted: Bool) -> Consts.ContactsListType {
+        let filteredContacts = filter(contacts, deleted: deleted)
+        return sort(filteredContacts)
     }
 }

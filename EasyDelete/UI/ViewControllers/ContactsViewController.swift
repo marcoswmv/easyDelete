@@ -25,6 +25,12 @@ class ContactsViewController: UIViewController {
         configureSearchBarController()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        dataSource?.reload()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -85,8 +91,9 @@ class ContactsViewController: UIViewController {
     
     @objc private func handleDelete() {
         if let indexPaths = tableView.indexPathsForSelectedRows {
-            for indexPath in indexPaths.sorted(by: { $0.section > $1.section }) {
-                dataSource?.deleteContact(tableView, at: indexPath)
+            let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
+            for indexPath in sortedIndexPaths {
+                dataSource?.deleteContact(at: indexPath)
             }
         }
     }
