@@ -18,15 +18,7 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        let contacts: [Contact] = [
-            Contact(givenName: "Marcos", familyName: "Vicente"),
-            Contact(givenName: "Márcia", familyName: "Jeremias"),
-            Contact(givenName: "Cássia", familyName: "Carmo"),
-            Contact(givenName: "Walter", familyName: "Morgado"),
-            Contact(givenName: "Danilson", familyName: "Pombal"),
-            Contact(givenName: "Sidney", familyName: "Ribeiro")]
-        
-        data = Helpers.generateSections(from: contacts)
+        data = Helpers.groupContactsBySections(Helpers.dummyContactData, deleted: false)
     }
     
     // MARK: - Data source
@@ -94,13 +86,15 @@ class ContactsDataSource: BaseDataSource {
     }
     
     func deleteContact(_ tableView: UITableView, at indexPath: IndexPath) {
-        if data[indexPath.section].names.count <= 1 {
-            data.remove(at: indexPath.section)
-            tableView.deleteSections(IndexSet(integer: indexPath.section), with: .left)
+        data[indexPath.section].names[indexPath.row].isDeleted = true
+        
+        if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
+            data.remove(at: indexPath.section) // tmp remove entire section
         } else {
-            data[indexPath.section].names.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .left)
+            data[indexPath.section].names.remove(at: indexPath.row) // tmp remove row
         }
+        
+        tableView.reloadData()
     }
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
