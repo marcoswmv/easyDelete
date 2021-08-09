@@ -25,7 +25,7 @@ extension UIView {
     func setCenterConstraint(to superview: UIView) {
         NSLayoutConstraint.activate([
             centerXAnchor.constraint(equalTo: superview.centerXAnchor),
-            centerYAnchor.constraint(equalTo: superview.centerYAnchor),
+            centerYAnchor.constraint(equalTo: superview.centerYAnchor)
         ])
     }
     
