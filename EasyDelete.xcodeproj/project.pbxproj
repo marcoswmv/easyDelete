@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F7172F0726C1B4660019B760 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F0626C1B4660019B760 /* CustomTypes.swift */; };
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
 		F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsViewController.swift */; };
@@ -19,7 +20,7 @@
 		F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */; };
 		F7231C2326BDF88D001F7787 /* DeletedContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C2226BDF88D001F7787 /* DeletedContactsDataSource.swift */; };
 		F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */; };
-		F7BC54B326BACCE4006C41A5 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54B226BACCE4006C41A5 /* Helpers.swift */; };
+		F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */; };
 		F7BC54BB26BACE05006C41A5 /* EasyDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54BA26BACE05006C41A5 /* EasyDeleteTests.swift */; };
 		F7BC54C726BB05CD006C41A5 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* Contact.swift */; };
 		F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F7172F0626C1B4660019B760 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +54,7 @@
 		F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeletedContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
 		F7231C2226BDF88D001F7787 /* DeletedContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsDataSource.swift; sourceTree = "<group>"; };
 		F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
-		F7BC54B226BACCE4006C41A5 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceManager.swift; sourceTree = "<group>"; };
 		F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDeleteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BC54BA26BACE05006C41A5 /* EasyDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteTests.swift; sourceTree = "<group>"; };
 		F7BC54BC26BACE05006C41A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F7172F0526C1B37A0019B760 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		F722DDD926A8702A0017493B = {
 			isa = PBXGroup;
 			children = (
@@ -132,19 +142,12 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F722DDFD26A875720017493B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		F722DE0026A8772B0017493B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				F722DE0126A8773D0017493B /* Consts.swift */,
 				F7231C1E26BDEF3D001F7787 /* Alert.swift */,
-				F7BC54B226BACCE4006C41A5 /* Helpers.swift */,
+				F7172F0626C1B4660019B760 /* CustomTypes.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 		F7BC54C426BB05B2006C41A5 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				F7172F0526C1B37A0019B760 /* Managers */,
 				F7BC54C826BB0867006C41A5 /* DataSource */,
 				F7BC54C526BB05C0006C41A5 /* Models */,
 			);
@@ -199,7 +203,6 @@
 			isa = PBXGroup;
 			children = (
 				F722DDFB26A874E30017493B /* ViewControllers */,
-				F722DDFD26A875720017493B /* Views */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -329,8 +332,9 @@
 				F7231C1D26BDE949001F7787 /* DeletedContactsViewController.swift in Sources */,
 				F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */,
 				F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */,
-				F7BC54B326BACCE4006C41A5 /* Helpers.swift in Sources */,
+				F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */,
 				F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */,
+				F7172F0726C1B4660019B760 /* CustomTypes.swift in Sources */,
 				F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */,
 				F7231C2326BDF88D001F7787 /* DeletedContactsDataSource.swift in Sources */,
 				F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */,
