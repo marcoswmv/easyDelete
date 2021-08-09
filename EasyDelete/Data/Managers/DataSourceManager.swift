@@ -7,9 +7,13 @@
 
 import UIKit
 
-struct DataSourceManager {
+class DataSourceManager {
     
-    static let dummyContactData: Consts.ContactsListType = [
+    static let shared = DataSourceManager()
+    
+    private init() { }
+    
+    var dummyContactData: ContactsListType = [
         Contact(givenName: "Marcos", familyName: "Vicente"),
         Contact(givenName: "Marta", familyName: "José"),
         Contact(givenName: "Mario", familyName: "Cruz"),
@@ -18,29 +22,81 @@ struct DataSourceManager {
         Contact(givenName: "Danilson", familyName: "Pombal"),
         Contact(givenName: "Sidney", familyName: "Ribeiro")]
     
-    static func filter(_ contacts: Consts.ContactsListType, deleted: Bool) -> Consts.ContactsListType {
+    func filter(_ contacts: ContactsListType, deleted: Bool) -> ContactsListType {
         return contacts.filter { $0.isDeleted == deleted }
     }
     
-    static func sort(_ contacts: Consts.ContactsListType) -> Consts.ContactsListType {
+    func sortInAscendingOrder(_ contacts: ContactsListType) -> ContactsListType {
         return contacts.sorted { $0.givenName < $1.givenName }
     }
     
-    static func groupContactsBySections(_ contacts: Consts.ContactsListType, deleted: Bool) -> Consts.ContactSectionsType {
+    func groupContactsBySections(_ contacts: ContactsListType, deleted: Bool) -> ContactSectionsType {
         let filteredContacts = filter(contacts, deleted: deleted)
-        let sortedContacts = sort(filteredContacts)
-        
-        return Dictionary(grouping: sortedContacts) { (name) -> Character in
+        let sortedContacts = sortInAscendingOrder(filteredContacts)
+        let resultDict = Dictionary(grouping: sortedContacts) { (name) -> Character in
             return name.givenName.first!
         }
-        .map { (key: Character, value: Consts.ContactsListType) -> (letter: String, names: ContactsListType) in
+        .map { (key: Character, value: ContactsListType) -> (letter: String, names: ContactsListType) in
             (letter: String(key), names: value)
         }
         .sorted { $0.letter < $1.letter }
+        
+        return resultDict
     }
     
-    static func listContacts(_ contacts: Consts.ContactsListType, deleted: Bool) -> Consts.ContactsListType {
+    func listContacts(_ contacts: ContactsListType, deleted: Bool) -> ContactsListType {
         let filteredContacts = filter(contacts, deleted: deleted)
-        return sort(filteredContacts)
+        let sortedContacts = sortInAscendingOrder(filteredContacts)
+        
+        return sortedContacts
+    }
+    
+    func recover(contact: Contact) {
+        if dummyContactData.contains(where: { $0.id == contact.id && $0.isDeleted != contact.isDeleted }) {
+            if let index = dummyContactData.firstIndex(of: contact) {
+                dummyContactData[index] = contact
+            }
+        }
+    }
+    
+    func sortIndexPathsInDescendingOrder(_ indexPaths: [IndexPath]) -> [IndexPath] {
+        let sectionsDict = extractIndexPathArrayToDictionary(indexPaths: indexPaths)
+        let resultArray = createSortedArrayOfTuples(sectionsDict: sectionsDict)
+        
+        return createNewIndexPathsArray(resultArray: resultArray)
+    }
+    
+    func extractIndexPathArrayToDictionary(indexPaths: [IndexPath]) -> [Int: [Int]] {
+        var sectionsDict: [Int: [Int]] = [:]
+        
+        for indexPath in indexPaths {
+            if sectionsDict.contains(where: { $0.key == indexPath.section }) {
+                sectionsDict[indexPath.section]?.append(indexPath.row)
+            } else {
+                sectionsDict.updateValue([indexPath.row], forKey: indexPath.section)
+            }
+        }
+        
+        return sectionsDict
+    }
+    
+    func createSortedArrayOfTuples(sectionsDict: [Int: [Int]]) -> [(section: Int, rows: [Int])] {
+        return sectionsDict.map { (key: Int, value: [Int]) -> (section: Int, rows: [Int]) in
+            let sortedValues = value.sorted(by: >)
+            return (section: key, rows: sortedValues)
+        }
+        .sorted(by: { $0.section > $1.section })
+    }
+    
+    func createNewIndexPathsArray(resultArray: [(section: Int, rows: [Int])]) -> [IndexPath] {
+        var resultIndexPaths: [IndexPath] = []
+        
+        for result in resultArray {
+            for row in result.rows {
+                resultIndexPaths.append(IndexPath(row: row, section: result.section))
+            }
+        }
+        
+        return resultIndexPaths
     }
 }
