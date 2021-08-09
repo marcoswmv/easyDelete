@@ -12,10 +12,12 @@ class Contact: NSObject {
     var id: String
     var givenName: String
     var familyName: String
+    var isDeleted: Bool
     
-    init(givenName: String, familyName: String) {
+    init(givenName: String, familyName: String, isDeleted: Bool = false) {
         self.id = UUID().uuidString
         self.givenName = givenName
         self.familyName = familyName
+        self.isDeleted = isDeleted
     }
 }
