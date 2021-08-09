@@ -9,8 +9,8 @@ import UIKit
 
 class ContactsDataSource: BaseDataSource {
     
-    private(set) var data: Helpers.ContactSectionsType = Helpers.ContactSectionsType()
-    private(set) var filteredData: [Contact] = [Contact]()
+    private(set) var data: ContactSectionsType = ContactSectionsType()
+    private(set) var filteredData: ContactsListType = ContactsListType()
     private var isSearching: Bool = false
     
     override func setup() {
@@ -18,7 +18,8 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        data = Helpers.groupContactsBySections(Helpers.dummyContactData, deleted: false)
+        data = DataSourceManager.shared.groupContactsBySections(DataSourceManager.shared.dummyContactData, deleted: false)
+        tableView.reloadData()
     }
     
     // MARK: - Data source
@@ -29,7 +30,7 @@ class ContactsDataSource: BaseDataSource {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deleteContact(tableView, at: indexPath)
+            deleteContact(at: indexPath)
         }
     }
     
@@ -85,7 +86,7 @@ class ContactsDataSource: BaseDataSource {
         tableView.reloadData()
     }
     
-    func deleteContact(_ tableView: UITableView, at indexPath: IndexPath) {
+    func deleteContact(at indexPath: IndexPath) {
         data[indexPath.section].names[indexPath.row].isDeleted = true
         
         if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
