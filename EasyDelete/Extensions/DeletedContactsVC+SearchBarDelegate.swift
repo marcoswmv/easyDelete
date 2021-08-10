@@ -1,13 +1,13 @@
 //
-//  ContactsVC+SearchBarDelegate.swift
+//  DeletedContactsVC+SearchBarDelegate.swift
 //  EasyDelete
 //
-//  Created by Marcos Vicente on 04.08.2021.
+//  Created by Marcos Vicente on 06.08.2021.
 //
 
 import UIKit
 
-extension ContactsViewController: UISearchBarDelegate {
+extension DeletedContactsViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
