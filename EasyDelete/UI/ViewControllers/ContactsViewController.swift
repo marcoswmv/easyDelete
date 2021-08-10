@@ -11,6 +11,7 @@ class ContactsViewController: UIViewController {
     
     private var tableView: UITableView = UITableView()
     private let searchController: UISearchController = UISearchController(searchResultsController: nil)
+    private let refreshControl: UIRefreshControl = UIRefreshControl()
     
     var dataSource: ContactsDataSource?
     var timer: Timer?
@@ -19,10 +20,7 @@ class ContactsViewController: UIViewController {
         super.viewDidLoad()
         
         setupDataSource()
-        configureTableView()
-        configureNavigationBar()
-        configureToolbar()
-        configureSearchBarController()
+        configureUIEssentials()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +33,14 @@ class ContactsViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         editingMode(disable: true)
+    }
+    
+    fileprivate func configureUIEssentials() {
+        configureTableView()
+        configureNavigationBar()
+        configureToolbar()
+        configureSearchBarController()
+        configureRefreshControl()
     }
     
     private func setupDataSource() {
@@ -77,6 +83,11 @@ class ContactsViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
     }
     
+    fileprivate func configureRefreshControl() {
+        tableView.refreshControl = self.refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    }
+    
     fileprivate func editingMode(disable: Bool) {
         navigationItem.rightBarButtonItem?.isEnabled = disable
         navigationController?.setToolbarHidden(disable, animated: true)
@@ -105,5 +116,12 @@ class ContactsViewController: UIViewController {
     @objc private func handlePushDeleted() {
         let deletedContactsVC = DeletedContactsViewController()
         navigationController?.pushViewController(deletedContactsVC, animated: true)
+    }
+    
+    @objc private func handleRefresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            self.dataSource?.reload()
+            self.refreshControl.endRefreshing()
+        }
     }
 }

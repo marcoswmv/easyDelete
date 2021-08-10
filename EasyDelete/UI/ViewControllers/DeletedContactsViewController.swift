@@ -11,6 +11,7 @@ class DeletedContactsViewController: UIViewController {
     
     private var tableView: UITableView = UITableView()
     private let searchController: UISearchController = UISearchController(searchResultsController: nil)
+    private let refreshControl: UIRefreshControl = UIRefreshControl()
     
     var dataSource: DeletedContactsDataSource?
     var timer: Timer?
@@ -19,16 +20,21 @@ class DeletedContactsViewController: UIViewController {
         super.viewDidLoad()
         
         setupDataSource()
-        configureTableView()
-        configureNavigationBar()
-        configureToolbar()
-        configureSearchBarController()
+        configureUIEssentials()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         manageDeletedContacts(enable: false)
+    }
+    
+    fileprivate func configureUIEssentials() {
+        configureTableView()
+        configureNavigationBar()
+        configureToolbar()
+        configureSearchBarController()
+        configureRefreshControl()
     }
     
     private func setupDataSource() {
@@ -70,6 +76,11 @@ class DeletedContactsViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
     }
     
+    fileprivate func configureRefreshControl() {
+        tableView.refreshControl = self.refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    }
+    
     fileprivate func manageDeletedContacts(enable: Bool) {
         navigationItem.rightBarButtonItem?.isEnabled = !enable
         navigationController?.setToolbarHidden(!enable, animated: true)
@@ -77,6 +88,7 @@ class DeletedContactsViewController: UIViewController {
     }
     
     // MARK: - Handlers
+    
     @objc private func handleManage() {
         manageDeletedContacts(enable: true)
     }
@@ -103,6 +115,13 @@ class DeletedContactsViewController: UIViewController {
             for indexPath in indexPaths.sorted(by: { $0.row > $1.row }) {
                 dataSource?.recoverContact(at: indexPath)
             }
+        }
+    }
+    
+    @objc private func handleRefresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            self.dataSource?.reload()
+            self.refreshControl.endRefreshing()
         }
     }
 }
