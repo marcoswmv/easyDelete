@@ -1,15 +1,15 @@
 //
-//  ContactsDataSource.swift
+//  DeletedContactsDataSource.swift
 //  EasyDelete
 //
-//  Created by Marcos Vicente on 04.08.2021.
+//  Created by Marcos Vicente on 07.08.2021.
 //
 
 import UIKit
 
-class ContactsDataSource: BaseDataSource {
+class DeletedContactsDataSource: BaseDataSource {
     
-    private(set) var data: ContactSectionsType = ContactSectionsType()
+    private(set) var data: ContactsListType = ContactsListType()
     private(set) var filteredData: ContactsListType = ContactsListType()
     private var isSearching: Bool = false
     
@@ -18,7 +18,7 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        data = DataSourceManager.shared.groupContactsBySections(DataSourceManager.shared.dummyContactData, deleted: false)
+        data = DataSourceManager.shared.listContacts(DataSourceManager.shared.dummyContactData, deleted: true)
         tableView.reloadData()
     }
     
@@ -34,45 +34,33 @@ class ContactsDataSource: BaseDataSource {
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        if isSearching {
-            return 1
-        } else if data.isEmpty {
-            return 0
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let recoverAction = UIContextualAction(style: .normal, title: "Recover") { [weak self] (_, _, completionHandler) in
+            guard let self = self else { return }
+            self.recoverContact(at: indexPath)
+            self.tableView.reloadData()
+            completionHandler(true)
         }
-        return data.count
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if isSearching || data.isEmpty {
-            return nil
-        }
-        return data[section].letter
-    }
-    
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if isSearching || data.isEmpty {
-            return nil
-        }
-        return data.map { $0.letter }
+        recoverAction.backgroundColor = .link
+        return UISwipeActionsConfiguration(actions: [recoverAction])
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
             return filteredData.count
         } else if !data.isEmpty {
-            return data[section].names.count
+            return data.count
         }
         return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Consts.ContactsList.cell)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: Consts.DeletedContactsList.cell)!
         
         if isSearching {
             cell.textLabel?.attributedText = nameAttributedString(contact: filteredData[indexPath.row])
         } else {
-            cell.textLabel?.attributedText = nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            cell.textLabel?.attributedText = nameAttributedString(contact: data[indexPath.row])
         }
         return cell
     }
@@ -80,21 +68,21 @@ class ContactsDataSource: BaseDataSource {
     // MARK: - Helpers
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
-        filteredData = data
-            .flatMap({ $0.names })
-            .filter { $0.givenName.lowercased().contains(text.lowercased()) || $0.familyName.lowercased().contains(text.lowercased()) }
+        filteredData = data.filter { $0.givenName.lowercased().contains(text.lowercased()) || $0.familyName.lowercased().contains(text.lowercased()) }
         tableView.reloadData()
     }
     
     func deleteContact(at indexPath: IndexPath) {
-        data[indexPath.section].names[indexPath.row].isDeleted = true
-        
-        if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
-            data.remove(at: indexPath.section) // tmp remove entire section
-        } else {
-            data[indexPath.section].names.remove(at: indexPath.row) // tmp remove row
-        }
-        
+        data.remove(at: indexPath.row) // tmp remove row
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        tableView.reloadData()
+    }
+    
+    func recoverContact(at indexPath: IndexPath) {
+        let contactToRecover = data[indexPath.row]
+        contactToRecover.isDeleted = false
+        DataSourceManager.shared.recover(contact: data[indexPath.row])
+        data.removeAll { $0.id == contactToRecover.id } // tmp remove row
         tableView.reloadData()
     }
     
