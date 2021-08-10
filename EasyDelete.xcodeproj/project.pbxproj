@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F7172F0726C1B4660019B760 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F0626C1B4660019B760 /* CustomTypes.swift */; };
+		F7172F0D26C1FCDA0019B760 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F0C26C1FCDA0019B760 /* UIApplication+TopViewController.swift */; };
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
 		F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsViewController.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		F7172F0626C1B4660019B760 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
+		F7172F0C26C1FCDA0019B760 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */,
+				F7172F0C26C1FCDA0019B760 /* UIApplication+TopViewController.swift */,
 				F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */,
 				F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */,
 			);
@@ -343,6 +346,7 @@
 				F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */,
 				F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */,
 				F7BC54C726BB05CD006C41A5 /* Contact.swift in Sources */,
+				F7172F0D26C1FCDA0019B760 /* UIApplication+TopViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
