@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F7172F0726C1B4660019B760 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F0626C1B4660019B760 /* CustomTypes.swift */; };
+		F7172F1126C42E960019B760 /* EDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1026C42E960019B760 /* EDTypes.swift */; };
+		F7172F1326C42EAA0019B760 /* ContactStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */; };
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
 		F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsViewController.swift */; };
@@ -39,7 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F7172F0626C1B4660019B760 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
+		F7172F1026C42E960019B760 /* EDTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDTypes.swift; sourceTree = "<group>"; };
+		F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactStoreManager.swift; sourceTree = "<group>"; };
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */,
+				F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -147,7 +150,7 @@
 			children = (
 				F722DE0126A8773D0017493B /* Consts.swift */,
 				F7231C1E26BDEF3D001F7787 /* Alert.swift */,
-				F7172F0626C1B4660019B760 /* CustomTypes.swift */,
+				F7172F1026C42E960019B760 /* EDTypes.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -334,8 +337,9 @@
 				F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */,
 				F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */,
 				F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */,
-				F7172F0726C1B4660019B760 /* CustomTypes.swift in Sources */,
+				F7172F1126C42E960019B760 /* EDTypes.swift in Sources */,
 				F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */,
+				F7172F1326C42EAA0019B760 /* ContactStoreManager.swift in Sources */,
 				F7231C2326BDF88D001F7787 /* DeletedContactsDataSource.swift in Sources */,
 				F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */,
 				F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */,

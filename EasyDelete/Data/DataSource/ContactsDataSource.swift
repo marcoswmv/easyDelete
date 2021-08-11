@@ -9,8 +9,8 @@ import UIKit
 
 class ContactsDataSource: BaseDataSource {
     
-    private(set) var data: ContactSectionsType = ContactSectionsType()
-    private(set) var filteredData: ContactsListType = ContactsListType()
+    private(set) var data: EDTypes.GroupedContacts = EDTypes.GroupedContacts()
+    private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
     private var isSearching: Bool = false
     
     override func setup() {
@@ -18,7 +18,7 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        data = DataSourceManager.shared.groupContactsBySections(DataSourceManager.shared.dummyContactData, deleted: false)
+        data = DataSourceManager.shared.groupContactsBySections(DataSourceManager.shared.contactArr, deleted: false)
         tableView.reloadData()
     }
     
