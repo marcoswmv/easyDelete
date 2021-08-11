@@ -46,11 +46,11 @@ class DataSourceManager {
     }
     
     func recover(contact: Contact) {
-//        if dummyContactData.contains(where: { $0.id == contact.id && $0.isDeleted != contact.isDeleted }) {
-//            if let index = dummyContactData.firstIndex(of: contact) {
-//                dummyContactData[index] = contact
-//            }
-//        }
+        if contactArr.contains(where: { $0.contactId == contact.contactId && $0.isDeleted != contact.isDeleted }) {
+            if let index = contactArr.firstIndex(of: contact) {
+                contactArr[index] = contact
+            }
+        }
     }
     
     func sortIndexPathsInDescendingOrder(_ indexPaths: [IndexPath]) -> [IndexPath] {

@@ -18,7 +18,7 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-//        data = DataSourceManager.shared.listContacts(DataSourceManager.shared.dummyContactData, deleted: true)
+        data = DataSourceManager.shared.listContacts(DataSourceManager.shared.contactArr, deleted: true)
         tableView.reloadData()
     }
     
