@@ -30,7 +30,12 @@ class DeletedContactsDataSource: BaseDataSource {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deleteContact(at: indexPath)
+            Alert.showActionSheetToAskForConfirmationToDelete(on: UIApplication.topViewController()!) { [weak self] confirmation in
+                guard let self = self else { return }
+                if confirmation {
+                    self.deleteContact(at: indexPath)
+                }
+            }
         }
     }
     
