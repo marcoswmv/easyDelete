@@ -6,36 +6,65 @@
 //
 
 import XCTest
+import Contacts
 
 @testable import EasyDelete
 
 class EasyDeleteTests: XCTestCase {
 
     func testGroupContactsBySections() {
-        let contacts: [Contact] = []
-//        [Contact(givenName: "Marcos", familyName: "Vicente")]
+        let testContact = CNMutableContact()
+        testContact.givenName = "Marcos"
+        testContact.familyName = "Vicente"
+        
+        let contacts: [Contact] = [Contact(contact: testContact)]
         let sections = DataSourceManager.shared.groupContactsBySections(contacts, deleted: false)
         
-        let (letter, names) = sections.first ?? ("", [])
-//        [Contact(givenName: "", familyName: "", isDeleted: false)])
+        let placeholderContact = CNMutableContact()
+        placeholderContact.givenName = ""
+        placeholderContact.familyName = ""
+        
+        let (letter, names) = sections.first ?? ("", [Contact(contact: placeholderContact)])
         
         XCTAssertEqual(letter, String(contacts.first?.givenName.first ?? " "))
         XCTAssertEqual(names, contacts)
     }
     
     func testFilter() {
-        let contacts: [Contact] = []
-//        [Contact(givenName: "Marcos", familyName: "Vicente"),
-//                                   Contact(givenName: "Cássia", familyName: "Carmo", isDeleted: true)]
+        let contact = CNMutableContact()
+        contact.givenName = "Marcos"
+        contact.familyName = "Vicente"
+        
+        let testContact = Contact(contact: contact)
+        testContact.isDeleted = false
+        
+        let contact1 = CNMutableContact()
+        contact1.givenName = "Cássia"
+        contact1.familyName = "Carmo"
+        
+        let testContact1 = Contact(contact: contact1)
+        testContact1.isDeleted = true
+        
+        let contacts: [Contact] = [testContact, testContact1]
         let expectedResult = [contacts[0]]
         
         XCTAssertEqual(DataSourceManager.shared.filter(contacts, deleted: false), expectedResult)
     }
 
     func testSort() {
-        let contacts: [Contact] = []
-//        [Contact(givenName: "Marcos", familyName: "Vicente"),
-//                                   Contact(givenName: "Cássia", familyName: "Carmo")]
+        let contact = CNMutableContact()
+        contact.givenName = "Marcos"
+        contact.familyName = "Vicente"
+        
+        let testContact = Contact(contact: contact)
+        
+        let contact1 = CNMutableContact()
+        contact1.givenName = "Cássia"
+        contact1.familyName = "Carmo"
+        
+        let testContact1 = Contact(contact: contact1)
+        
+        let contacts: [Contact] = [testContact, testContact1]
         let expectedResult = [contacts[1],
                               contacts[0]]
         
@@ -43,9 +72,19 @@ class EasyDeleteTests: XCTestCase {
     }
     
     func testListContacts() {
-        let contacts: [Contact] = []
-//            [Contact(givenName: "Marcos", familyName: "Vicente"),
-//                                   Contact(givenName: "Cássia", familyName: "Carmo")]
+        let contact = CNMutableContact()
+        contact.givenName = "Marcos"
+        contact.familyName = "Vicente"
+        
+        let testContact = Contact(contact: contact)
+        
+        let contact1 = CNMutableContact()
+        contact1.givenName = "Cássia"
+        contact1.familyName = "Carmo"
+        
+        let testContact1 = Contact(contact: contact1)
+        
+        let contacts: [Contact] = [testContact, testContact1]
         let listedContacts = DataSourceManager.shared.listContacts(contacts, deleted: false)
         
         let expectedResult = [contacts[1], contacts[0]]
