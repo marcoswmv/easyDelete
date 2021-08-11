@@ -18,7 +18,8 @@ class ContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        data = DataSourceManager.shared.groupContactsBySections(DataSourceManager.shared.contactArr, deleted: false)
+        let contactsFromDataBase = DataBaseManager.shared.fetchContacts()
+        data = DataSourceManager.shared.groupContactsBySections(contactsFromDataBase)
         tableView.reloadData()
     }
     
@@ -82,7 +83,11 @@ class ContactsDataSource: BaseDataSource {
         isSearching = text.isEmpty ? false : true
         filteredData = data
             .flatMap({ $0.names })
-            .filter { $0.givenName.lowercased().contains(text.lowercased()) || $0.familyName.lowercased().contains(text.lowercased()) }
+            .filter { contact in
+                guard let givenName = contact.givenName,
+                      let familyName = contact.familyName else { return false }
+                return givenName.lowercased().contains(text.lowercased()) || familyName.lowercased().contains(text.lowercased())
+            }
         tableView.reloadData()
     }
     
@@ -99,11 +104,16 @@ class ContactsDataSource: BaseDataSource {
     }
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: "\(contact.givenName) ")
-        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-        let boldString = NSMutableAttributedString(string: contact.familyName, attributes: attributes)
+        var attributedString = NSMutableAttributedString(string: "")
         
-        attributedString.append(boldString)
+        if let givenName = contact.givenName {
+            attributedString = NSMutableAttributedString(string: "\(givenName) ")
+            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
+            
+            attributedString.append(boldString)
+        }
+        
         return attributedString
     }
 }

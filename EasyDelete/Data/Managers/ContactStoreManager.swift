@@ -86,7 +86,7 @@ class ContactStoreManager {
                 break
             }
         } receiveValue: { contact in
-            DataSourceManager.shared.contactArr.append(contact)
+            DataBaseManager.shared.update(with: contact)
         }.store(in: &Consts.bag)
     }
 }

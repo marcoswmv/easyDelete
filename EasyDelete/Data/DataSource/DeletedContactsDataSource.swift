@@ -73,7 +73,11 @@ class DeletedContactsDataSource: BaseDataSource {
     // MARK: - Helpers
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
-        filteredData = data.filter { $0.givenName.lowercased().contains(text.lowercased()) || $0.familyName.lowercased().contains(text.lowercased()) }
+        filteredData = data.filter { contact in
+            guard let givenName = contact.givenName,
+                  let familyName = contact.familyName else { return false }
+            return givenName.lowercased().contains(text.lowercased()) || familyName.lowercased().contains(text.lowercased())
+        }
         tableView.reloadData()
     }
     
@@ -87,16 +91,21 @@ class DeletedContactsDataSource: BaseDataSource {
         let contactToRecover = data[indexPath.row]
         contactToRecover.isDeleted = false
         DataSourceManager.shared.recover(contact: data[indexPath.row])
-        data.removeAll { $0.contactId == contactToRecover.contactId } // tmp remove row
+        data.removeAll { $0.id == contactToRecover.id } // tmp remove row
         tableView.reloadData()
     }
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: "\(contact.givenName) ")
-        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-        let boldString = NSMutableAttributedString(string: contact.familyName, attributes: attributes)
         
-        attributedString.append(boldString)
+        var attributedString = NSMutableAttributedString(string: "")
+        
+        if let givenName = contact.givenName {
+            attributedString = NSMutableAttributedString(string: "\(givenName) ")
+            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
+            
+            attributedString.append(boldString)
+        }
         return attributedString
     }
 }
