@@ -9,8 +9,8 @@ import UIKit
 
 class DeletedContactsDataSource: BaseDataSource {
     
-    private(set) var data: ContactsListType = ContactsListType()
-    private(set) var filteredData: ContactsListType = ContactsListType()
+    private(set) var data: EDTypes.ContactsList = EDTypes.ContactsList()
+    private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
     private var isSearching: Bool = false
     
     override func setup() {
@@ -18,7 +18,7 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        data = DataSourceManager.shared.listContacts(DataSourceManager.shared.dummyContactData, deleted: true)
+        data = DataSourceManager.shared.listContacts(DataSourceManager.shared.contactArr, deleted: true)
         tableView.reloadData()
     }
     
@@ -82,7 +82,7 @@ class DeletedContactsDataSource: BaseDataSource {
         let contactToRecover = data[indexPath.row]
         contactToRecover.isDeleted = false
         DataSourceManager.shared.recover(contact: data[indexPath.row])
-        data.removeAll { $0.id == contactToRecover.id } // tmp remove row
+        data.removeAll { $0.contactId == contactToRecover.contactId } // tmp remove row
         tableView.reloadData()
     }
     

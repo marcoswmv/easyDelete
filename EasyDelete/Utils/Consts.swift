@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 struct Consts {
+    
+    static var bag = Set<AnyCancellable>()
+    
     struct ContactsList {
         static let title = "Contacts"
         static let cell = "ContactCell"
