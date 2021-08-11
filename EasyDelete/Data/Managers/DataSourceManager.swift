@@ -11,40 +11,34 @@ class DataSourceManager {
     
     static let shared = DataSourceManager()
     
+    var contactArr: EDTypes.ContactsList = []
+    
     private init() { }
     
-    var dummyContactData: ContactsListType = [
-        Contact(givenName: "Marcos", familyName: "Vicente"),
-        Contact(givenName: "Marta", familyName: "José"),
-        Contact(givenName: "Mario", familyName: "Cruz"),
-        Contact(givenName: "Cássia", familyName: "Carmo"),
-        Contact(givenName: "Walter", familyName: "Morgado"),
-        Contact(givenName: "Danilson", familyName: "Pombal"),
-        Contact(givenName: "Sidney", familyName: "Ribeiro")]
-    
-    func filter(_ contacts: ContactsListType, deleted: Bool) -> ContactsListType {
+    func filter(_ contacts: EDTypes.ContactsList, deleted: Bool) -> EDTypes.ContactsList {
         return contacts.filter { $0.isDeleted == deleted }
     }
     
-    func sortInAscendingOrder(_ contacts: ContactsListType) -> ContactsListType {
+    func sortInAscendingOrder(_ contacts: EDTypes.ContactsList) -> EDTypes.ContactsList {
         return contacts.sorted { $0.givenName < $1.givenName }
     }
     
-    func groupContactsBySections(_ contacts: ContactsListType, deleted: Bool) -> ContactSectionsType {
+    func groupContactsBySections(_ contacts: EDTypes.ContactsList, deleted: Bool) -> EDTypes.GroupedContacts {
         let filteredContacts = filter(contacts, deleted: deleted)
         let sortedContacts = sortInAscendingOrder(filteredContacts)
-        let resultDict = Dictionary(grouping: sortedContacts) { (name) -> Character in
-            return name.givenName.first!
+        let resultDict = Dictionary(grouping: sortedContacts) { (name) -> String in
+            guard let firstLetter = name.givenName.first?.uppercased() else { return "" }
+            return firstLetter
         }
-        .map { (key: Character, value: ContactsListType) -> (letter: String, names: ContactsListType) in
-            (letter: String(key), names: value)
+        .map { (key: String, value: EDTypes.ContactsList) -> (letter: String, names: EDTypes.ContactsList) in
+            (letter: key, names: value)
         }
         .sorted { $0.letter < $1.letter }
         
         return resultDict
     }
     
-    func listContacts(_ contacts: ContactsListType, deleted: Bool) -> ContactsListType {
+    func listContacts(_ contacts: EDTypes.ContactsList, deleted: Bool) -> EDTypes.ContactsList {
         let filteredContacts = filter(contacts, deleted: deleted)
         let sortedContacts = sortInAscendingOrder(filteredContacts)
         
@@ -52,9 +46,9 @@ class DataSourceManager {
     }
     
     func recover(contact: Contact) {
-        if dummyContactData.contains(where: { $0.id == contact.id && $0.isDeleted != contact.isDeleted }) {
-            if let index = dummyContactData.firstIndex(of: contact) {
-                dummyContactData[index] = contact
+        if contactArr.contains(where: { $0.contactId == contact.contactId && $0.isDeleted != contact.isDeleted }) {
+            if let index = contactArr.firstIndex(of: contact) {
+                contactArr[index] = contact
             }
         }
     }
