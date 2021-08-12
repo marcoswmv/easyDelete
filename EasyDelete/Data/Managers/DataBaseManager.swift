@@ -14,16 +14,13 @@ class DataBaseManager {
     
     static let shared = DataBaseManager()
     
-    // swiftlint:disable:next force_try
-    private let realm = try! Realm()
-    // swiftlint:enable:next force_try
-    
     private var token: NotificationToken?
     private let calendar = Calendar.current
     
     let dataChangePublisher = PassthroughSubject<Bool, Error>()
     
     private init() {
+        let realm = try! Realm()
         token = realm.observe({ [weak self] (_, _) in
             guard let self = self else { return }
             self.dataChangePublisher.send(true)
@@ -37,6 +34,7 @@ class DataBaseManager {
     /// This method is used to populate/update the database with data received from Contacts App service. That is add/Update contact objects in DB.
     /// The redeclaration of the realm is mandatory in this method, because it is going to accessed from another thread.
     func update(with contact: Contact) {
+        let realm = try! Realm()
         try! realm.write({
             realm.add(contact, update: .modified)
         })
@@ -44,13 +42,14 @@ class DataBaseManager {
     
     /// This method Reads all the data from database.
     func fetchContacts(deleted: Bool = false) -> Results<Contact> {
+        let realm = try! Realm()
         let predicate = NSPredicate(format: "isDeleted = %@", argumentArray: [deleted])
-        let result = realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "givenName", ascending: true)
-        return result
+        return realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "givenName", ascending: true)
     }
     
     /// This method is used to permanently Delete the contact from the database. And the contact is not restorable anymore.
     func delete(contacts: [Contact]) {
+        let realm = try! Realm()
         try! realm.write {
             realm.delete(contacts)
         }
@@ -59,6 +58,7 @@ class DataBaseManager {
     /// This method is used to set the contact as deleted.
     /// The contact is removed instantly from user's native "Contacts" App but it's stored in the database for later use (restoration).
     func setAsDeleted(contact: Contact) {
+        let realm = try! Realm()
         //        let dayOfDeletion = Date()
         
         //        guard let scheduledDayOfDeletion = calendar.date(byAdding: .day, value: 30, to: dayOfDeletion),

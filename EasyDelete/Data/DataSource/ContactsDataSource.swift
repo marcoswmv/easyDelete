@@ -15,6 +15,15 @@ class ContactsDataSource: BaseDataSource {
     
     override func setup() {
         super.setup()
+        
+        DataBaseManager.shared.dataChangePublisher.sink(receiveCompletion: { (_) in
+            }, receiveValue: { [weak self] (detectedChanges) in
+            // [Contacts Data Source] Data changed"
+                guard let self = self else { return }
+            if detectedChanges {
+                self.reload()
+            }
+        }).store(in: &Consts.bag)
     }
     
     override func reload() {

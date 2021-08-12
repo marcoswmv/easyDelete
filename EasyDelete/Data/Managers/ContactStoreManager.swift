@@ -80,13 +80,11 @@ class ContactStoreManager {
         ContactStoreManager.shared.contactsRequestPublisher.sink { errorCompletion in
             switch errorCompletion {
             case .failure(let error):
-                // To-do: Probably show it to the user
-                print(error.localizedDescription)
+                Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
             case .finished:
                 break
             }
         } receiveValue: { contact in
-            // BUG - Error on first launch: "Realm accessed from incorrect thread."
             DataBaseManager.shared.update(with: contact)
         }.store(in: &Consts.bag)
     }
