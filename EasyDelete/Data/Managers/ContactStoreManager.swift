@@ -5,7 +5,7 @@
 //  Created by Marcos Vicente on 11.08.2021.
 //
 
-import Foundation
+import UIKit
 import Contacts
 import Combine
 
@@ -31,7 +31,7 @@ class ContactStoreManager {
             }
         })
     }
-
+    
     deinit {
         notificationCenter.removeObserver(self, name: .CNContactStoreDidChange, object: nil)
     }
@@ -55,11 +55,11 @@ class ContactStoreManager {
             if let errorToCatch = error {
                 completionHandler(.failure(errorToCatch))
             } else if granted {
-                print("[Contact Store] Request: Access granted")
+                // [Contact Store] Request: Access granted"
                 
                 let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey,
-                CNContactImageDataKey, CNContactImageDataAvailableKey,
-                CNContactIdentifierKey, CNContactOrganizationNameKey, CNContactEmailAddressesKey]
+                            CNContactImageDataKey, CNContactImageDataAvailableKey,
+                            CNContactIdentifierKey, CNContactOrganizationNameKey, CNContactEmailAddressesKey, CNContactJobTitleKey]
                 let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
                 
                 do {
@@ -71,7 +71,7 @@ class ContactStoreManager {
                     completionHandler(.failure(error))
                 }
             } else {
-                print("[Contact Store] Request: Access denied")
+                // "[Contact Store] Request: Access denied"
             }
         }
     }
@@ -86,7 +86,72 @@ class ContactStoreManager {
                 break
             }
         } receiveValue: { contact in
+            // BUG - Error on first launch: "Realm accessed from incorrect thread."
             DataBaseManager.shared.update(with: contact)
         }.store(in: &Consts.bag)
+    }
+    
+    func add(contact: Contact) {
+        // Create a new contact
+        let newContact = CNMutableContact()
+        
+        if let givenName = contact.givenName,
+           let familyName = contact.familyName {
+            newContact.givenName = givenName
+            newContact.familyName = familyName
+        }
+        
+        newContact.jobTitle = contact.jobTitle
+        
+        // Store the profile picture as data
+        let image = UIImage(data: contact.thumbnailPhoto)
+        newContact.imageData = image?.jpegData(compressionQuality: 1.0)
+        
+        for (label, phoneNumber) in zip(contact.phoneNumbersLabels, contact.phoneNumbers) {
+            newContact.phoneNumbers.append(CNLabeledValue(
+                                            label: label,
+                                            value: CNPhoneNumber(stringValue: phoneNumber)))
+        }
+        
+        for (label, email) in zip(contact.emailsLabels, contact.emails) {
+            newContact.emailAddresses.append(CNLabeledValue(
+                                                label: label,
+                                                value: NSString(string: email)))
+        }
+        
+        // Save the contact
+        let saveRequest = CNSaveRequest()
+        saveRequest.add(newContact, toContainerWithIdentifier: nil)
+        
+        do {
+            try store.execute(saveRequest)
+        } catch {
+            Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
+        }
+    }
+    
+    func delete(contactWith identifier: String) {
+        let predicate = CNContact.predicateForContacts(withIdentifiers: [identifier])
+        let keys = [CNContactIdentifierKey]
+        
+        do {
+            let contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keys as [CNKeyDescriptor])
+            guard !contacts.isEmpty else { print("[Contact Store - Delete] No contacts found"); return }
+            guard let contact = contacts.first else { return }
+            
+            let request = CNSaveRequest()
+            // swiftlint:disable:next force_cast
+            let mutableContact = contact.mutableCopy() as! CNMutableContact
+            
+            request.delete(mutableContact)
+            
+            do {
+                try store.execute(request)
+            } catch let err {
+                Alert.showErrorAlert(on: UIApplication.topViewController()!, message: err.localizedDescription)
+            }
+        } catch let error {
+            Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
+        }
     }
 }

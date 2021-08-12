@@ -70,4 +70,9 @@ class BaseDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
         tableView.backgroundView = noResultsLabel
         tableView.separatorStyle = .none
     }
+    
+    func setTableViewDefaultStyle() {
+        tableView.backgroundView = UIView()
+        tableView.separatorStyle = .singleLine
+    }
 }

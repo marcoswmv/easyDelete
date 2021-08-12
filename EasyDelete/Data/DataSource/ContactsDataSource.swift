@@ -55,11 +55,16 @@ class ContactsDataSource: BaseDataSource {
         if isSearching || data.isEmpty {
             return nil
         }
-        return data.map { $0.letter }
+        return data.map { $0.letter.uppercased() }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        setTableViewDefaultStyle()
         if isSearching {
+            if filteredData.isEmpty {
+                addTableViewBackgroundView(with: Consts.ListScreen.noResults)
+                return 0
+            }
             return filteredData.count
         } else if !data.isEmpty {
             return data[section].names.count
@@ -92,12 +97,18 @@ class ContactsDataSource: BaseDataSource {
     }
     
     func deleteContact(at indexPath: IndexPath) {
-        data[indexPath.section].names[indexPath.row].isDeleted = true
+        let contactToDelete = data[indexPath.section].names[indexPath.row]
         
+        ContactStoreManager.shared.delete(contactWith: contactToDelete.identifier)
+        DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
+        updateTableView(at: indexPath)
+    }
+    
+    fileprivate func updateTableView(at indexPath: IndexPath) {
         if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
-            data.remove(at: indexPath.section) // tmp remove entire section
+            data.remove(at: indexPath.section) // remove entire section
         } else {
-            data[indexPath.section].names.remove(at: indexPath.row) // tmp remove row
+            data[indexPath.section].names.remove(at: indexPath.row) // remove row
         }
         
         tableView.reloadData()

@@ -16,21 +16,8 @@ class DataSourceManager {
     
     private init() { }
     
-    func filter(_ contacts: EDTypes.ContactsList, deleted: Bool) -> EDTypes.ContactsList {
-        return contacts.filter { $0.isDeleted == deleted }
-    }
-    
-    func sortInAscendingOrder(_ contacts: EDTypes.ContactsList) -> EDTypes.ContactsList {
-        return contacts.sorted { leftContact, rightContact in
-            guard let leftContactGivenName = leftContact.givenName, let rightContactGivenName = rightContact.givenName else { return false }
-            return leftContactGivenName < rightContactGivenName
-        }
-    }
-    
     func groupContactsBySections(_ contacts: Results<Contact>) -> EDTypes.GroupedContacts {
         let contactsArr = getContactsArray(from: contacts)
-//        let filteredContacts = filter(contactsArr, deleted: deleted)
-//        let sortedContacts = sortInAscendingOrder(contactsArr)
         
         let resultDict = Dictionary(grouping: contactsArr) { (name) -> String in
             guard let firstLetter = name.givenName?.first?.uppercased() else { return "" }
@@ -52,21 +39,6 @@ class DataSourceManager {
         }
         
         return resultArr
-    }
-    
-    func listContacts(_ contacts: EDTypes.ContactsList, deleted: Bool) -> EDTypes.ContactsList {
-        let filteredContacts = filter(contacts, deleted: deleted)
-        let sortedContacts = sortInAscendingOrder(filteredContacts)
-        
-        return sortedContacts
-    }
-    
-    func recover(contact: Contact) {
-        if contactArr.contains(where: { $0.id == contact.id && $0.isDeleted != contact.isDeleted }) {
-            if let index = contactArr.firstIndex(of: contact) {
-                contactArr[index] = contact
-            }
-        }
     }
     
     func sortIndexPathsInDescendingOrder(_ indexPaths: [IndexPath]) -> [IndexPath] {
