@@ -9,16 +9,26 @@ import UIKit
 
 class ContactsDataSource: BaseDataSource {
     
-    private(set) var data: ContactSectionsType = ContactSectionsType()
-    private(set) var filteredData: ContactsListType = ContactsListType()
+    private(set) var data: EDTypes.GroupedContacts = EDTypes.GroupedContacts()
+    private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
     private var isSearching: Bool = false
     
     override func setup() {
         super.setup()
+        
+        DataBaseManager.shared.dataChangePublisher.sink(receiveCompletion: { (_) in
+            }, receiveValue: { [weak self] (detectedChanges) in
+            // [Contacts Data Source] Data changed"
+                guard let self = self else { return }
+            if detectedChanges {
+                self.reload()
+            }
+        }).store(in: &Consts.bag)
     }
     
     override func reload() {
-        data = DataSourceManager.shared.groupContactsBySections(DataSourceManager.shared.dummyContactData, deleted: false)
+        let contactsFromDataBase = DataBaseManager.shared.fetchContacts()
+        data = DataSourceManager.shared.groupContactsBySections(contactsFromDataBase)
         tableView.reloadData()
     }
     
@@ -54,11 +64,16 @@ class ContactsDataSource: BaseDataSource {
         if isSearching || data.isEmpty {
             return nil
         }
-        return data.map { $0.letter }
+        return data.map { $0.letter.uppercased() }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        setTableViewDefaultStyle()
         if isSearching {
+            if filteredData.isEmpty {
+                addTableViewBackgroundView(with: Consts.ListScreen.noResults)
+                return 0
+            }
             return filteredData.count
         } else if !data.isEmpty {
             return data[section].names.count
@@ -82,28 +97,43 @@ class ContactsDataSource: BaseDataSource {
         isSearching = text.isEmpty ? false : true
         filteredData = data
             .flatMap({ $0.names })
-            .filter { $0.givenName.lowercased().contains(text.lowercased()) || $0.familyName.lowercased().contains(text.lowercased()) }
+            .filter { contact in
+                guard let givenName = contact.givenName,
+                      let familyName = contact.familyName else { return false }
+                return givenName.lowercased().contains(text.lowercased()) || familyName.lowercased().contains(text.lowercased())
+            }
         tableView.reloadData()
     }
     
     func deleteContact(at indexPath: IndexPath) {
-        data[indexPath.section].names[indexPath.row].isDeleted = true
+        let contactToDelete = data[indexPath.section].names[indexPath.row]
         
+        ContactStoreManager.shared.delete(contactWith: contactToDelete.identifier)
+        DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
+        updateTableView(at: indexPath)
+    }
+    
+    fileprivate func updateTableView(at indexPath: IndexPath) {
         if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
-            data.remove(at: indexPath.section) // tmp remove entire section
+            data.remove(at: indexPath.section) // remove entire section
         } else {
-            data[indexPath.section].names.remove(at: indexPath.row) // tmp remove row
+            data[indexPath.section].names.remove(at: indexPath.row) // remove row
         }
         
         tableView.reloadData()
     }
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: "\(contact.givenName) ")
-        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-        let boldString = NSMutableAttributedString(string: contact.familyName, attributes: attributes)
+        var attributedString = NSMutableAttributedString(string: "")
         
-        attributedString.append(boldString)
+        if let givenName = contact.givenName {
+            attributedString = NSMutableAttributedString(string: "\(givenName) ")
+            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
+            
+            attributedString.append(boldString)
+        }
+        
         return attributedString
     }
 }
