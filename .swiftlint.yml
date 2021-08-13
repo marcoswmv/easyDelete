@@ -4,7 +4,6 @@ opt_in_rules:
 - empty_count
 - empty_string
 excluded:
-- EasyDelete/Data/Managers/DataBaseManager.swift
 - Carthage
 - Pods
 - SwiftLint/Common/3rdPartyLib

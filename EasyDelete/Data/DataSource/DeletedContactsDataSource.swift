@@ -1,4 +1,3 @@
-
 //
 //  DeletedContactsDataSource.swift
 //  EasyDelete
@@ -10,8 +9,8 @@ import UIKit
 
 class DeletedContactsDataSource: BaseDataSource {
     
-    private(set) var data: EDTypes.ContactsList = EDTypes.ContactsList()
-    private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
+    private(set) var data: ContactsListType = ContactsListType()
+    private(set) var filteredData: ContactsListType = ContactsListType()
     private var isSearching: Bool = false
     
     override func setup() {
@@ -19,8 +18,7 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        let contactsFromDataBase = DataBaseManager.shared.fetchContacts(deleted: true)
-        data = DataSourceManager.shared.getContactsArray(from: contactsFromDataBase)
+        data = DataSourceManager.shared.listContacts(DataSourceManager.shared.dummyContactData, deleted: true)
         tableView.reloadData()
     }
     
@@ -42,9 +40,10 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let recoverAction = UIContextualAction(style: .normal, title: Consts.DeletedContactsList.recover) { [weak self] (_, _, completionHandler) in
+        let recoverAction = UIContextualAction(style: .normal, title: "Recover") { [weak self] (_, _, completionHandler) in
             guard let self = self else { return }
             self.recoverContact(at: indexPath)
+            self.tableView.reloadData()
             completionHandler(true)
         }
         recoverAction.backgroundColor = .link
@@ -52,12 +51,7 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        setTableViewDefaultStyle()
         if isSearching {
-            if filteredData.isEmpty {
-                addTableViewBackgroundView(with: "No Results")
-                return 0
-            }
             return filteredData.count
         } else if !data.isEmpty {
             return data.count
@@ -79,42 +73,30 @@ class DeletedContactsDataSource: BaseDataSource {
     // MARK: - Helpers
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
-        filteredData = data.filter { contact in
-            guard let givenName = contact.givenName,
-                  let familyName = contact.familyName else { return false }
-            return givenName.lowercased().contains(text.lowercased()) || familyName.lowercased().contains(text.lowercased())
-        }
+        filteredData = data.filter { $0.givenName.lowercased().contains(text.lowercased()) || $0.familyName.lowercased().contains(text.lowercased()) }
         tableView.reloadData()
     }
     
     func deleteContact(at indexPath: IndexPath) {
-        let contactToDelete = data[indexPath.row]
-        DataBaseManager.shared.delete(contacts: [contactToDelete])
-        reload()
+        data.remove(at: indexPath.row) // tmp remove row
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        tableView.reloadData()
     }
     
     func recoverContact(at indexPath: IndexPath) {
-        if indexPath.isEmpty {
-            Alert.showNoContactSelectedAlert(on: UIApplication.topViewController()!)
-        } else {
-            let contactToRecover = data[indexPath.row]
-            ContactStoreManager.shared.add(contact: contactToRecover)
-            DataBaseManager.shared.delete(contacts: [contactToRecover]) // Deleting to avoid duplicated contact with different ID's
-            reload()
-        }
+        let contactToRecover = data[indexPath.row]
+        contactToRecover.isDeleted = false
+        DataSourceManager.shared.recover(contact: data[indexPath.row])
+        data.removeAll { $0.id == contactToRecover.id } // tmp remove row
+        tableView.reloadData()
     }
     
     func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: "\(contact.givenName) ")
+        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
+        let boldString = NSMutableAttributedString(string: contact.familyName, attributes: attributes)
         
-        var attributedString = NSMutableAttributedString(string: "")
-        
-        if let givenName = contact.givenName {
-            attributedString = NSMutableAttributedString(string: "\(givenName) ")
-            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
-            
-            attributedString.append(boldString)
-        }
+        attributedString.append(boldString)
         return attributedString
     }
 }
