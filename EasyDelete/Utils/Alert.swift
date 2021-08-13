@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class Alert {
+struct Alert {
     private static func showBasicAlert(on viewController: UIViewController,
                                        style: UIAlertController.Style,
                                        title: String?,
@@ -30,11 +30,16 @@ public class Alert {
                        message: message)
     }
     
-    static func showNoContactSelectedAlert(on viewController: UIViewController, message: String) {
+    static func showNoContactSelectedAlert(on viewController: UIViewController) {
         showBasicAlert(on: viewController,
                        style: .alert,
-                       title: Consts.Alert.noContactDeleteTitle,
-                       message: message)
+                       title: Consts.Alert.selectContactsTitle, message: nil)
+    }
+    
+    static func showNoContactsAlert(on viewController: UIViewController) {
+        showBasicAlert(on: viewController,
+                       style: .alert,
+                       title: Consts.Alert.nContactsTitle, message: nil)
     }
     
     static func showActionSheetToAskForConfirmationToDelete(on viewController: UIViewController, _ completionHandler: @escaping ((Bool) -> Void)) {
