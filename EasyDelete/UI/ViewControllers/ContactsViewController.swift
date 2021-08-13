@@ -60,17 +60,17 @@ class ContactsViewController: UIViewController {
     fileprivate func configureNavigationBar() {
         navigationItem.title = Consts.ContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
-        let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .done, target: self, action: #selector(handlePushDeleted))
-        let rightNavBarButton = UIBarButtonItem(title: Consts.ContactsList.select, style: .done, target: self, action: #selector(handleSelect))
+        let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .plain, target: self, action: #selector(handlePushDeleted))
+        let rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.select, style: .plain, target: self, action: #selector(handleSelect))
         navigationItem.leftBarButtonItem = leftNavBarButton
         navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
     fileprivate func configureToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let deleteButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .done, target: self, action: #selector(handleDelete))
+        let deleteButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .plain, target: self, action: #selector(handleDelete))
         deleteButton.tintColor = .red
-        let doneButton = UIBarButtonItem(title: Consts.ContactsList.done, style: .done, target: self, action: #selector(handleDone))
+        let doneButton = UIBarButtonItem(title: Consts.ListScreen.done, style: .plain, target: self, action: #selector(handleDone))
         
         toolbarItems = [deleteButton, flexibleSpace, doneButton]
     }
@@ -89,6 +89,7 @@ class ContactsViewController: UIViewController {
     }
     
     fileprivate func editingMode(disable: Bool) {
+        navigationItem.leftBarButtonItem?.isEnabled = disable
         navigationItem.rightBarButtonItem?.isEnabled = disable
         navigationController?.setToolbarHidden(disable, animated: true)
         tableView.setEditing(!disable, animated: disable)
@@ -106,6 +107,8 @@ class ContactsViewController: UIViewController {
             for indexPath in sortedIndexPaths {
                 dataSource?.deleteContact(at: indexPath)
             }
+        } else {
+            Alert.showNoContactSelectedAlert(on: UIApplication.topViewController()!)
         }
     }
     
