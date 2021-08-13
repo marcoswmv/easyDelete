@@ -12,6 +12,9 @@ struct Consts {
     
     static var bag = Set<AnyCancellable>()
     
+    static let phoneNumbersLabelPlaceholder = "Mobile"
+    static let emailsLabelPlaceholder = "Email"
+    
     struct ListScreen {
         static let done = "Done"
         static let select = "Select"
