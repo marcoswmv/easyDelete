@@ -20,7 +20,7 @@ class ContactStoreManager {
     private init() {
         notificationCenter.addObserver(forName: .CNContactStoreDidChange, object: nil, queue: .main, using: { [weak self] (_) in
             guard let self = self else { return }
-            self.requestContacts { [weak self] (result: Result<Contact, Error>) in
+            self.requestContacts { [weak self] (result: EDTypes.ContactsRequestResult) in
                 guard let self = self else { return }
                 switch result {
                 case .success(let contact):
@@ -38,7 +38,7 @@ class ContactStoreManager {
     
     func commonDataSourceInit() {
         populateDataSource()
-        requestContacts { [weak self] (result: Result<Contact, Error>) in
+        requestContacts { [weak self] (result: EDTypes.ContactsRequestResult) in
             guard let self = self else { return }
             switch result {
             case .success(let contact):
@@ -49,7 +49,7 @@ class ContactStoreManager {
         }
     }
     
-    private func requestContacts(completionHandler: @escaping EDTypes.ContactsRequestResult) {
+    private func requestContacts(completionHandler: @escaping EDTypes.ContactsRequestResultHandler) {
         self.store.requestAccess(for: .contacts) { (granted, error) in
             
             if let errorToCatch = error {

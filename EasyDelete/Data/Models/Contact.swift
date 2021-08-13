@@ -39,12 +39,12 @@ class Contact: Object {
         self.isDeleted = false
         
         for contact in contact.phoneNumbers {
-            self.phoneNumbersLabels.append(contact.label?.description ?? "Mobile")
+            self.phoneNumbersLabels.append(contact.label?.description ?? Consts.phoneNumbersLabelPlaceholder)
             self.phoneNumbers.append(contact.value.stringValue)
         }
         
         for email in contact.emailAddresses {
-            self.emailsLabels.append(email.label?.description ?? "Email")
+            self.emailsLabels.append(email.label?.description ?? Consts.emailsLabelPlaceholder)
             self.emails.append(email.value as String)
         }
     }

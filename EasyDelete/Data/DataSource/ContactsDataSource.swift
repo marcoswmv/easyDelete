@@ -85,9 +85,9 @@ class ContactsDataSource: BaseDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Consts.ContactsList.cell)!
         
         if isSearching {
-            cell.textLabel?.attributedText = nameAttributedString(contact: filteredData[indexPath.row])
+            cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
         } else {
-            cell.textLabel?.attributedText = nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
         }
         return cell
     }
@@ -110,7 +110,7 @@ class ContactsDataSource: BaseDataSource {
         
         ContactStoreManager.shared.delete(contactWith: contactToDelete.identifier)
         DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
-        updateTableView(at: indexPath)
+        updateTableView(at: indexPath) // causing bug
     }
     
     fileprivate func updateTableView(at indexPath: IndexPath) {
@@ -121,19 +121,5 @@ class ContactsDataSource: BaseDataSource {
         }
         
         tableView.reloadData()
-    }
-    
-    func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
-        var attributedString = NSMutableAttributedString(string: "")
-        
-        if let givenName = contact.givenName {
-            attributedString = NSMutableAttributedString(string: "\(givenName) ")
-            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
-            
-            attributedString.append(boldString)
-        }
-        
-        return attributedString
     }
 }

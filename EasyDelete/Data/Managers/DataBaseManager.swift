@@ -41,14 +41,21 @@ class DataBaseManager {
     }
     
     /// This method Reads all the data from database.
-    func fetchContacts(deleted: Bool = false) -> Results<Contact> {
+    func fetchContacts(deleted: Bool = false) -> EDTypes.ContactsList {
         let realm = try! Realm()
         let predicate = NSPredicate(format: "isDeleted = %@", argumentArray: [deleted])
-        return realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "givenName", ascending: true)
+        let objects = realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "givenName", ascending: true)
+        var finalArr = EDTypes.ContactsList()
+        
+        for object in objects {
+            finalArr.append(object)
+        }
+        
+        return finalArr
     }
     
     /// This method is used to permanently Delete the contact from the database. And the contact is not restorable anymore.
-    func delete(contacts: [Contact]) {
+    func delete(contacts: EDTypes.ContactsList) {
         let realm = try! Realm()
         try! realm.write {
             realm.delete(contacts)
