@@ -54,16 +54,16 @@ class DeletedContactsViewController: UIViewController {
     fileprivate func configureNavigationBar() {
         navigationItem.title = Consts.DeletedContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
-        let rightNavBarButton = UIBarButtonItem(title: Consts.DeletedContactsList.manage, style: .plain, target: self, action: #selector(handleManage))
+        let rightNavBarButton = UIBarButtonItem(title: Consts.DeletedContactsList.manage, style: .done, target: self, action: #selector(handleManage))
         navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
     fileprivate func configureToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
+        let deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, style: .done, target: self, action: #selector(handleDelete))
         deleteButton.tintColor = .red
-        let doneButton = UIBarButtonItem(title: Consts.ListScreen.done, style: .plain, target: self, action: #selector(handleDone))
-        let recoverButton = UIBarButtonItem(title: Consts.DeletedContactsList.recover, style: .plain, target: self, action: #selector(handleRecover))
+        let doneButton = UIBarButtonItem(title: Consts.DeletedContactsList.done, style: .done, target: self, action: #selector(handleDone))
+        let recoverButton = UIBarButtonItem(title: Consts.DeletedContactsList.recover, style: .done, target: self, action: #selector(handleRecover))
         
         toolbarItems = [deleteButton, flexibleSpace, recoverButton, flexibleSpace, doneButton]
     }
@@ -94,21 +94,14 @@ class DeletedContactsViewController: UIViewController {
     }
     
     @objc private func handleDelete() {
-        if let indexPaths = self.tableView.indexPathsForSelectedRows {
-            Alert.showActionSheetToAskForConfirmationToDelete(on: self) { [weak self] confirmation in
-                guard let self = self else { return }
-                if confirmation {
-                    let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
-                    for indexPath in sortedIndexPaths {
+        Alert.showActionSheetToAskForConfirmationToDelete(on: self) { [weak self] confirmation in
+            guard let self = self else { return }
+            if confirmation {
+                if let indexPaths = self.tableView.indexPathsForSelectedRows {
+                    for indexPath in indexPaths.sorted(by: { $0.row > $1.row }) {
                         self.dataSource?.deleteContact(at: indexPath)
                     }
                 }
-            }
-        } else {
-            if (dataSource?.data.isEmpty) != nil {
-                Alert.showNoContactsAlert(on: self)
-            } else {
-                Alert.showNoContactSelectedAlert(on: self)
             }
         }
     }
@@ -119,15 +112,8 @@ class DeletedContactsViewController: UIViewController {
     
     @objc private func handleRecover() {
         if let indexPaths = self.tableView.indexPathsForSelectedRows {
-            let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
-            for indexPath in sortedIndexPaths {
+            for indexPath in indexPaths.sorted(by: { $0.row > $1.row }) {
                 dataSource?.recoverContact(at: indexPath)
-            }
-        } else {
-            if (dataSource?.data.isEmpty) != nil {
-                Alert.showNoContactsAlert(on: self)
-            } else {
-                Alert.showNoContactSelectedAlert(on: self)
             }
         }
     }
