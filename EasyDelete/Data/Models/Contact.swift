@@ -7,30 +7,35 @@
 
 import Foundation
 import Contacts
+import RealmSwift
 
-class Contact: NSObject {
+class Contact: Object {
     
-    var contactId: String
-    var givenName: String
-    var familyName: String
-
-    var thumbnailPhoto: Data
-    var imageDataAvailable: Bool
+    @Persisted(primaryKey: true) var identifier: String
+    @Persisted var givenName: String?
+    @Persisted var familyName: String?
+    @Persisted var thumbnailPhoto = Data()
+    @Persisted var imageDataAvailable: Bool
+    @Persisted var isDeleted: Bool
+    @Persisted var phoneNumbersLabels: List<String>
+    @Persisted var phoneNumbers: List<String>
+    @Persisted var emailsLabels: List<String>
+    @Persisted var emails: List<String>
+    @Persisted var jobTitle: String
     
-    var isDeleted: Bool
+    override init() {
+        super.init()
+    }
     
-    var phoneNumbersLabels: [String] = [String]()
-    var phoneNumbers: [String] = [String]()
-    
-    var emailsLabels: [String] = [String]()
-    var emails: [String] = [String]()
-    
-    init(contact: CNContact) {
-        self.contactId = contact.identifier
+    convenience init(contact: CNContact) {
+        self.init()
+        self.identifier = contact.identifier
         self.givenName = !contact.givenName.isEmpty ? contact.givenName : contact.organizationName
         self.familyName = contact.familyName
         self.imageDataAvailable = contact.imageDataAvailable
         self.thumbnailPhoto = (self.imageDataAvailable ? contact.imageData ?? Data() : Data())
+        self.jobTitle = contact.jobTitle
+        
         self.isDeleted = false
         
         for contact in contact.phoneNumbers {
