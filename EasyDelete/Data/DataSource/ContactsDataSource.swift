@@ -91,8 +91,10 @@ class ContactsDataSource: BaseDataSource {
         }
         return cell
     }
+}
+
+extension ContactsDataSource: BaseDataSourceDelegate {
     
-    // MARK: - Helpers
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
         filteredData = data
@@ -122,4 +124,6 @@ class ContactsDataSource: BaseDataSource {
         
         tableView.reloadData()
     }
+    
+    func recoverContact(at indexPath: IndexPath) { }
 }

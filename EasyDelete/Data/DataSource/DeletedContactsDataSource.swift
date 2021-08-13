@@ -73,8 +73,10 @@ class DeletedContactsDataSource: BaseDataSource {
         }
         return cell
     }
+}
     
-    // MARK: - Helpers
+extension DeletedContactsDataSource: BaseDataSourceDelegate {
+    
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
         filteredData = data.filter { contact in
