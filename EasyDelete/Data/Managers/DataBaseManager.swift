@@ -41,14 +41,21 @@ class DataBaseManager {
     }
     
     /// This method Reads all the data from database.
-    func fetchContacts(deleted: Bool = false) -> Results<Contact> {
+    func fetchContacts(deleted: Bool = false) -> EDTypes.ContactsList {
         let realm = try! Realm()
         let predicate = NSPredicate(format: "isDeleted = %@", argumentArray: [deleted])
-        return realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "givenName", ascending: true)
+        let objects = realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "givenName", ascending: true)
+        var finalArr = EDTypes.ContactsList()
+        
+        for object in objects {
+            finalArr.append(object)
+        }
+        
+        return finalArr
     }
     
     /// This method is used to permanently Delete the contact from the database. And the contact is not restorable anymore.
-    func delete(contacts: [Contact]) {
+    func delete(contacts: EDTypes.ContactsList) {
         let realm = try! Realm()
         try! realm.write {
             realm.delete(contacts)
@@ -59,39 +66,42 @@ class DataBaseManager {
     /// The contact is removed instantly from user's native "Contacts" App but it's stored in the database for later use (restoration).
     func setAsDeleted(contact: Contact) {
         let realm = try! Realm()
-        //        let dayOfDeletion = Date()
+        let currentDay = Date()
         
-        //        guard let scheduledDayOfDeletion = calendar.date(byAdding: .day, value: 30, to: dayOfDeletion),
-        //              let daysLeftForDeletion = calendar.dateComponents([.day],
-        //                                                                from: dayOfDeletion,
-        //                                                                to: scheduledDayOfDeletion).day else { return }
+        guard let scheduledDayForDeletion = calendar.date(byAdding: .day, value: 30, to: currentDay),
+              let remainingDaysForDeletion = calendar.dateComponents([.day],
+                                                                from: currentDay,
+                                                                to: scheduledDayForDeletion).day else { return }
+//        print("\nDay of deletion: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
         try! realm.write {
             contact.setValue(true, forKey: "isDeleted")
-            //            contact.setValue(dayOfDeletion, forKey: "dayOfDeletion")
-            //            contact.setValue(scheduledDayOfDeletion, forKey: "scheduledDayOfDeletion")
-            //            contact.setValue(daysLeftForDeletion, forKey: "daysUntilDeletion")
+            contact.setValue(currentDay, forKey: "dayOfDeletion")
+            contact.setValue(scheduledDayForDeletion, forKey: "scheduledDayForDeletion")
+            contact.setValue(remainingDaysForDeletion, forKey: "remainingDaysForDeletion")
         }
     }
     
     /// This method is going to update the days until deletion for a contact or delete it in case there are no days left
-    //    func updateDaysUntilDeletion(for contact: Contact) {
-    //        let currentDay = Date()
-    //
-    //        //        TO-DO: Problem with daysUntilDeletion. It's returning less days then it should. For ex: on first day of deletion it should show 30 but it's showing 29.
-    //        guard let scheduledDayOfDeletion = contact.scheduledDayOfDeletion,
-    //              let daysUntilDeletion = calendar.dateComponents([.day],
-    //                                                              from: currentDay,
-    //                                                              to: scheduledDayOfDeletion).day else { return }
-    //
-    //        if daysUntilDeletion > 0 {
-    //            try! realm.write({
-    //                realm.create(Contact.self, value: ["contactID": contact.identifier,
-    //                                                   "daysUntilDeletion": daysUntilDeletion], update: .modified)
-    //            })
-    //        } else {
-    //            try! realm.write {
-    //                realm.delete(contact)
-    //            }
-    //        }
-    //    }
+    func updateRemainingDaysForDeletion() {
+        let realm = try! Realm()
+        let currentDay = Date()
+        let deletedContacts = fetchContacts(deleted: true)
+        
+        for contact in deletedContacts {
+            guard let scheduledDayForDeletion = contact.scheduledDayForDeletion,
+                  let remainingDaysForDeletion = calendar.dateComponents([.day],
+                                                                         from: currentDay,
+                                                                         to: scheduledDayForDeletion).day else { return }
+//            print("\nCurrent day: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
+            if remainingDaysForDeletion > 0 {
+                try! realm.write({
+                    contact.setValue(remainingDaysForDeletion, forKey: "remainingDaysForDeletion")
+                })
+            } else {
+                try! realm.write {
+                    realm.delete(contact)
+                }
+            }
+        }
+    }
 }

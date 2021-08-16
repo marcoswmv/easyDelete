@@ -84,15 +84,30 @@ class ContactsDataSource: BaseDataSource {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Consts.ContactsList.cell)!
         
-        if isSearching {
-            cell.textLabel?.attributedText = nameAttributedString(contact: filteredData[indexPath.row])
+        if #available(iOS 14.0, *) {
+            var content = cell.defaultContentConfiguration()
+            
+            if isSearching {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row].names[indexPath.row])
+            }
+            
+            cell.contentConfiguration = content
         } else {
-            cell.textLabel?.attributedText = nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            if isSearching {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            }
         }
+        
         return cell
     }
+}
+
+extension ContactsDataSource: BaseDataSourceDelegate {
     
-    // MARK: - Helpers
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
         filteredData = data
@@ -112,17 +127,5 @@ class ContactsDataSource: BaseDataSource {
         DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
     }
     
-    func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
-        var attributedString = NSMutableAttributedString(string: "")
-        
-        if let givenName = contact.givenName {
-            attributedString = NSMutableAttributedString(string: "\(givenName) ")
-            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
-            
-            attributedString.append(boldString)
-        }
-        
-        return attributedString
-    }
+    func recoverContact(at indexPath: IndexPath) { }
 }

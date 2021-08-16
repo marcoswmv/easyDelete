@@ -18,8 +18,7 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        let contactsFromDataBase = DataBaseManager.shared.fetchContacts(deleted: true)
-        data = DataSourceManager.shared.getContactsArray(from: contactsFromDataBase)
+        data = DataBaseManager.shared.fetchContacts(deleted: true)
         tableView.reloadData()
     }
     
@@ -54,7 +53,7 @@ class DeletedContactsDataSource: BaseDataSource {
         setTableViewDefaultStyle()
         if isSearching {
             if filteredData.isEmpty {
-                addTableViewBackgroundView(with: "No Results")
+                addTableViewBackgroundView(with: Consts.ListScreen.noResults)
                 return 0
             }
             return filteredData.count
@@ -65,17 +64,49 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Consts.DeletedContactsList.cell)!
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: Consts.DeletedContactsList.cell)
         
-        if isSearching {
-            cell.textLabel?.attributedText = nameAttributedString(contact: filteredData[indexPath.row])
+        if #available(iOS 14.0, *) {
+            var content = cell.defaultContentConfiguration()
+            
+            if isSearching {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+                content.secondaryText = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) days left"
+                content.secondaryTextProperties.color = .gray
+                content.secondaryTextProperties.font = UIFont.italicSystemFont(ofSize: 15)
+            } else {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
+                content.secondaryText = "\(data[indexPath.row].remainingDaysForDeletion.description) days left"
+                content.secondaryTextProperties.color = .gray
+                content.secondaryTextProperties.font = UIFont.italicSystemFont(ofSize: 15)
+            }
+            
+            cell.contentConfiguration = content
         } else {
-            cell.textLabel?.attributedText = nameAttributedString(contact: data[indexPath.row])
+            if isSearching {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+                cell.detailTextLabel?.text = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) days left"
+                cell.detailTextLabel?.textColor = .gray
+                cell.detailTextLabel?.font = UIFont.italicSystemFont(ofSize: 15)
+            } else {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
+                cell.detailTextLabel?.text = "\(data[indexPath.row].remainingDaysForDeletion.description) days left"
+                cell.detailTextLabel?.textColor = .gray
+                cell.detailTextLabel?.font = UIFont.italicSystemFont(ofSize: 15)
+            }
         }
+        
         return cell
     }
     
-    // MARK: - Helpers
+    @objc func updateContactsRemainingDays() {
+        DataBaseManager.shared.updateRemainingDaysForDeletion()
+        reload()
+    }
+}
+    
+extension DeletedContactsDataSource: BaseDataSourceDelegate {
+    
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
         filteredData = data.filter { contact in
@@ -101,19 +132,5 @@ class DeletedContactsDataSource: BaseDataSource {
             DataBaseManager.shared.delete(contacts: [contactToRecover]) // Deleting to avoid duplicated contact with different ID's
             reload()
         }
-    }
-    
-    func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
-        
-        var attributedString = NSMutableAttributedString(string: "")
-        
-        if let givenName = contact.givenName {
-            attributedString = NSMutableAttributedString(string: "\(givenName) ")
-            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
-            
-            attributedString.append(boldString)
-        }
-        return attributedString
     }
 }
