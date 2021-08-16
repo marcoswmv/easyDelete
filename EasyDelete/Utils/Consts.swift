@@ -22,6 +22,7 @@ struct Consts {
         static let title = "Contacts"
         static let cell = "ContactCell"
         static let deleted = "Deleted"
+        static let delete = "Delete"
     }
     
     struct DeletedContactsList {
