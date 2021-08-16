@@ -22,6 +22,9 @@ class Contact: Object {
     @Persisted var emailsLabels: List<String>
     @Persisted var emails: List<String>
     @Persisted var jobTitle: String
+    @Persisted var dayOfDeletion: Date?
+    @Persisted var remainingDaysForDeletion: Int
+    @Persisted var scheduledDayForDeletion: Date?
     
     override init() {
         super.init()
@@ -37,6 +40,9 @@ class Contact: Object {
         self.jobTitle = contact.jobTitle
         
         self.isDeleted = false
+        self.dayOfDeletion = nil
+        self.remainingDaysForDeletion = 0
+        self.scheduledDayForDeletion = nil
         
         for contact in contact.phoneNumbers {
             self.phoneNumbersLabels.append(contact.label?.description ?? Consts.phoneNumbersLabelPlaceholder)

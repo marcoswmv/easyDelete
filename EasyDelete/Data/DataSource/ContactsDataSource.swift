@@ -84,11 +84,24 @@ class ContactsDataSource: BaseDataSource {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Consts.ContactsList.cell)!
         
-        if isSearching {
-            cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+        if #available(iOS 14.0, *) {
+            var content = cell.defaultContentConfiguration()
+            
+            if isSearching {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row].names[indexPath.row])
+            }
+            
+            cell.contentConfiguration = content
         } else {
-            cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            if isSearching {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            }
         }
+        
         return cell
     }
 }
