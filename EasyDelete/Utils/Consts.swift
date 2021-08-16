@@ -33,13 +33,15 @@ struct Consts {
         static let manage = "Manage"
         static let delete = "Delete"
         static let recover = "Recover"
+        static let selectAll = "Select all"
+        static let unselectAll = "Unselect all"
     }
     
     struct Alert {
         static let okButton = NSLocalizedString("Ok", comment: "Ok button - Ok")
         static let errorTitle = NSLocalizedString("An Error Occurred", comment: "Error alert title")
         static let selectContactsTitle = NSLocalizedString("Select a contact", comment: "Select a contact alert title")
-        static let nContactsTitle = NSLocalizedString("No contacts to select", comment: "No contacts alert title")
+        static let noContactsTitle = NSLocalizedString("No contacts to select", comment: "No contacts alert title")
         static let confirmationRequestTitle = NSLocalizedString("Are you sure?", comment: "Delete action sheet warning title")
         static let confirmationRequestMessage = NSLocalizedString("You won't be able to recover this(ese) contact(s).", comment: "Delete action sheet explanatory message")
         static let cancelButton = NSLocalizedString("Cancel", comment: "Deletion button - Cancel")

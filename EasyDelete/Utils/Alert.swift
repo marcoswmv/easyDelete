@@ -39,7 +39,7 @@ struct Alert {
     static func showNoContactsAlert(on viewController: UIViewController) {
         showBasicAlert(on: viewController,
                        style: .alert,
-                       title: Consts.Alert.nContactsTitle, message: nil)
+                       title: Consts.Alert.noContactsTitle, message: nil)
     }
     
     static func showActionSheetToAskForConfirmationToDelete(on viewController: UIViewController, _ completionHandler: @escaping ((Bool) -> Void)) {
