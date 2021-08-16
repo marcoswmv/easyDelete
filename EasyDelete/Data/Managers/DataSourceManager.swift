@@ -12,8 +12,6 @@ class DataSourceManager {
     
     static let shared = DataSourceManager()
     
-    var contactArr: EDTypes.ContactsList = []
-    
     private init() { }
     
     func groupContactsBySections(_ contacts: EDTypes.ContactsList) -> EDTypes.GroupedContacts {

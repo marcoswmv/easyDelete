@@ -21,6 +21,7 @@ class DeletedContactsViewController: UIViewController {
         
         setupDataSource()
         configureUIEssentials()
+        continuouslyUpdateDeletedContactsRemainingTime()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,7 +55,8 @@ class DeletedContactsViewController: UIViewController {
     fileprivate func configureNavigationBar() {
         navigationItem.title = Consts.DeletedContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
-        let rightNavBarButton = UIBarButtonItem(title: Consts.DeletedContactsList.manage, style: .plain, target: self, action: #selector(handleManage))
+        let buttonTitle = Consts.DeletedContactsList.manage
+        let rightNavBarButton = UIBarButtonItem(title: buttonTitle, style: .plain, target: self, action: #selector(handleManage))
         navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
@@ -85,6 +87,13 @@ class DeletedContactsViewController: UIViewController {
         navigationItem.rightBarButtonItem?.isEnabled = !enable
         navigationController?.setToolbarHidden(!enable, animated: true)
         tableView.setEditing(enable, animated: enable)
+    }
+    
+    fileprivate func continuouslyUpdateDeletedContactsRemainingTime() {
+        let dayInSeconds = TimeInterval(86400)
+        let target = dataSource ?? DeletedContactsDataSource(tableView: tableView)
+        let selector = #selector(dataSource?.updateContactsRemainingDays)
+        Timer.scheduledTimer(timeInterval: dayInSeconds, target: target, selector: selector, userInfo: nil, repeats: true)
     }
     
     // MARK: - Handlers

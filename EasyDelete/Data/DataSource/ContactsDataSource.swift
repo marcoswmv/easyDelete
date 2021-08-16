@@ -84,11 +84,24 @@ class ContactsDataSource: BaseDataSource {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Consts.ContactsList.cell)!
         
-        if isSearching {
-            cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+        if #available(iOS 14.0, *) {
+            var content = cell.defaultContentConfiguration()
+            
+            if isSearching {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row].names[indexPath.row])
+            }
+            
+            cell.contentConfiguration = content
         } else {
-            cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            if isSearching {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            }
         }
+        
         return cell
     }
 }
@@ -112,17 +125,6 @@ extension ContactsDataSource: BaseDataSourceDelegate {
         
         ContactStoreManager.shared.delete(contactWith: contactToDelete.identifier)
         DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
-        updateTableView(at: indexPath) // causing bug
-    }
-    
-    fileprivate func updateTableView(at indexPath: IndexPath) {
-        if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
-            data.remove(at: indexPath.section) // remove entire section
-        } else {
-            data[indexPath.section].names.remove(at: indexPath.row) // remove row
-        }
-        
-        tableView.reloadData()
     }
     
     func recoverContact(at indexPath: IndexPath) { }
