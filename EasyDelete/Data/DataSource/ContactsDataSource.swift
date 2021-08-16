@@ -90,7 +90,7 @@ class ContactsDataSource: BaseDataSource {
             if isSearching {
                 content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
             } else {
-                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row].names[indexPath.row])
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
             }
             
             cell.contentConfiguration = content
