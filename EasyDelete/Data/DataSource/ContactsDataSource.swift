@@ -32,6 +32,10 @@ class ContactsDataSource: BaseDataSource {
         tableView.reloadData()
     }
     
+    func contactsCount() -> Int {
+        return DataBaseManager.shared.fetchContacts().count
+    }
+    
     // MARK: - Data source
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -90,7 +94,7 @@ class ContactsDataSource: BaseDataSource {
             if isSearching {
                 content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
             } else {
-                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row].names[indexPath.row])
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
             }
             
             cell.contentConfiguration = content
@@ -103,6 +107,12 @@ class ContactsDataSource: BaseDataSource {
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !tableView.isEditing {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
 
