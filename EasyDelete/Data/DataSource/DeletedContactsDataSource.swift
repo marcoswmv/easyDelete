@@ -71,12 +71,12 @@ class DeletedContactsDataSource: BaseDataSource {
             
             if isSearching {
                 content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
-                content.secondaryText = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) days"
+                content.secondaryText = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) days left"
                 content.secondaryTextProperties.color = .gray
                 content.secondaryTextProperties.font = UIFont.italicSystemFont(ofSize: 15)
             } else {
                 content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
-                content.secondaryText = "\(data[indexPath.row].remainingDaysForDeletion.description) days"
+                content.secondaryText = "\(data[indexPath.row].remainingDaysForDeletion.description) days left"
                 content.secondaryTextProperties.color = .gray
                 content.secondaryTextProperties.font = UIFont.italicSystemFont(ofSize: 15)
             }
@@ -85,18 +85,23 @@ class DeletedContactsDataSource: BaseDataSource {
         } else {
             if isSearching {
                 cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
-                cell.detailTextLabel?.text = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) days"
+                cell.detailTextLabel?.text = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) days left"
                 cell.detailTextLabel?.textColor = .gray
                 cell.detailTextLabel?.font = UIFont.italicSystemFont(ofSize: 15)
             } else {
                 cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
-                cell.detailTextLabel?.text = "\(data[indexPath.row].remainingDaysForDeletion.description) days"
+                cell.detailTextLabel?.text = "\(data[indexPath.row].remainingDaysForDeletion.description) days left"
                 cell.detailTextLabel?.textColor = .gray
                 cell.detailTextLabel?.font = UIFont.italicSystemFont(ofSize: 15)
             }
         }
         
         return cell
+    }
+    
+    @objc func updateContactsRemainingDays() {
+        DataBaseManager.shared.updateRemainingDaysForDeletion()
+        reload()
     }
 }
     
