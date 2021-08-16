@@ -112,17 +112,6 @@ extension ContactsDataSource: BaseDataSourceDelegate {
         
         ContactStoreManager.shared.delete(contactWith: contactToDelete.identifier)
         DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
-        updateTableView(at: indexPath) // causing bug
-    }
-    
-    fileprivate func updateTableView(at indexPath: IndexPath) {
-        if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
-            data.remove(at: indexPath.section) // remove entire section
-        } else {
-            data[indexPath.section].names.remove(at: indexPath.row) // remove row
-        }
-        
-        tableView.reloadData()
     }
     
     func recoverContact(at indexPath: IndexPath) { }
