@@ -14,6 +14,7 @@ struct Consts {
     
     static let phoneNumbersLabelPlaceholder = "Mobile"
     static let emailsLabelPlaceholder = "Email"
+    static let contacts = NSLocalizedString("contacts", comment: "100 contacts label ")
     
     struct ListScreen {
         static let done = "Done"

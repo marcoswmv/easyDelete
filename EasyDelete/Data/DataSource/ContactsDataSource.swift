@@ -32,6 +32,10 @@ class ContactsDataSource: BaseDataSource {
         tableView.reloadData()
     }
     
+    func contactsCount() -> Int {
+        return DataBaseManager.shared.fetchContacts().count
+    }
+    
     // MARK: - Data source
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
