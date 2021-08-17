@@ -109,10 +109,10 @@ class DeletedContactsViewController: UIViewController {
     }
     
     fileprivate func continuouslyUpdateDeletedContactsRemainingTime() {
-        let dayInSeconds = TimeInterval(86400)
+        let dayInSecondsTimeInterval = TimeInterval(Consts.Numbers.dayInSeconds)
         let target = dataSource ?? DeletedContactsDataSource(tableView: tableView)
         let selector = #selector(dataSource?.updateContactsRemainingDays)
-        Timer.scheduledTimer(timeInterval: dayInSeconds, target: target, selector: selector, userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: dayInSecondsTimeInterval, target: target, selector: selector, userInfo: nil, repeats: true)
     }
     
     // MARK: - Handlers
