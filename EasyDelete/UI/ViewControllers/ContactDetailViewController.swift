@@ -62,7 +62,7 @@ class ContactDetailViewController: UIViewController {
     }
     
     fileprivate func layoutImageView() {
-        let photoPlaceholder = UIImage(named: "person")
+        let photoPlaceholder = UIImage(named: Consts.contactPhotoPlaceholder)
         
         let contactPhoto = UIImage(data: contact.thumbnailPhoto)
         photoImageView = UIImageView(image: contactPhoto ?? photoPlaceholder)
