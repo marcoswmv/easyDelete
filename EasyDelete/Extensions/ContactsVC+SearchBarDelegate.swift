@@ -41,14 +41,14 @@ extension ContactsViewController: UISearchBarDelegate {
         layoutTableViewFooter(with: "0")
     }
     
-    fileprivate func cancelSearchTimer() {
+    private func cancelSearchTimer() {
         if timer != nil, timer!.isValid {
             timer?.invalidate()
             timer = nil
         }
     }
     
-    fileprivate func searchIfNeeded(query: String?) {
+    private func searchIfNeeded(query: String?) {
         cancelSearchTimer()
         timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false, block: { [weak self] (_) in
             guard let self = self else { return }
@@ -56,7 +56,7 @@ extension ContactsViewController: UISearchBarDelegate {
         })
     }
     
-    fileprivate func search(query: String?) {
+    private func search(query: String?) {
         if let searchText = query {
             dataSource?.startQuery(with: searchText)
         } else {

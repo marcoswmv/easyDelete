@@ -46,14 +46,14 @@ class ContactDetailViewController: UIViewController {
         dataSource?.reload()
     }
     
-    fileprivate func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = Consts.ContactDetailView.title
         navigationController?.navigationBar.prefersLargeTitles = false
         let rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.done, style: .plain, target: self, action: #selector(handleDismiss))
         navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
-    fileprivate func contentLayout() {
+    private func contentLayout() {
         layoutImageView()
         layoutNameLabel()
         layoutJobTitleLabel()
@@ -61,7 +61,7 @@ class ContactDetailViewController: UIViewController {
         layoutItemsTableView()
     }
     
-    fileprivate func layoutImageView() {
+    private func layoutImageView() {
         let photoPlaceholder = UIImage(named: "person")
         
         let contactPhoto = UIImage(data: contact.thumbnailPhoto)
@@ -82,7 +82,7 @@ class ContactDetailViewController: UIViewController {
         photoImageView.setSizeConstraint(width: 200, height: 200)
     }
     
-    fileprivate func layoutNameLabel() {
+    private func layoutNameLabel() {
         
         if let givenName = contact.givenName, let familyName = contact.familyName {
             let contactName = "\(givenName) \(familyName)"
@@ -97,7 +97,7 @@ class ContactDetailViewController: UIViewController {
         }
     }
     
-    fileprivate func layoutJobTitleLabel() {
+    private func layoutJobTitleLabel() {
         let jobTitle = "\(contact.jobTitle)"
         
         jobTitleLabel.font = UIFont.systemFont(ofSize: 17)
@@ -108,7 +108,7 @@ class ContactDetailViewController: UIViewController {
         view.addSubview(jobTitleLabel)
     }
     
-    fileprivate func addLabelsToStackView() {
+    private func addLabelsToStackView() {
         
         labelsStackView.axis = .vertical
         labelsStackView.distribution = .fillEqually
@@ -129,7 +129,7 @@ class ContactDetailViewController: UIViewController {
         labelsStackView.setWidthConstraint(width: UIScreen.main.bounds.width - 40)
     }
     
-    fileprivate func layoutItemsTableView() {
+    private func layoutItemsTableView() {
         itemsTableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.ContactDetailView.contactDetailsCell)
         
         view.addSubview(itemsTableView)
