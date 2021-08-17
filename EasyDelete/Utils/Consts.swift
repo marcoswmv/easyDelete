@@ -14,11 +14,19 @@ struct Consts {
     
     static let phoneNumbersLabelPlaceholder = "Mobile"
     static let emailsLabelPlaceholder = "Email"
+    static let contacts = NSLocalizedString("contacts", comment: "100 contacts label ")
+    
+    struct ContactDetailView {
+        static let title = "Contact"
+        static let contactDetailsCell = "ContactDetailTableViewCell"
+        static let numbersSection = "Phone numbers"
+        static let emailsSection = "Emails"
+    }
     
     struct ListScreen {
         static let done = "Done"
         static let select = "Select"
-        static let noResults = "No Results"
+        static let noResults = "No results"
     }
     
     struct ContactsList {

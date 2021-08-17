@@ -79,4 +79,14 @@ class DataSourceManager {
         
         return attributedString
     }
+    
+    func group(items: EDTypes.ContactItemsList, with labels: EDTypes.ContactItemsList) -> EDTypes.ContactDetailsList {
+        var result = EDTypes.ContactDetailsList()
+        
+        for (label, item) in zip(labels, items) {
+            result.append((label, item))
+        }
+        
+        return result
+    }
 }

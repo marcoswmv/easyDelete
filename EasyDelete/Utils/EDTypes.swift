@@ -5,11 +5,13 @@
 //  Created by Marcos Vicente on 09.08.2021.
 //
 
-import Foundation
+import RealmSwift
 
 struct EDTypes {
     
     typealias ContactsList = [Contact]
+    typealias ContactDetailsList = [(label: String, item: String)]
+    typealias ContactItemsList = List<String>
     typealias GroupedContacts = [(letter: String, names: ContactsList)]
     typealias ContactsRequestResultHandler = (Result<Contact, Error>) -> Void
     typealias ContactsRequestResult = Result<Contact, Error>
