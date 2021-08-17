@@ -13,6 +13,16 @@ import RealmSwift
 
 class EasyDeleteDataSourceTests: XCTestCase {
     
+    override func setUp() {
+        super.setUp()
+        
+        // Use an in-memory Realm identified by the name of the current test.
+        // This ensures that each test can't accidentally access or modify the data
+        // from other tests or the application itself, and because they're in-memory,
+        // there's nothing that needs to be cleaned up.
+        Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
+    }
+    
     func testGroupContactsBySections() {
         let contact = CNMutableContact()
         contact.givenName = "Marcos"
@@ -72,5 +82,43 @@ class EasyDeleteDataSourceTests: XCTestCase {
         let expectedResult = [IndexPath(row: 3, section: 1), IndexPath(row: 0, section: 1)]
         
         XCTAssertEqual(indexPathsArr, expectedResult)
+    }
+    
+    func testGroup() {
+        let contact = CNMutableContact()
+        contact.givenName = "Marcos"
+        contact.familyName = "Vicente"
+        
+        let phoneNumbers = ["930694623", "923501557"]
+        let emails = ["home@mv.ru", "work@hotmail.com"]
+        
+        for phone in phoneNumbers {
+            contact.phoneNumbers.append(CNLabeledValue(
+                                            label: "mobile",
+                                            value: CNPhoneNumber(stringValue: phone)))
+        }
+        
+        for email in emails {
+            contact.emailAddresses.append(CNLabeledValue(label: "email", value: email as NSString))
+        }
+        
+        let testContact = Contact(contact: contact)
+        
+        DataBaseManager.shared.update(with: testContact)
+        
+        let phoneNumbersExpectedResults = [(label:"mobile", item: "930694623"), (label:"mobile", item: "923501557")]
+        let emailsExpectedResults = [(label:"email", item: "home@mv.ru"), (label:"email", item: "work@hotmail.com")]
+        
+        if let contact = DataBaseManager.shared.fetchContacts().first {
+            let phoneNumbersResult = DataSourceManager.shared.group(items: contact.phoneNumbers, with: contact.phoneNumbersLabels)
+
+            XCTAssertEqual(phoneNumbersResult.first?.label, phoneNumbersExpectedResults.first?.label)
+            XCTAssertEqual(phoneNumbersResult.first?.item, phoneNumbersExpectedResults.first?.item)
+            
+            let emailsResult = DataSourceManager.shared.group(items: contact.emails, with: contact.emailsLabels)
+            
+            XCTAssertEqual(emailsResult.first?.label, emailsExpectedResults.first?.label)
+            XCTAssertEqual(emailsResult.first?.item, emailsExpectedResults.first?.item)
+        }
     }
 }

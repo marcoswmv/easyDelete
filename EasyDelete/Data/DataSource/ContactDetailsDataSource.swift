@@ -58,10 +58,10 @@ class ContactDetailsDataSource: BaseDataSource {
         
         if indexPath.section == 0 {
             cell.textLabel?.text = phoneNumbersData[indexPath.row].label
-            cell.detailTextLabel?.text = phoneNumbersData[indexPath.row].number
+            cell.detailTextLabel?.text = phoneNumbersData[indexPath.row].item
         } else {
             cell.textLabel?.text = emailsData[indexPath.row].label.description
-            cell.detailTextLabel?.text = emailsData[indexPath.row].number
+            cell.detailTextLabel?.text = emailsData[indexPath.row].item
         }
         
         return cell
