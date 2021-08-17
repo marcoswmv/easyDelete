@@ -45,12 +45,12 @@ class Contact: Object {
         self.scheduledDayForDeletion = nil
         
         for contact in contact.phoneNumbers {
-            self.phoneNumbersLabels.append(contact.label?.description ?? Consts.phoneNumbersLabelPlaceholder)
+            self.phoneNumbersLabels.append(contact.label?.filter({ $0.isLetter || $0.isNumber || $0.isWhitespace }) ?? Consts.phoneNumbersLabelPlaceholder)
             self.phoneNumbers.append(contact.value.stringValue)
         }
         
         for email in contact.emailAddresses {
-            self.emailsLabels.append(email.label?.description ?? Consts.emailsLabelPlaceholder)
+            self.emailsLabels.append(email.label?.filter({ $0.isLetter || $0.isNumber || $0.isWhitespace }) ?? Consts.emailsLabelPlaceholder)
             self.emails.append(email.value as String)
         }
     }
