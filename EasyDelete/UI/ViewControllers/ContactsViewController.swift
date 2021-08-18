@@ -36,7 +36,7 @@ class ContactsViewController: UIViewController {
         editingMode(disable: true)
     }
     
-    fileprivate func configureUIEssentials() {
+    private func configureUIEssentials() {
         configureTableView()
         configureNavigationBar()
         configureToolbar()
@@ -85,7 +85,7 @@ class ContactsViewController: UIViewController {
         }
     }
     
-    fileprivate func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = Consts.ContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
         let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .plain, target: self, action: #selector(handlePushDeleted))
@@ -94,7 +94,7 @@ class ContactsViewController: UIViewController {
         navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
-    fileprivate func configureToolbar() {
+    private func configureToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let deleteButton = UIBarButtonItem(title: Consts.ContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
         deleteButton.tintColor = .red
@@ -103,7 +103,7 @@ class ContactsViewController: UIViewController {
         toolbarItems = [deleteButton, flexibleSpace, doneButton]
     }
     
-    fileprivate func configureSearchBarController() {
+    private func configureSearchBarController() {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         self.definesPresentationContext = true
@@ -112,7 +112,7 @@ class ContactsViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
     }
     
-    fileprivate func configureRefreshControl() {
+    private func configureRefreshControl() {
         tableView.refreshControl = self.refreshControl
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }

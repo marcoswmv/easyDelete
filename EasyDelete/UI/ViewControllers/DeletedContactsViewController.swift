@@ -33,7 +33,7 @@ class DeletedContactsViewController: UIViewController {
         manageDeletedContacts(enable: false)
     }
     
-    fileprivate func configureUIEssentials() {
+    private func configureUIEssentials() {
         configureTableView()
         configureNavigationBar()
         configureToolbar()
@@ -46,7 +46,7 @@ class DeletedContactsViewController: UIViewController {
         dataSource?.reload()
     }
     
-    fileprivate func configureTableView() {
+    private func configureTableView() {
         view.addSubview(tableView)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.DeletedContactsList.cell)
@@ -55,7 +55,7 @@ class DeletedContactsViewController: UIViewController {
         tableView.setConstraints(to: view)
     }
     
-    fileprivate func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = Consts.DeletedContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
         let buttonTitle = Consts.DeletedContactsList.manage
@@ -63,7 +63,7 @@ class DeletedContactsViewController: UIViewController {
         navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
-    fileprivate func configureToolbar() {
+    private func configureToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
         deleteButton.tintColor = .red
@@ -73,7 +73,7 @@ class DeletedContactsViewController: UIViewController {
         toolbarItems = [deleteButton, flexibleSpace, recoverButton, flexibleSpace, selectAllButton]
     }
     
-    fileprivate func createBarButton(with icon: String, action: Selector?) -> UIBarButtonItem {
+    private func createBarButton(with icon: String, action: Selector?) -> UIBarButtonItem {
         let button: UIButton = UIButton(type: .system)
         button.setImage(UIImage(systemName: icon), for: .normal)
         if let action = action {
@@ -83,7 +83,7 @@ class DeletedContactsViewController: UIViewController {
         return UIBarButtonItem(customView: button)
     }
     
-    fileprivate func configureSearchBarController() {
+    private func configureSearchBarController() {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         self.definesPresentationContext = true
@@ -91,12 +91,12 @@ class DeletedContactsViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
     }
     
-    fileprivate func configureRefreshControl() {
+    private func configureRefreshControl() {
         tableView.refreshControl = self.refreshControl
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
     
-    fileprivate func manageDeletedContacts(enable: Bool) {
+    private func manageDeletedContacts(enable: Bool) {
         if enable {
             rightNavBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
         } else {
@@ -108,7 +108,7 @@ class DeletedContactsViewController: UIViewController {
         tableView.setEditing(enable, animated: enable)
     }
     
-    fileprivate func continuouslyUpdateDeletedContactsRemainingTime() {
+    private func continuouslyUpdateDeletedContactsRemainingTime() {
         let dayInSecondsTimeInterval = TimeInterval(Consts.Numbers.dayInSeconds)
         let target = dataSource ?? DeletedContactsDataSource(tableView: tableView)
         let selector = #selector(dataSource?.updateContactsRemainingDays)
