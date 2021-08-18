@@ -135,9 +135,13 @@ class ContactsViewController: UIViewController {
     @objc private func handleDelete() {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
+            var indexPathsToDelete = EDTypes.IndexPaths()
+            
             for indexPath in sortedIndexPaths {
-                dataSource?.deleteContact(at: indexPath)
+                indexPathsToDelete.append(indexPath)
             }
+            dataSource?.deleteContact(at: indexPathsToDelete)
+            
             tableView.addGestureRecognizer(tableViewTapRecognizer)
         } else {
             Alert.showNoContactSelectedAlert(on: UIApplication.topViewController()!)
