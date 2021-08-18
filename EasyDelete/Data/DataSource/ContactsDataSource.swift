@@ -11,15 +11,15 @@ class ContactsDataSource: BaseDataSource {
     
     private(set) var data: EDTypes.GroupedContacts = EDTypes.GroupedContacts()
     private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
-    private var isSearching: Bool = false
+    var isSearching: Bool = false
     
     override func setup() {
         super.setup()
         
         DataBaseManager.shared.dataChangePublisher.sink(receiveCompletion: { (_) in
-            }, receiveValue: { [weak self] (detectedChanges) in
+        }, receiveValue: { [weak self] (detectedChanges) in
             // [Contacts Data Source] Data changed"
-                guard let self = self else { return }
+            guard let self = self else { return }
             if detectedChanges {
                 self.reload()
             }
@@ -29,7 +29,12 @@ class ContactsDataSource: BaseDataSource {
     override func reload() {
         let contactsFromDataBase = DataBaseManager.shared.fetchContacts()
         data = DataSourceManager.shared.groupContactsBySections(contactsFromDataBase)
+        isSearching = false
         tableView.reloadData()
+    }
+    
+    func contactsCount() -> Int {
+        return DataBaseManager.shared.fetchContacts().count
     }
     
     // MARK: - Data source
@@ -90,7 +95,7 @@ class ContactsDataSource: BaseDataSource {
             if isSearching {
                 content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
             } else {
-                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row].names[indexPath.row])
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
             }
             
             cell.contentConfiguration = content
@@ -103,6 +108,18 @@ class ContactsDataSource: BaseDataSource {
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !tableView.isEditing {
+            let contact = data[indexPath.section].names[indexPath.row]
+            let parentVC = UIApplication.topViewController()!
+            let contactDetailVC = ContactDetailViewController(contact: contact)
+            let navigationController = UINavigationController(rootViewController: contactDetailVC)
+            parentVC.navigationController?.present(navigationController, animated: true, completion: nil)
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
 

@@ -9,9 +9,10 @@ import UIKit
 
 class ContactsViewController: UIViewController {
     
-    private var tableView: UITableView = UITableView()
-    private let searchController: UISearchController = UISearchController(searchResultsController: nil)
-    private let refreshControl: UIRefreshControl = UIRefreshControl()
+    var tableView: UITableView = UITableView()
+    let searchController: UISearchController = UISearchController(searchResultsController: nil)
+    let refreshControl: UIRefreshControl = UIRefreshControl()
+    var tableViewTapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
     
     var dataSource: ContactsDataSource?
     var timer: Timer?
@@ -55,6 +56,33 @@ class ContactsViewController: UIViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.enableAutoLayout()
         tableView.setConstraints(to: view)
+        
+        tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
+        
+        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
+    }
+    
+    func layoutTableViewFooter(with text: String) {
+        if text == "0" {
+            tableView.tableFooterView = nil
+        } else {
+            let textLabel = UILabel(frame: CGRect(x: 0, y: 0,
+                                                  width: tableView.bounds.size.width,
+                                                  height: tableView.bounds.size.height))
+            textLabel.text = "\(String(describing: text)) \(Consts.contacts)"
+            textLabel.textAlignment = .center
+            textLabel.textColor = .gray
+            textLabel.font = UIFont.systemFont(ofSize: 15)
+            
+            let customView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+            customView.backgroundColor = .systemBackground
+            customView.addSubview(textLabel)
+            
+            textLabel.enableAutoLayout()
+            textLabel.setConstraints(to: customView)
+            
+            tableView.tableFooterView = customView
+        }
     }
     
     fileprivate func configureNavigationBar() {
@@ -80,6 +108,7 @@ class ContactsViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         self.definesPresentationContext = true
         searchController.searchBar.delegate = self
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
     }
     
@@ -88,11 +117,13 @@ class ContactsViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
     
-    fileprivate func editingMode(disable: Bool) {
+    func editingMode(disable: Bool) {
         navigationItem.leftBarButtonItem?.isEnabled = disable
         navigationItem.rightBarButtonItem?.isEnabled = disable
         navigationController?.setToolbarHidden(disable, animated: true)
+        searchController.searchBar.endEditing(true)
         tableView.setEditing(!disable, animated: disable)
+        tableView.removeGestureRecognizer(tableViewTapRecognizer)
     }
     
     // MARK: - Handlers
@@ -107,6 +138,7 @@ class ContactsViewController: UIViewController {
             for indexPath in sortedIndexPaths {
                 dataSource?.deleteContact(at: indexPath)
             }
+            tableView.addGestureRecognizer(tableViewTapRecognizer)
         } else {
             Alert.showNoContactSelectedAlert(on: UIApplication.topViewController()!)
         }
@@ -114,6 +146,7 @@ class ContactsViewController: UIViewController {
     
     @objc private func handleDone() {
         editingMode(disable: true)
+        tableView.addGestureRecognizer(tableViewTapRecognizer)
     }
     
     @objc private func handlePushDeleted() {
@@ -123,8 +156,14 @@ class ContactsViewController: UIViewController {
     
     @objc private func handleRefresh() {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            self.dataSource?.reload()
-            self.refreshControl.endRefreshing()
+            if self.dataSource?.isSearching == false {
+                self.dataSource?.reload()
+                self.refreshControl.endRefreshing()
+            }
         }
+    }
+    
+    @objc private func handleTapOnTable() {
+        print("Tapping table view")
     }
 }

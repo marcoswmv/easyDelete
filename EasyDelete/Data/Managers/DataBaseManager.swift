@@ -43,8 +43,8 @@ class DataBaseManager {
     /// This method Reads all the data from database.
     func fetchContacts(deleted: Bool = false) -> EDTypes.ContactsList {
         let realm = try! Realm()
-        let predicate = NSPredicate(format: "isDeleted = %@", argumentArray: [deleted])
-        let objects = realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "givenName", ascending: true)
+        let predicate = NSPredicate(format: "\(Keys.isDeleted) = %@", argumentArray: [deleted])
+        let objects = realm.objects(Contact.self).filter(predicate).sorted(byKeyPath: "\(Keys.givenName)", ascending: true)
         var finalArr = EDTypes.ContactsList()
         
         for object in objects {
@@ -70,14 +70,14 @@ class DataBaseManager {
         
         guard let scheduledDayForDeletion = calendar.date(byAdding: .day, value: 30, to: currentDay),
               let remainingDaysForDeletion = calendar.dateComponents([.day],
-                                                                from: currentDay,
-                                                                to: scheduledDayForDeletion).day else { return }
-//        print("\nDay of deletion: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
+                                                                     from: currentDay,
+                                                                     to: scheduledDayForDeletion).day else { return }
+        //        print("\nDay of deletion: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
         try! realm.write {
-            contact.setValue(true, forKey: "isDeleted")
-            contact.setValue(currentDay, forKey: "dayOfDeletion")
-            contact.setValue(scheduledDayForDeletion, forKey: "scheduledDayForDeletion")
-            contact.setValue(remainingDaysForDeletion, forKey: "remainingDaysForDeletion")
+            contact.setValue(true, forKey: Keys.isDeleted)
+            contact.setValue(currentDay, forKey: Keys.dayOfDeletion)
+            contact.setValue(scheduledDayForDeletion, forKey: Keys.scheduledDayForDeletion)
+            contact.setValue(remainingDaysForDeletion, forKey: Keys.remainingDaysForDeletion)
         }
     }
     
@@ -92,10 +92,10 @@ class DataBaseManager {
                   let remainingDaysForDeletion = calendar.dateComponents([.day],
                                                                          from: currentDay,
                                                                          to: scheduledDayForDeletion).day else { return }
-//            print("\nCurrent day: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
+            //            print("\nCurrent day: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
             if remainingDaysForDeletion > 0 {
                 try! realm.write({
-                    contact.setValue(remainingDaysForDeletion, forKey: "remainingDaysForDeletion")
+                    contact.setValue(remainingDaysForDeletion, forKey: Keys.remainingDaysForDeletion)
                 })
             } else {
                 try! realm.write {
