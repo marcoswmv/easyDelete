@@ -18,4 +18,5 @@ struct EDTypes {
     typealias IndexPaths = [IndexPath]
     typealias ExtractedIndexPaths = [Int: [Int]]
     typealias GroupedIndexPaths = [(section: Int, rows: [Int])]
+    typealias DataBaseFetchRequest = Results<Contact>
 }

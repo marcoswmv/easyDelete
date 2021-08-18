@@ -127,9 +127,11 @@ class DeletedContactsViewController: UIViewController {
                 guard let self = self else { return }
                 if confirmation {
                     let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
+                    var indexPathsToDelete = EDTypes.IndexPaths()
                     for indexPath in sortedIndexPaths {
-                        self.dataSource?.deleteContact(at: indexPath)
+                        indexPathsToDelete.append(indexPath)
                     }
+                    self.dataSource?.deleteContact(at: indexPathsToDelete)
                 }
             }
         } else {
