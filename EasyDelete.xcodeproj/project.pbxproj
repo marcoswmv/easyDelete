@@ -14,7 +14,7 @@
 		F7172F1326C42EAA0019B760 /* ContactStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */; };
 		F7172F1526C43BD50019B760 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1426C43BD50019B760 /* UIApplication+TopViewController.swift */; };
 		F7172F1726C44A620019B760 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1626C44A620019B760 /* DataBaseManager.swift */; };
-		F71C7A2B26CD8BFF0009182A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F71C7A2A26CD8BFF0009182A /* Assets.xcassets */; };
+		F71C7A2D26CEF74F0009182A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F71C7A2C26CEF74F0009182A /* Assets.xcassets */; };
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
 		F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsViewController.swift */; };
@@ -58,7 +58,7 @@
 		F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactStoreManager.swift; sourceTree = "<group>"; };
 		F7172F1426C43BD50019B760 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		F7172F1626C44A620019B760 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
-		F71C7A2A26CD8BFF0009182A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F71C7A2C26CEF74F0009182A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 				F722DDE726A8702A0017493B /* SceneDelegate.swift */,
 				F722DDF326A8702C0017493B /* Info.plist */,
 				F722DDF026A8702C0017493B /* LaunchScreen.storyboard */,
-				F71C7A2A26CD8BFF0009182A /* Assets.xcassets */,
+				F71C7A2C26CEF74F0009182A /* Assets.xcassets */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -315,7 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7231C1926BDE481001F7787 /* .swiftlint.yml in Resources */,
-				F71C7A2B26CD8BFF0009182A /* Assets.xcassets in Resources */,
+				F71C7A2D26CEF74F0009182A /* Assets.xcassets in Resources */,
 				F722DDF226A8702C0017493B /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
