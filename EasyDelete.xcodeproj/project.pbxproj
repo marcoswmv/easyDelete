@@ -3,18 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76296525197D09D44C5929D0 /* Pods_EasyDeleteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FF4BADA462B01C900DA99F4 /* Pods_EasyDeleteTests.framework */; };
-		C47A3AFF2DE4FC35A8BBBA37 /* Pods_EasyDelete.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8EC2AA67F846C35180A39EA /* Pods_EasyDelete.framework */; };
+		0FBB895A329E88CDB55A453F /* Pods_EasyDeleteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC15730FA8D6B749CE951C /* Pods_EasyDeleteTests.framework */; };
+		377EB7EAC22735884B536D87 /* Pods_EasyDelete.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E2D808C54794C07B5A01639 /* Pods_EasyDelete.framework */; };
 		F702C28E26CBEC81003D687C /* ContactDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F702C28D26CBEC81003D687C /* ContactDetailsDataSource.swift */; };
 		F7172F1126C42E960019B760 /* EDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1026C42E960019B760 /* EDTypes.swift */; };
 		F7172F1326C42EAA0019B760 /* ContactStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */; };
 		F7172F1526C43BD50019B760 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1426C43BD50019B760 /* UIApplication+TopViewController.swift */; };
 		F7172F1726C44A620019B760 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1626C44A620019B760 /* DataBaseManager.swift */; };
-		F71C7A2B26CD8BFF0009182A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F71C7A2A26CD8BFF0009182A /* Assets.xcassets */; };
+		F71C7A2F26CEF9EC0009182A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F71C7A2E26CEF9EC0009182A /* Assets.xcassets */; };
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
 		F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsViewController.swift */; };
@@ -47,18 +47,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3FF4BADA462B01C900DA99F4 /* Pods_EasyDeleteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyDeleteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		445CBE31CCCF3571E6A5A4F4 /* Pods-EasyDelete.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDelete.debug.xcconfig"; path = "Target Support Files/Pods-EasyDelete/Pods-EasyDelete.debug.xcconfig"; sourceTree = "<group>"; };
-		876CFECC105DFF12B5E29D3A /* Pods-EasyDeleteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDeleteTests.debug.xcconfig"; path = "Target Support Files/Pods-EasyDeleteTests/Pods-EasyDeleteTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B8EC2AA67F846C35180A39EA /* Pods_EasyDelete.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyDelete.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFA091D558370FDE8AEAADF3 /* Pods-EasyDeleteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDeleteTests.release.xcconfig"; path = "Target Support Files/Pods-EasyDeleteTests/Pods-EasyDeleteTests.release.xcconfig"; sourceTree = "<group>"; };
-		D135FD12A9DDA18292CD93A8 /* Pods-EasyDelete.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDelete.release.xcconfig"; path = "Target Support Files/Pods-EasyDelete/Pods-EasyDelete.release.xcconfig"; sourceTree = "<group>"; };
+		13BB0C8C90AC6D9A1FAFD303 /* Pods-EasyDeleteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDeleteTests.release.xcconfig"; path = "Target Support Files/Pods-EasyDeleteTests/Pods-EasyDeleteTests.release.xcconfig"; sourceTree = "<group>"; };
+		3E2D808C54794C07B5A01639 /* Pods_EasyDelete.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyDelete.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C7AF1CDA8572E1CF9B851AC /* Pods-EasyDelete.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDelete.debug.xcconfig"; path = "Target Support Files/Pods-EasyDelete/Pods-EasyDelete.debug.xcconfig"; sourceTree = "<group>"; };
+		6EDC15730FA8D6B749CE951C /* Pods_EasyDeleteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyDeleteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BA075FC9AEAABF0DF1F5D33 /* Pods-EasyDeleteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDeleteTests.debug.xcconfig"; path = "Target Support Files/Pods-EasyDeleteTests/Pods-EasyDeleteTests.debug.xcconfig"; sourceTree = "<group>"; };
+		91C4D3CA35B1DD5F4441BD72 /* Pods-EasyDelete.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDelete.release.xcconfig"; path = "Target Support Files/Pods-EasyDelete/Pods-EasyDelete.release.xcconfig"; sourceTree = "<group>"; };
 		F702C28D26CBEC81003D687C /* ContactDetailsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsDataSource.swift; sourceTree = "<group>"; };
 		F7172F1026C42E960019B760 /* EDTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDTypes.swift; sourceTree = "<group>"; };
 		F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactStoreManager.swift; sourceTree = "<group>"; };
 		F7172F1426C43BD50019B760 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		F7172F1626C44A620019B760 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
-		F71C7A2A26CD8BFF0009182A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F71C7A2E26CEF9EC0009182A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				377EB7EAC22735884B536D87 /* Pods_EasyDelete.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,12 +97,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FBB895A329E88CDB55A453F /* Pods_EasyDeleteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3EAE57C85F8D5F1F189C7567 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4C7AF1CDA8572E1CF9B851AC /* Pods-EasyDelete.debug.xcconfig */,
+				91C4D3CA35B1DD5F4441BD72 /* Pods-EasyDelete.release.xcconfig */,
+				8BA075FC9AEAABF0DF1F5D33 /* Pods-EasyDeleteTests.debug.xcconfig */,
+				13BB0C8C90AC6D9A1FAFD303 /* Pods-EasyDeleteTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		865B0AFEF80F78DF17E9517F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3E2D808C54794C07B5A01639 /* Pods_EasyDelete.framework */,
+				6EDC15730FA8D6B749CE951C /* Pods_EasyDeleteTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F7172F0526C1B37A0019B760 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +141,8 @@
 				F722DDE426A8702A0017493B /* EasyDelete */,
 				F7BC54B926BACE05006C41A5 /* EasyDeleteTests */,
 				F722DDE326A8702A0017493B /* Products */,
+				3EAE57C85F8D5F1F189C7567 /* Pods */,
+				865B0AFEF80F78DF17E9517F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,9 +182,9 @@
 			children = (
 				F722DDE526A8702A0017493B /* AppDelegate.swift */,
 				F722DDE726A8702A0017493B /* SceneDelegate.swift */,
+				F71C7A2E26CEF9EC0009182A /* Assets.xcassets */,
 				F722DDF326A8702C0017493B /* Info.plist */,
 				F722DDF026A8702C0017493B /* LaunchScreen.storyboard */,
-				F71C7A2A26CD8BFF0009182A /* Assets.xcassets */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -240,10 +264,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F722DDF626A8702C0017493B /* Build configuration list for PBXNativeTarget "EasyDelete" */;
 			buildPhases = (
+				CC5BFADD39AC38C3306BAB2B /* [CP] Check Pods Manifest.lock */,
 				F722DDDE26A8702A0017493B /* Sources */,
 				F722DDDF26A8702A0017493B /* Frameworks */,
 				F722DDE026A8702A0017493B /* Resources */,
 				F7231C1726BDE3AD001F7787 /* ShellScript */,
+				47E8F6724C8C80C9E868C368 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -258,6 +284,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7BC54BF26BACE05006C41A5 /* Build configuration list for PBXNativeTarget "EasyDeleteTests" */;
 			buildPhases = (
+				0C8376BF000750D9FAB7CB3C /* [CP] Check Pods Manifest.lock */,
 				F7BC54B426BACE05006C41A5 /* Sources */,
 				F7BC54B526BACE05006C41A5 /* Frameworks */,
 				F7BC54B626BACE05006C41A5 /* Resources */,
@@ -315,7 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7231C1926BDE481001F7787 /* .swiftlint.yml in Resources */,
-				F71C7A2B26CD8BFF0009182A /* Assets.xcassets in Resources */,
+				F71C7A2F26CEF9EC0009182A /* Assets.xcassets in Resources */,
 				F722DDF226A8702C0017493B /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +357,67 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0C8376BF000750D9FAB7CB3C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EasyDeleteTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		47E8F6724C8C80C9E868C368 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EasyDelete/Pods-EasyDelete-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EasyDelete/Pods-EasyDelete-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EasyDelete/Pods-EasyDelete-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC5BFADD39AC38C3306BAB2B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EasyDelete-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F7231C1726BDE3AD001F7787 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -526,6 +614,7 @@
 		};
 		F722DDF726A8702C0017493B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C7AF1CDA8572E1CF9B851AC /* Pods-EasyDelete.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -545,6 +634,7 @@
 		};
 		F722DDF826A8702C0017493B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91C4D3CA35B1DD5F4441BD72 /* Pods-EasyDelete.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -564,6 +654,7 @@
 		};
 		F7BC54C026BACE05006C41A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BA075FC9AEAABF0DF1F5D33 /* Pods-EasyDeleteTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -585,6 +676,7 @@
 		};
 		F7BC54C126BACE05006C41A5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 13BB0C8C90AC6D9A1FAFD303 /* Pods-EasyDeleteTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
