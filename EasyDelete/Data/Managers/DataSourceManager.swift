@@ -89,4 +89,15 @@ class DataSourceManager {
         
         return result
     }
+    
+    func getContactsListFromDataBase(deleted: Bool = false) -> EDTypes.ContactsList {
+        let contacts = DataBaseManager.shared.fetchContacts(deleted: deleted)
+        var finalArr = EDTypes.ContactsList()
+        
+        for contact in contacts {
+            finalArr.append(contact)
+        }
+        
+        return finalArr
+    }
 }

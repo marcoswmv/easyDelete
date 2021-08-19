@@ -109,7 +109,7 @@ class EasyDeleteDataSourceTests: XCTestCase {
         let phoneNumbersExpectedResults = [(label:"mobile", item: "930694623"), (label:"mobile", item: "923501557")]
         let emailsExpectedResults = [(label:"email", item: "home@mv.ru"), (label:"email", item: "work@hotmail.com")]
         
-        if let contact = DataBaseManager.shared.fetchContacts().first {
+        if let contact = DataBaseManager.shared.getContactsList().first {
             let phoneNumbersResult = DataSourceManager.shared.group(items: contact.phoneNumbers, with: contact.phoneNumbersLabels)
 
             XCTAssertEqual(phoneNumbersResult.first?.label, phoneNumbersExpectedResults.first?.label)

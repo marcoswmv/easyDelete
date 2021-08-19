@@ -18,7 +18,8 @@ class DeletedContactsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        data = DataBaseManager.shared.fetchContacts(deleted: true)
+        data = DataSourceManager.shared.getContactsListFromDataBase(deleted: true)
+        isSearching = false
         tableView.reloadData()
     }
     
@@ -33,7 +34,7 @@ class DeletedContactsDataSource: BaseDataSource {
             Alert.showActionSheetToAskForConfirmationToDelete(on: UIApplication.topViewController()!) { [weak self] confirmation in
                 guard let self = self else { return }
                 if confirmation {
-                    self.deleteContact(at: indexPath)
+                    self.deleteContact(at: [indexPath])
                 }
             }
         }
@@ -117,9 +118,15 @@ extension DeletedContactsDataSource: BaseDataSourceDelegate {
         tableView.reloadData()
     }
     
-    func deleteContact(at indexPath: IndexPath) {
-        let contactToDelete = data[indexPath.row]
-        DataBaseManager.shared.delete(contacts: [contactToDelete])
+    func deleteContact(at indexPaths: EDTypes.IndexPaths) {
+        var contactsToDelete = EDTypes.ContactsList()
+        
+        for indexPath in indexPaths {
+            let contact = data[indexPath.row]
+            contactsToDelete.append(contact)
+        }
+        
+        DataBaseManager.shared.delete(contacts: contactsToDelete)
         reload()
     }
     
