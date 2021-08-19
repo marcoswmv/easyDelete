@@ -13,11 +13,19 @@ extension ContactsViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         cancelSearchTimer()
         search(query: searchBar.text)
+        if tableView.isEditing {
+            tableView.removeGestureRecognizer(tableViewTapRecognizer)
+        }
     }
 
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        tableView.addGestureRecognizer(tableViewTapRecognizer)
+    }
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         cancelSearchTimer()
         search(query: searchBar.text)
+        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -25,20 +33,22 @@ extension ContactsViewController: UISearchBarDelegate {
         search(query: nil)
         searchBar.text = ""
         dataSource?.reload()
+        tableView.removeGestureRecognizer(tableViewTapRecognizer)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchIfNeeded(query: searchText)
+        layoutTableViewFooter(with: "0")
     }
     
-    fileprivate func cancelSearchTimer() {
+    private func cancelSearchTimer() {
         if timer != nil, timer!.isValid {
             timer?.invalidate()
             timer = nil
         }
     }
     
-    fileprivate func searchIfNeeded(query: String?) {
+    private func searchIfNeeded(query: String?) {
         cancelSearchTimer()
         timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false, block: { [weak self] (_) in
             guard let self = self else { return }
@@ -46,8 +56,11 @@ extension ContactsViewController: UISearchBarDelegate {
         })
     }
     
-    fileprivate func search(query: String?) {
-        guard let searchText = query else { return }
-        dataSource?.startQuery(with: searchText)
+    private func search(query: String?) {
+        if let searchText = query {
+            dataSource?.startQuery(with: searchText)
+        } else {
+            dataSource?.startQuery(with: "")
+        }
     }
 }

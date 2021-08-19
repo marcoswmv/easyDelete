@@ -6,30 +6,56 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ContactsDataSource: BaseDataSource {
     
     private(set) var data: EDTypes.GroupedContacts = EDTypes.GroupedContacts()
     private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
-    private var isSearching: Bool = false
+    var isSearching: Bool = false
+    
+    var token: NotificationToken?
+    
+    deinit {
+        token?.invalidate()
+    }
     
     override func setup() {
         super.setup()
         
-        DataBaseManager.shared.dataChangePublisher.sink(receiveCompletion: { (_) in
-            }, receiveValue: { [weak self] (detectedChanges) in
-            // [Contacts Data Source] Data changed"
-                guard let self = self else { return }
-            if detectedChanges {
-                self.reload()
-            }
-        }).store(in: &Consts.bag)
+        setDataBaseCollectionObserver()
     }
     
     override func reload() {
-        let contactsFromDataBase = DataBaseManager.shared.fetchContacts()
+        let contactsFromDataBase = DataSourceManager.shared.getContactsListFromDataBase()
         data = DataSourceManager.shared.groupContactsBySections(contactsFromDataBase)
+        isSearching = false
         tableView.reloadData()
+    }
+    
+    func contactsCount() -> Int {
+        return DataSourceManager.shared.getContactsListFromDataBase().count
+    }
+    
+    func setDataBaseCollectionObserver() {
+        let contactsFromDataBase = DataBaseManager.shared.fetchContacts()
+        
+        token = contactsFromDataBase.observe(keyPaths: [Keys.isDeleted], on: .main, { [weak self] changes in
+            guard let self = self else { return }
+            
+            switch changes {
+            case .initial:
+                self.tableView.reloadData()
+            case .update( _, let deletions, let insertions, let modifications):
+                self.reload()
+                
+                print("Deletions: \(deletions)")
+                print("Insertions: \(insertions)")
+                print("Modifications: \(modifications)")
+            case .error(let error):
+                Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
+            }
+        })
     }
     
     // MARK: - Data source
@@ -40,7 +66,7 @@ class ContactsDataSource: BaseDataSource {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deleteContact(at: indexPath)
+            deleteContact(at: [indexPath])
         }
     }
     
@@ -84,15 +110,42 @@ class ContactsDataSource: BaseDataSource {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Consts.ContactsList.cell)!
         
-        if isSearching {
-            cell.textLabel?.attributedText = nameAttributedString(contact: filteredData[indexPath.row])
+        if #available(iOS 14.0, *) {
+            var content = cell.defaultContentConfiguration()
+            
+            if isSearching {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            }
+            
+            cell.contentConfiguration = content
         } else {
-            cell.textLabel?.attributedText = nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            if isSearching {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+            } else {
+                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.section].names[indexPath.row])
+            }
         }
+        
         return cell
     }
     
-    // MARK: - Helpers
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !tableView.isEditing {
+            let contact = data[indexPath.section].names[indexPath.row]
+            let parentVC = UIApplication.topViewController()!
+            let contactDetailVC = ContactDetailViewController(contact: contact)
+            let navigationController = UINavigationController(rootViewController: contactDetailVC)
+            parentVC.navigationController?.present(navigationController, animated: true, completion: nil)
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+}
+
+extension ContactsDataSource: BaseDataSourceDelegate {
+    
     func startQuery(with text: String) {
         isSearching = text.isEmpty ? false : true
         filteredData = data
@@ -105,35 +158,17 @@ class ContactsDataSource: BaseDataSource {
         tableView.reloadData()
     }
     
-    func deleteContact(at indexPath: IndexPath) {
-        let contactToDelete = data[indexPath.section].names[indexPath.row]
+    func deleteContact(at indexPaths: EDTypes.IndexPaths) {
+        var contactsToDelete = EDTypes.ContactsList()
         
-        ContactStoreManager.shared.delete(contactWith: contactToDelete.identifier)
-        DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
-        updateTableView(at: indexPath)
+        for indexPath in indexPaths {
+            let contact = data[indexPath.section].names[indexPath.row]
+            contactsToDelete.append(contact)
+        }
+        contactsToDelete.forEach { DataBaseManager.shared.setAsDeleted(contact: $0) }
+        contactsToDelete.forEach { ContactStoreManager.shared.delete(contactWith: $0.identifier) }
+        reload()
     }
     
-    fileprivate func updateTableView(at indexPath: IndexPath) {
-        if data[indexPath.section].names.map({$0.isDeleted == false}).count <= 1 {
-            data.remove(at: indexPath.section) // remove entire section
-        } else {
-            data[indexPath.section].names.remove(at: indexPath.row) // remove row
-        }
-        
-        tableView.reloadData()
-    }
-    
-    func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
-        var attributedString = NSMutableAttributedString(string: "")
-        
-        if let givenName = contact.givenName {
-            attributedString = NSMutableAttributedString(string: "\(givenName) ")
-            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)]
-            let boldString = NSMutableAttributedString(string: contact.familyName ?? "", attributes: attributes)
-            
-            attributedString.append(boldString)
-        }
-        
-        return attributedString
-    }
+    func recoverContact(at indexPath: IndexPath) { }
 }

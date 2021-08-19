@@ -19,26 +19,29 @@ class ContactStoreManager {
     
     private init() {
         notificationCenter.addObserver(forName: .CNContactStoreDidChange, object: nil, queue: .main, using: { [weak self] (_) in
-            guard let self = self else { return }
-            self.requestContacts { [weak self] (result: Result<Contact, Error>) in
+            DispatchQueue.global(qos: .background).async { [weak self] in
                 guard let self = self else { return }
-                switch result {
-                case .success(let contact):
-                    self.contactsRequestPublisher.send(contact)
-                case .failure(let error):
-                    self.contactsRequestPublisher.send(completion: Subscribers.Completion<Error>.failure(error))
+                self.requestContacts { [weak self] (result: EDTypes.ContactsRequestResult) in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let contact):
+                        self.contactsRequestPublisher.send(contact)
+                    case .failure(let error):
+                        self.contactsRequestPublisher.send(completion: Subscribers.Completion<Error>.failure(error))
+                    }
                 }
             }
         })
     }
     
     deinit {
+        print("[Contact store manager] - Deinitializing")
         notificationCenter.removeObserver(self, name: .CNContactStoreDidChange, object: nil)
     }
     
     func commonDataSourceInit() {
         populateDataSource()
-        requestContacts { [weak self] (result: Result<Contact, Error>) in
+        requestContacts { [weak self] (result: EDTypes.ContactsRequestResult) in
             guard let self = self else { return }
             switch result {
             case .success(let contact):
@@ -49,7 +52,7 @@ class ContactStoreManager {
         }
     }
     
-    private func requestContacts(completionHandler: @escaping EDTypes.ContactsRequestResult) {
+    private func requestContacts(completionHandler: @escaping EDTypes.ContactsRequestResultHandler) {
         self.store.requestAccess(for: .contacts) { (granted, error) in
             
             if let errorToCatch = error {
