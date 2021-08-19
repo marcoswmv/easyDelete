@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ContactsDataSource: BaseDataSource {
     
@@ -13,28 +14,48 @@ class ContactsDataSource: BaseDataSource {
     private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
     var isSearching: Bool = false
     
+    var token: NotificationToken?
+    
+    deinit {
+        token?.invalidate()
+    }
+    
     override func setup() {
         super.setup()
         
-        DataBaseManager.shared.dataChangePublisher.sink(receiveCompletion: { (_) in
-        }, receiveValue: { [weak self] (detectedChanges) in
-            // [Contacts Data Source] Data changed"
-            guard let self = self else { return }
-            if detectedChanges {
-                self.reload()
-            }
-        }).store(in: &Consts.bag)
+        setDataBaseCollectionObserver()
     }
     
     override func reload() {
-        let contactsFromDataBase = DataBaseManager.shared.fetchContacts()
+        let contactsFromDataBase = DataSourceManager.shared.getContactsListFromDataBase()
         data = DataSourceManager.shared.groupContactsBySections(contactsFromDataBase)
         isSearching = false
         tableView.reloadData()
     }
     
     func contactsCount() -> Int {
-        return DataBaseManager.shared.fetchContacts().count
+        return DataSourceManager.shared.getContactsListFromDataBase().count
+    }
+    
+    func setDataBaseCollectionObserver() {
+        let contactsFromDataBase = DataBaseManager.shared.fetchContacts()
+        
+        token = contactsFromDataBase.observe(keyPaths: [Keys.isDeleted], on: .main, { [weak self] changes in
+            guard let self = self else { return }
+            
+            switch changes {
+            case .initial:
+                self.tableView.reloadData()
+            case .update( _, let deletions, let insertions, let modifications):
+                self.reload()
+                
+                print("Deletions: \(deletions)")
+                print("Insertions: \(insertions)")
+                print("Modifications: \(modifications)")
+            case .error(let error):
+                Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
+            }
+        })
     }
     
     // MARK: - Data source
@@ -45,7 +66,7 @@ class ContactsDataSource: BaseDataSource {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deleteContact(at: indexPath)
+            deleteContact(at: [indexPath])
         }
     }
     
@@ -137,11 +158,16 @@ extension ContactsDataSource: BaseDataSourceDelegate {
         tableView.reloadData()
     }
     
-    func deleteContact(at indexPath: IndexPath) {
-        let contactToDelete = data[indexPath.section].names[indexPath.row]
+    func deleteContact(at indexPaths: EDTypes.IndexPaths) {
+        var contactsToDelete = EDTypes.ContactsList()
         
-        ContactStoreManager.shared.delete(contactWith: contactToDelete.identifier)
-        DataBaseManager.shared.setAsDeleted(contact: contactToDelete)
+        for indexPath in indexPaths {
+            let contact = data[indexPath.section].names[indexPath.row]
+            contactsToDelete.append(contact)
+        }
+        contactsToDelete.forEach { DataBaseManager.shared.setAsDeleted(contact: $0) }
+        contactsToDelete.forEach { ContactStoreManager.shared.delete(contactWith: $0.identifier) }
+        reload()
     }
     
     func recoverContact(at indexPath: IndexPath) { }

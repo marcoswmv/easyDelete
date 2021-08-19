@@ -10,7 +10,7 @@ import UIKit
 
 protocol BaseDataSourceDelegate: BaseDataSource {
     func startQuery(with text: String)
-    func deleteContact(at indexPath: IndexPath)
+    func deleteContact(at indexPaths: EDTypes.IndexPaths)
     func recoverContact(at indexPath: IndexPath)
 }
 

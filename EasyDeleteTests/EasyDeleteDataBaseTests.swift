@@ -32,7 +32,7 @@ class EasyDeleteDataBaseTests: XCTestCase {
         testContact.isDeleted = false
         
         DataBaseManager.shared.update(with: testContact)
-        let result = DataBaseManager.shared.fetchContacts()
+        let result = DataBaseManager.shared.getContactsList()
         guard let contactId = result.first?.identifier else { return }
         
         XCTAssertEqual(contactId, contact.identifier)
@@ -45,7 +45,7 @@ class EasyDeleteDataBaseTests: XCTestCase {
         
         let testContact = Contact(contact: contact)
         DataBaseManager.shared.update(with: testContact)
-        let result = DataBaseManager.shared.fetchContacts()
+        let result = DataBaseManager.shared.getContactsList()
         let testContactGivenName = result.first?.givenName
         
         let updatedContact = Contact()
@@ -68,7 +68,7 @@ class EasyDeleteDataBaseTests: XCTestCase {
         testContact.isDeleted = false
         
         DataBaseManager.shared.update(with: testContact)
-        let result = DataBaseManager.shared.fetchContacts()
+        let result = DataBaseManager.shared.getContactsList()
         
         XCTAssertEqual(result.count, 1)
     }
@@ -84,7 +84,7 @@ class EasyDeleteDataBaseTests: XCTestCase {
         DataBaseManager.shared.update(with: testContact)
         
         DataBaseManager.shared.delete(contacts: [testContact])
-        let result = DataBaseManager.shared.fetchContacts()
+        let result = DataBaseManager.shared.getContactsList()
         
         XCTAssertEqual(result.count, 0)
     }
@@ -96,7 +96,7 @@ class EasyDeleteDataBaseTests: XCTestCase {
         
         let testContact = Contact(contact: contact)
         DataBaseManager.shared.update(with: testContact)
-        let result = DataBaseManager.shared.fetchContacts()
+        let result = DataBaseManager.shared.getContactsList()
         let resultTestContact = result.first?.isDeleted
         
         DataBaseManager.shared.setAsDeleted(contact: testContact)
