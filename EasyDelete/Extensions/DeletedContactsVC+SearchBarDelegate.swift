@@ -20,7 +20,7 @@ extension DeletedContactsViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         if !tableView.isEditing {
-            tableView.removeGestureRecognizer(tableViewTapRecognizer)
+            tableView.addGestureRecognizer(tableViewTapRecognizer)
         }
     }
 

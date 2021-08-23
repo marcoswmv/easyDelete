@@ -9,11 +9,11 @@ import UIKit
 
 class DeletedContactsViewController: UIViewController {
     
-    var tableView: UITableView = UITableView()
-    private let searchController: UISearchController = UISearchController(searchResultsController: nil)
-    private let refreshControl: UIRefreshControl = UIRefreshControl()
-    private var selectAllButton: UIBarButtonItem = UIBarButtonItem()
-    private var rightNavBarButton: UIBarButtonItem?
+    var tableView: UITableView!
+    var searchController: UISearchController!
+    private var refreshControl: UIRefreshControl!
+    private var selectAllButton: UIBarButtonItem!
+    private var rightNavBarButton: UIBarButtonItem!
     
     var tableViewTapRecognizer: UITapGestureRecognizer!
     
@@ -24,8 +24,8 @@ class DeletedContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUIComponents()
         setupDataSource()
-        configureUIEssentials()
         continuouslyUpdateDeletedContactsRemainingTime()
     }
     
@@ -35,7 +35,7 @@ class DeletedContactsViewController: UIViewController {
         manageDeletedContacts(enable: false)
     }
     
-    private func configureUIEssentials() {
+    private func configureUIComponents() {
         configureTableView()
         configureNavigationBar()
         configureToolbar()
@@ -49,6 +49,7 @@ class DeletedContactsViewController: UIViewController {
     }
     
     private func configureTableView() {
+        tableView = UITableView()
         view.addSubview(tableView)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.DeletedContactsList.cell)
@@ -113,6 +114,7 @@ class DeletedContactsViewController: UIViewController {
     }
     
     private func configureSearchBarController() {
+        searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         self.definesPresentationContext = true
@@ -121,6 +123,7 @@ class DeletedContactsViewController: UIViewController {
     }
     
     private func configureRefreshControl() {
+        refreshControl = UIRefreshControl()
         tableView.refreshControl = self.refreshControl
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
