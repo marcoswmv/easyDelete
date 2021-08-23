@@ -53,7 +53,7 @@ struct Consts {
         static let title = NSLocalizedString("Deleted Contacts", comment: "Deleted Contacts list - title")
         static let cell = "DeletedContactsList"
         static let manage = NSLocalizedString("Manage", comment: "Deleted contacts screen - Manage button title")
-        static let delete = NSLocalizedString("Manage", comment: "Deleted contacts screen - Delete button title")
+        static let delete = NSLocalizedString("Delete", comment: "Deleted contacts screen - Delete button title")
         static let recover = NSLocalizedString("Recover", comment: "Deleted contacts screen - Recover button title")
         static let selectAll = NSLocalizedString("Select all", comment: "Deleted contacts screen - Select all button title")
         static let unselectAll = NSLocalizedString("Unselect all", comment: "Deleted contacts screen - Unselect all button title")
