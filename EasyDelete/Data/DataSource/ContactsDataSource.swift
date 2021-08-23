@@ -162,7 +162,12 @@ extension ContactsDataSource: BaseDataSourceDelegate {
         var contactsToDelete = EDTypes.ContactsList()
         
         for indexPath in indexPaths {
-            let contact = data[indexPath.section].names[indexPath.row]
+            var contact = Contact()
+            if isSearching {
+                contact = filteredData[indexPath.row]
+            } else {
+                contact = data[indexPath.section].names[indexPath.row]
+            }
             contactsToDelete.append(contact)
         }
         contactsToDelete.forEach { DataBaseManager.shared.setAsDeleted(contact: $0) }
