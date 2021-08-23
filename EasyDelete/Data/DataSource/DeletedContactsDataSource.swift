@@ -27,6 +27,11 @@ class DeletedContactsDataSource: BaseDataSource {
         return DataSourceManager.shared.getContactsListFromDataBase(deleted: true).count
     }
     
+    @objc func updateContactsRemainingDays() {
+        DataBaseManager.shared.updateRemainingDaysForDeletion()
+        reload()
+    }
+    
     // MARK: - Data source
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -104,9 +109,12 @@ class DeletedContactsDataSource: BaseDataSource {
         return cell
     }
     
-    @objc func updateContactsRemainingDays() {
-        DataBaseManager.shared.updateRemainingDaysForDeletion()
-        reload()
+    // MARK: - Delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !tableView.isEditing {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
     
