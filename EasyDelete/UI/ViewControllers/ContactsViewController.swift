@@ -141,8 +141,6 @@ class ContactsViewController: UIViewController {
                 indexPathsToDelete.append(indexPath)
             }
             dataSource?.deleteContact(at: indexPathsToDelete)
-            
-            tableView.addGestureRecognizer(tableViewTapRecognizer)
         } else {
             Alert.showNoContactSelectedAlert(on: UIApplication.topViewController()!)
         }
@@ -150,7 +148,6 @@ class ContactsViewController: UIViewController {
     
     @objc private func handleDone() {
         editingMode(disable: true)
-        tableView.addGestureRecognizer(tableViewTapRecognizer)
     }
     
     @objc private func handlePushDeleted() {
