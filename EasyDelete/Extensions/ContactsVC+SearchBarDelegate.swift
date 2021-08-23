@@ -19,7 +19,9 @@ extension ContactsViewController: UISearchBarDelegate {
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        tableView.addGestureRecognizer(tableViewTapRecognizer)
+        if !tableView.isEditing {
+            tableView.addGestureRecognizer(tableViewTapRecognizer)
+        }
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
