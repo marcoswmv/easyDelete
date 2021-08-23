@@ -42,17 +42,19 @@ struct Alert {
                        title: Consts.Alert.noContactsTitle, message: nil)
     }
     
-    static func showActionSheetToAskForConfirmationToDelete(on viewController: UIViewController, _ completionHandler: @escaping ((Bool) -> Void)) {
+    static func showActionSheetToAskForConfirmationToDelete(on viewController: UIViewController, numberOfContacts: Int = 1, _ completionHandler: @escaping ((Bool) -> Void)) {
         
         let cancel = UIAlertAction(title: Consts.Alert.cancelButton, style: .cancel, handler: nil)
         let confirm = UIAlertAction(title: Consts.Alert.confirmButton, style: .destructive, handler: { _ in
             completionHandler(true)
         })
         
+        let message = numberOfContacts > 1 ? Consts.Alert.pluralConfirmationRequestMessage: Consts.Alert.confirmationRequestMessage
+        
         showBasicAlert(on: viewController,
                        style: .actionSheet,
                        title: Consts.Alert.confirmationRequestTitle,
-                       message: Consts.Alert.confirmationRequestMessage,
+                       message: message,
                        actions: [cancel, confirm])
     }
 }

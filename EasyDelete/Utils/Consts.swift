@@ -66,7 +66,8 @@ struct Consts {
         static let selectContactsTitle = NSLocalizedString("Select a contact", comment: "Select a contact alert - title")
         static let noContactsTitle = NSLocalizedString("No contacts to select", comment: "No contacts alert - title")
         static let confirmationRequestTitle = NSLocalizedString("Are you sure?", comment: "Delete warning action sheet - title")
-        static let confirmationRequestMessage = NSLocalizedString("You won't be able to recover this(ese) contact(s).", comment: "Delete warning action sheet - message")
+        static let confirmationRequestMessage = NSLocalizedString("You won't be able to recover this contact.", comment: "Delete warning action sheet - message")
+        static let pluralConfirmationRequestMessage = NSLocalizedString("You won't be able to recover these contacts.", comment: "Delete warning action sheet - message")
         static let cancelButton = NSLocalizedString("Cancel", comment: "Deletion button - title")
         static let confirmButton = NSLocalizedString("Confirm", comment: "Deletion button - title")
     }

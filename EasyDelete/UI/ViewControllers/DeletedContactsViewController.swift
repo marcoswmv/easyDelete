@@ -123,7 +123,7 @@ class DeletedContactsViewController: UIViewController {
     
     @objc private func handleDelete() {
         if let indexPaths = self.tableView.indexPathsForSelectedRows {
-            Alert.showActionSheetToAskForConfirmationToDelete(on: self) { [weak self] confirmation in
+            Alert.showActionSheetToAskForConfirmationToDelete(on: self, numberOfContacts: indexPaths.count) { [weak self] confirmation in
                 guard let self = self else { return }
                 if confirmation {
                     let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
