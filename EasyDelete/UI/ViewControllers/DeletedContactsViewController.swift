@@ -9,11 +9,13 @@ import UIKit
 
 class DeletedContactsViewController: UIViewController {
     
-    private var tableView: UITableView = UITableView()
+    var tableView: UITableView = UITableView()
     private let searchController: UISearchController = UISearchController(searchResultsController: nil)
     private let refreshControl: UIRefreshControl = UIRefreshControl()
     private var selectAllButton: UIBarButtonItem = UIBarButtonItem()
     private var rightNavBarButton: UIBarButtonItem?
+    
+    var tableViewTapRecognizer: UITapGestureRecognizer!
     
     var dataSource: DeletedContactsDataSource?
     var timer: Timer?
@@ -53,6 +55,8 @@ class DeletedContactsViewController: UIViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.enableAutoLayout()
         tableView.setConstraints(to: view)
+        
+        tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
         
         layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
     }
@@ -212,5 +216,9 @@ class DeletedContactsViewController: UIViewController {
             selectAllButton.title = Consts.DeletedContactsList.unselectAll
             isAllSelected = true
         }
+    }
+    
+    @objc private func handleTapOnTable() {
+        print("Blocking user interaction with table view")
     }
 }
