@@ -23,6 +23,10 @@ class DeletedContactsDataSource: BaseDataSource {
         tableView.reloadData()
     }
     
+    func contactsCount() -> Int {
+        return DataSourceManager.shared.getContactsListFromDataBase(deleted: true).count
+    }
+    
     // MARK: - Data source
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
