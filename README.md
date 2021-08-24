@@ -11,9 +11,9 @@ An iOS app that makes easy for the user to delete as many contacts as needed, as
 ## Screenshots
 
 <p align="row">
-<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20swipe.png" width="400" >
-<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20selection.png" width="400" >
-<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/recover%20by%20swipe.png" width="400" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20swipe.png" width="200" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20selection.png" width="200" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/recover%20by%20swipe.png" width="200" >
 </p>
 
 ## Features
