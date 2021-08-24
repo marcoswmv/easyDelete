@@ -2,11 +2,7 @@
 
 An iOS app that makes easy for the user to delete as many contacts as needed, as well as recovering them whenever needed in a period of 30 days.
 <br />
-<p align="center">
-  <a href="https://github.com/marcoswmv/easyDelete/blob/master/Media/IconappIcon.png">
-    <img src="IconappIcon.png" alt="Logo" width="80" height="80">
-  </a>
-</p>
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/IconappIcon.png" width="100" >
 <br />
 
 ## Screenshots
