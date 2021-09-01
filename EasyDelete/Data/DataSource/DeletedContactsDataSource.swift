@@ -12,6 +12,8 @@ class DeletedContactsDataSource: BaseDataSource {
     private(set) var data: EDTypes.ContactsList = EDTypes.ContactsList()
     private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
     private var isSearching: Bool = false
+    private var selectedCount: Int = 0
+    var updateCountText: ((Int) -> Void)?
     
     override func setup() {
         super.setup()
@@ -98,6 +100,20 @@ class DeletedContactsDataSource: BaseDataSource {
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            selectedCount += 1
+            updateCountText?(selectedCount)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            selectedCount -= 1
+            updateCountText?(selectedCount)
+        }
     }
     
     @objc func updateContactsRemainingDays() {

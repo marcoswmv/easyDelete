@@ -25,6 +25,16 @@ class DeletedContactsViewController: UIViewController {
         setupDataSource()
         configureUIEssentials()
         continuouslyUpdateDeletedContactsRemainingTime()
+        
+        dataSource?.updateCountText = { [weak self] count in
+            guard let self = self else { return }
+            // swiftlint:disable:next empty_count
+            if count > 0 {
+                self.navigationItem.title = "Selected \(count) contact\(count >= 2 ? "s" : "")"
+            } else {
+                self.navigationItem.title = Consts.DeletedContactsList.title
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -98,6 +108,7 @@ class DeletedContactsViewController: UIViewController {
     
     private func manageDeletedContacts(enable: Bool) {
         if enable {
+            navigationItem.title = Consts.DeletedContactsList.title
             rightNavBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
         } else {
             let buttonTitle = Consts.DeletedContactsList.manage
