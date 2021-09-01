@@ -185,6 +185,8 @@ class DeletedContactsViewController: UIViewController {
             for indexPath in sortedIndexPaths {
                 dataSource?.recoverContact(at: indexPath)
             }
+            dataSource?.needsToFetchFromContactStore = true
+            dataSource?.reload()
         } else {
             if let data = dataSource?.data, data.isEmpty {
                 Alert.showNoContactsAlert(on: self)

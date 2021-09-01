@@ -13,14 +13,24 @@ class DeletedContactsDataSource: BaseDataSource {
     private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
     private var isSearching: Bool = false
     
+    var needsToFetchFromContactStore: Bool = false
+    
     override func setup() {
         super.setup()
     }
     
     override func reload() {
+        if needsToFetchFromContactStore {
+            needsToFetchFromContactStore = false
+            ContactStoreManager.shared.fetchContactsFromStore()
+        }
+        
         data = DataSourceManager.shared.getContactsListFromDataBase(deleted: true)
         isSearching = false
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
     }
     
     func contactsCount() -> Int {
@@ -149,7 +159,6 @@ extension DeletedContactsDataSource: BaseDataSourceDelegate {
             let contactToRecover = data[indexPath.row]
             ContactStoreManager.shared.add(contact: contactToRecover)
             DataBaseManager.shared.delete(contacts: [contactToRecover]) // Deleting to avoid duplicated contact with different ID's
-            reload()
         }
     }
 }
