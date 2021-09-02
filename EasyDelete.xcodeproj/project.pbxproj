@@ -34,6 +34,7 @@
 		F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */; };
 		F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */; };
 		F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */; };
+		F7C845D926E0635400B971E1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7C845DB26E0635400B971E1 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,9 @@
 		F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDataSource.swift; sourceTree = "<group>"; };
 		F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDataSource.swift; sourceTree = "<group>"; };
 		F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
+		F7C845D626E062E400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		F7C845DA26E0635400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F7C845DC26E0636D00B971E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +196,7 @@
 		F722DE0026A8772B0017493B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F7C845DB26E0635400B971E1 /* Localizable.strings */,
 				F722DE0126A8773D0017493B /* Consts.swift */,
 				F7231C1E26BDEF3D001F7787 /* Alert.swift */,
 				F7172F1026C42E960019B760 /* EDTypes.swift */,
@@ -324,6 +329,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-PT",
 			);
 			mainGroup = F722DDD926A8702A0017493B;
 			productRefGroup = F722DDE326A8702A0017493B /* Products */;
@@ -342,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7231C1926BDE481001F7787 /* .swiftlint.yml in Resources */,
+				F7C845D926E0635400B971E1 /* Localizable.strings in Resources */,
 				F71C7A2F26CEF9EC0009182A /* Assets.xcassets in Resources */,
 				F722DDF226A8702C0017493B /* LaunchScreen.storyboard in Resources */,
 			);
@@ -489,8 +496,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				F722DDF126A8702C0017493B /* Base */,
+				F7C845D626E062E400B971E1 /* pt-PT */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F7C845DB26E0635400B971E1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7C845DA26E0635400B971E1 /* pt-PT */,
+				F7C845DC26E0636D00B971E1 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -500,6 +517,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -561,6 +579,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -619,6 +638,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = Q4L92P5BF3;
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -639,6 +659,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = Q4L92P5BF3;
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

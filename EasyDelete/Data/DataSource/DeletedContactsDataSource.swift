@@ -24,7 +24,7 @@ class DeletedContactsDataSource: BaseDataSource {
     override func reload() {
         if needsToFetchFromContactStore {
             needsToFetchFromContactStore = false
-            ContactStoreManager.shared.fetchContactsFromStore()
+            ContactStoreManager.shared.requestContacts()
         }
         
         data = DataSourceManager.shared.getContactsListFromDataBase(deleted: true)
