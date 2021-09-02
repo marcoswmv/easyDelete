@@ -27,7 +27,6 @@ extension ContactsViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         cancelSearchTimer()
         search(query: searchBar.text)
-        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -40,7 +39,6 @@ extension ContactsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchIfNeeded(query: searchText)
-        layoutTableViewFooter(with: "0")
     }
     
     private func cancelSearchTimer() {

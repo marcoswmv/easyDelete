@@ -31,6 +31,7 @@ class DeletedContactsDataSource: BaseDataSource {
             guard let self = self else { return }
             self.tableView.reloadData()
         }
+        layoutTableViewFooter(with: String(data.count))
     }
     
     // MARK: - Data source
@@ -54,6 +55,7 @@ class DeletedContactsDataSource: BaseDataSource {
         let recoverAction = UIContextualAction(style: .normal, title: Consts.DeletedContactsList.recover) { [weak self] (_, _, completionHandler) in
             guard let self = self else { return }
             self.recoverContact(at: indexPath)
+            self.reload()
             completionHandler(true)
         }
         recoverAction.backgroundColor = .link

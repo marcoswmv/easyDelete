@@ -34,6 +34,7 @@ class ContactsDataSource: BaseDataSource {
             guard let self = self else { return }
             self.tableView.reloadData()
         }
+        layoutTableViewFooter(with: String(contactsFromDataBase.count))
     }
     
     func contactsCount() -> Int {
