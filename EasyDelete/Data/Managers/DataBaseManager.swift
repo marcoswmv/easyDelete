@@ -53,7 +53,7 @@ class DataBaseManager {
               let remainingDaysForDeletion = calendar.dateComponents([.day],
                                                                      from: currentDay,
                                                                      to: scheduledDayForDeletion).day else { return }
-        //        print("\nDay of deletion: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
+        // print("\nDay of deletion: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
         try! realm.write {
             contact.setValue(true, forKey: Keys.isDeleted)
             contact.setValue(currentDay, forKey: Keys.dayOfDeletion)
@@ -69,18 +69,20 @@ class DataBaseManager {
         let deletedContacts = fetchContacts(deleted: true)
         
         for contact in deletedContacts {
-            guard let scheduledDayForDeletion = contact.scheduledDayForDeletion,
-                  let remainingDaysForDeletion = calendar.dateComponents([.day],
-                                                                         from: currentDay,
-                                                                         to: scheduledDayForDeletion).day else { return }
-            //            print("\nCurrent day: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
-            if remainingDaysForDeletion > 0 {
-                try! realm.write({
-                    contact.setValue(remainingDaysForDeletion, forKey: Keys.remainingDaysForDeletion)
-                })
-            } else {
-                try! realm.write {
-                    realm.delete(contact)
+            if let scheduledDayForDeletion = contact.scheduledDayForDeletion,
+               let remainingDaysForDeletion = calendar.dateComponents([.day],
+                                                                      from: currentDay,
+                                                                      to: scheduledDayForDeletion).day {
+                
+                // print("\nCurrent day: \(currentDay) \nScheduled day for deletion: \(scheduledDayForDeletion) \nRemaining days for deletion: \(remainingDaysForDeletion)")
+                if remainingDaysForDeletion > 0 {
+                    try! realm.write({
+                        contact.setValue(remainingDaysForDeletion, forKey: Keys.remainingDaysForDeletion)
+                    })
+                } else {
+                    try! realm.write {
+                        realm.delete(contact)
+                    }
                 }
             }
         }

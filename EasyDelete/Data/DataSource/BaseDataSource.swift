@@ -69,6 +69,9 @@ class BaseDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    }
+    
     func addTableViewBackgroundView(with text: String) {
         let noResultsLabel = UILabel(frame: CGRect(x: 0, y: 0,
                                                 width: tableView.bounds.size.width,
