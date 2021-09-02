@@ -13,11 +13,21 @@ extension DeletedContactsViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         cancelSearchTimer()
         search(query: searchBar.text)
+        if tableView.isEditing {
+            tableView.removeGestureRecognizer(tableViewTapRecognizer)
+        }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if !tableView.isEditing {
+            tableView.addGestureRecognizer(tableViewTapRecognizer)
+        }
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         cancelSearchTimer()
         search(query: searchBar.text)
+        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -25,6 +35,7 @@ extension DeletedContactsViewController: UISearchBarDelegate {
         search(query: nil)
         searchBar.text = ""
         dataSource?.reload()
+        tableView.removeGestureRecognizer(tableViewTapRecognizer)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -47,7 +58,10 @@ extension DeletedContactsViewController: UISearchBarDelegate {
     }
     
     private func search(query: String?) {
-        guard let searchText = query else { return }
-        dataSource?.startQuery(with: searchText)
+        if let searchText = query {
+            dataSource?.startQuery(with: searchText)
+        } else {
+            dataSource?.startQuery(with: "")
+        }
     }
 }

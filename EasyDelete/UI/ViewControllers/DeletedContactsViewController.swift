@@ -9,11 +9,13 @@ import UIKit
 
 class DeletedContactsViewController: UIViewController {
     
-    private var tableView: UITableView = UITableView()
-    private let searchController: UISearchController = UISearchController(searchResultsController: nil)
-    private let refreshControl: UIRefreshControl = UIRefreshControl()
-    private var selectAllButton: UIBarButtonItem = UIBarButtonItem()
-    private var rightNavBarButton: UIBarButtonItem?
+    var tableView: UITableView!
+    var searchController: UISearchController!
+    private var refreshControl: UIRefreshControl!
+    private var selectAllButton: UIBarButtonItem!
+    private var rightNavBarButton: UIBarButtonItem!
+    
+    var tableViewTapRecognizer: UITapGestureRecognizer!
     
     var dataSource: DeletedContactsDataSource?
     var timer: Timer?
@@ -22,8 +24,8 @@ class DeletedContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUIComponents()
         setupDataSource()
-        configureUIEssentials()
         continuouslyUpdateDeletedContactsRemainingTime()
         
         dataSource?.updateCountText = { [weak self] count in
@@ -43,7 +45,7 @@ class DeletedContactsViewController: UIViewController {
         manageDeletedContacts(enable: false)
     }
     
-    private func configureUIEssentials() {
+    private func configureUIComponents() {
         configureTableView()
         configureNavigationBar()
         configureToolbar()
@@ -57,12 +59,40 @@ class DeletedContactsViewController: UIViewController {
     }
     
     private func configureTableView() {
+        tableView = UITableView()
         view.addSubview(tableView)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.DeletedContactsList.cell)
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.enableAutoLayout()
         tableView.setConstraints(to: view)
+        
+        tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
+        
+        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
+    }
+    
+    func layoutTableViewFooter(with text: String) {
+        if text == "0" {
+            tableView.tableFooterView = nil
+        } else {
+            let textLabel = UILabel(frame: CGRect(x: 0, y: 0,
+                                                  width: tableView.bounds.size.width,
+                                                  height: tableView.bounds.size.height))
+            textLabel.text = "\(String(describing: text)) \(Consts.contacts)"
+            textLabel.textAlignment = .center
+            textLabel.textColor = .gray
+            textLabel.font = UIFont.systemFont(ofSize: 15)
+            
+            let customView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+            customView.backgroundColor = .systemBackground
+            customView.addSubview(textLabel)
+            
+            textLabel.enableAutoLayout()
+            textLabel.setConstraints(to: customView)
+            
+            tableView.tableFooterView = customView
+        }
     }
     
     private func configureNavigationBar() {
@@ -94,6 +124,7 @@ class DeletedContactsViewController: UIViewController {
     }
     
     private func configureSearchBarController() {
+        searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         self.definesPresentationContext = true
@@ -102,6 +133,7 @@ class DeletedContactsViewController: UIViewController {
     }
     
     private func configureRefreshControl() {
+        refreshControl = UIRefreshControl()
         tableView.refreshControl = self.refreshControl
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
@@ -134,7 +166,7 @@ class DeletedContactsViewController: UIViewController {
     
     @objc private func handleDelete() {
         if let indexPaths = self.tableView.indexPathsForSelectedRows {
-            Alert.showActionSheetToAskForConfirmationToDelete(on: self) { [weak self] confirmation in
+            Alert.showActionSheetToAskForConfirmationToDelete(on: self, numberOfContacts: indexPaths.count) { [weak self] confirmation in
                 guard let self = self else { return }
                 if confirmation {
                     let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
@@ -164,6 +196,8 @@ class DeletedContactsViewController: UIViewController {
             for indexPath in sortedIndexPaths {
                 dataSource?.recoverContact(at: indexPath)
             }
+            dataSource?.needsToFetchFromContactStore = true
+            dataSource?.reload()
         } else {
             if let data = dataSource?.data, data.isEmpty {
                 Alert.showNoContactsAlert(on: self)
@@ -198,5 +232,9 @@ class DeletedContactsViewController: UIViewController {
             selectAllButton.title = Consts.DeletedContactsList.unselectAll
             isAllSelected = true
         }
+    }
+    
+    @objc private func handleTapOnTable() {
+        print("Blocking user interaction with table view")
     }
 }

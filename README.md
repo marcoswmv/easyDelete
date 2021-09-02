@@ -3,17 +3,16 @@
 An iOS app that makes easy for the user to delete as many contacts as needed, as well as recovering them whenever needed in a period of 30 days.
 <br />
 <p align="center">
-  <a href="https://github.com/marcoswmv/easyDelete/blob/master/Media/IconappIcon.png">
-    <img src="logo.jpeg" alt="Logo" width="80" height="80">
-  </a>
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/IconappIcon.png" width="60" >  
 </p>
 <br />
+
 ## Screenshots
 
 <p align="row">
-<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20swipe.png" width="400" >
-<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20selection.png" width="400" >
-<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/recover%20by%20swipe.png" width="400" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20swipe.png" width="200" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20selection.png" width="200" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/recover%20by%20swipe.png" width="200" >
 </p>
 
 ## Features
@@ -34,7 +33,7 @@ An iOS app that makes easy for the user to delete as many contacts as needed, as
 ### Dependencies
 
 <p align="row">
-<img src= "https://github.com/realm/realm-core/blob/master/doc/logo.png" width="400" >
+<img src= "https://github.com/realm/realm-core/blob/master/doc/logo.png" width="100" >
 </p>
 ## Installation
 

@@ -31,7 +31,11 @@ class ContactsDataSource: BaseDataSource {
         let contactsFromDataBase = DataSourceManager.shared.getContactsListFromDataBase()
         data = DataSourceManager.shared.groupContactsBySections(contactsFromDataBase)
         isSearching = false
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
+        layoutTableViewFooter(with: String(contactsFromDataBase.count))
     }
     
     func contactsCount() -> Int {
@@ -48,11 +52,12 @@ class ContactsDataSource: BaseDataSource {
             case .initial:
                 self.tableView.reloadData()
             case .update( _, let deletions, let insertions, let modifications):
-                self.reload()
                 
                 print("Deletions: \(deletions)")
                 print("Insertions: \(insertions)")
                 print("Modifications: \(modifications)")
+                
+                self.reload()
             case .error(let error):
                 Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
             }
@@ -173,7 +178,12 @@ extension ContactsDataSource: BaseDataSourceDelegate {
         var contactsToDelete = EDTypes.ContactsList()
         
         for indexPath in indexPaths {
-            let contact = data[indexPath.section].names[indexPath.row]
+            var contact = Contact()
+            if isSearching {
+                contact = filteredData[indexPath.row]
+            } else {
+                contact = data[indexPath.section].names[indexPath.row]
+            }
             contactsToDelete.append(contact)
         }
         contactsToDelete.forEach { DataBaseManager.shared.setAsDeleted(contact: $0) }

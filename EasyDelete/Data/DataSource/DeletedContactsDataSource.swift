@@ -15,14 +15,34 @@ class DeletedContactsDataSource: BaseDataSource {
     private var selectedCount: Int = 0
     var updateCountText: ((Int) -> Void)?
     
+    var needsToFetchFromContactStore: Bool = false
+    
     override func setup() {
         super.setup()
     }
     
     override func reload() {
+        if needsToFetchFromContactStore {
+            needsToFetchFromContactStore = false
+            ContactStoreManager.shared.fetchContactsFromStore()
+        }
+        
         data = DataSourceManager.shared.getContactsListFromDataBase(deleted: true)
         isSearching = false
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
+        layoutTableViewFooter(with: String(data.count))
+    }
+    
+    func contactsCount() -> Int {
+        return DataSourceManager.shared.getContactsListFromDataBase(deleted: true).count
+    }
+    
+    @objc func updateContactsRemainingDays() {
+        DataBaseManager.shared.updateRemainingDaysForDeletion()
+        reload()
     }
     
     // MARK: - Data source
@@ -46,6 +66,7 @@ class DeletedContactsDataSource: BaseDataSource {
         let recoverAction = UIContextualAction(style: .normal, title: Consts.DeletedContactsList.recover) { [weak self] (_, _, completionHandler) in
             guard let self = self else { return }
             self.recoverContact(at: indexPath)
+            self.reload()
             completionHandler(true)
         }
         recoverAction.backgroundColor = .link
@@ -115,11 +136,6 @@ class DeletedContactsDataSource: BaseDataSource {
             updateCountText?(selectedCount)
         }
     }
-    
-    @objc func updateContactsRemainingDays() {
-        DataBaseManager.shared.updateRemainingDaysForDeletion()
-        reload()
-    }
 }
     
 extension DeletedContactsDataSource: BaseDataSourceDelegate {
@@ -153,7 +169,6 @@ extension DeletedContactsDataSource: BaseDataSourceDelegate {
             let contactToRecover = data[indexPath.row]
             ContactStoreManager.shared.add(contact: contactToRecover)
             DataBaseManager.shared.delete(contacts: [contactToRecover]) // Deleting to avoid duplicated contact with different ID's
-            reload()
         }
     }
 }

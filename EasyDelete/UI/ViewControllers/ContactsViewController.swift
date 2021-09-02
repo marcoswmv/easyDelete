@@ -67,31 +67,6 @@ class ContactsViewController: UIViewController {
         tableView.setConstraints(to: view)
         
         tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
-        
-        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
-    }
-    
-    func layoutTableViewFooter(with text: String) {
-        if text == "0" {
-            tableView.tableFooterView = nil
-        } else {
-            let textLabel = UILabel(frame: CGRect(x: 0, y: 0,
-                                                  width: tableView.bounds.size.width,
-                                                  height: tableView.bounds.size.height))
-            textLabel.text = "\(String(describing: text)) \(Consts.contacts)"
-            textLabel.textAlignment = .center
-            textLabel.textColor = .gray
-            textLabel.font = UIFont.systemFont(ofSize: 15)
-            
-            let customView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
-            customView.backgroundColor = .systemBackground
-            customView.addSubview(textLabel)
-            
-            textLabel.enableAutoLayout()
-            textLabel.setConstraints(to: customView)
-            
-            tableView.tableFooterView = customView
-        }
     }
     
     private func configureNavigationBar() {
@@ -153,8 +128,6 @@ class ContactsViewController: UIViewController {
                 indexPathsToDelete.append(indexPath)
             }
             dataSource?.deleteContact(at: indexPathsToDelete)
-            
-            tableView.addGestureRecognizer(tableViewTapRecognizer)
         } else {
             Alert.showNoContactSelectedAlert(on: UIApplication.topViewController()!)
         }
@@ -162,7 +135,6 @@ class ContactsViewController: UIViewController {
     
     @objc private func handleDone() {
         editingMode(disable: true)
-        tableView.addGestureRecognizer(tableViewTapRecognizer)
     }
     
     @objc private func handlePushDeleted() {
