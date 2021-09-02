@@ -22,6 +22,15 @@ class ContactsViewController: UIViewController {
         
         setupDataSource()
         configureUIEssentials()
+        dataSource?.updateCountText = { [weak self] count in
+            guard let self = self else { return }
+            // swiftlint:disable:next empty_count
+            if count > 0 {
+                self.navigationItem.title = "Selected \(count) contact\(count >= 2 ? "s" : "")"
+            } else {
+                self.navigationItem.title = Consts.ContactsList.title
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,6 +127,9 @@ class ContactsViewController: UIViewController {
     }
     
     func editingMode(disable: Bool) {
+        if disable {
+            self.navigationItem.title = Consts.ContactsList.title
+        }
         navigationItem.leftBarButtonItem?.isEnabled = disable
         navigationItem.rightBarButtonItem?.isEnabled = disable
         navigationController?.setToolbarHidden(disable, animated: true)
