@@ -57,4 +57,22 @@ struct Alert {
                        message: message,
                        actions: [cancel, confirm])
     }
+    
+    static func showSettingsAlert(on viewController: UIViewController) {
+        if let settings = URL(string: UIApplication.openSettingsURLString),
+            UIApplication.shared.canOpenURL(settings) {
+            
+            let openSettingsAction = UIAlertAction(title: Consts.Alert.settingsAlertActionTitle,
+                                                   style: .default) { _ in
+                UIApplication.shared.open(settings)
+            }
+            let cancel = UIAlertAction(title: Consts.Alert.cancelButton, style: .cancel, handler: nil)
+            
+            showBasicAlert(on: viewController,
+                           style: .alert,
+                           title: Consts.Alert.settingsAlertTitle,
+                           message: Consts.Alert.settingsAlertMessage,
+                           actions: [openSettingsAction, cancel])
+        }
+    }
 }

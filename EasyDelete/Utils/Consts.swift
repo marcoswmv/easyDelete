@@ -66,9 +66,16 @@ struct Consts {
         static let selectContactsTitle = NSLocalizedString("Select a contact", comment: "Select a contact alert - title")
         static let noContactsTitle = NSLocalizedString("No contacts to select", comment: "No contacts alert - title")
         static let confirmationRequestTitle = NSLocalizedString("Are you sure?", comment: "Delete warning action sheet - title")
-        static let confirmationRequestMessage = NSLocalizedString("You won't be able to recover this contact.", comment: "Delete warning action sheet - message")
-        static let pluralConfirmationRequestMessage = NSLocalizedString("You won't be able to recover these contacts.", comment: "Delete warning action sheet - message")
+        static let confirmationRequestMessage = NSLocalizedString("You won't be able to recover this contact.",
+                                                                  comment: "Delete warning action sheet - message")
+        static let pluralConfirmationRequestMessage = NSLocalizedString("You won't be able to recover these contacts.",
+                                                                        comment: "Delete warning action sheet - message")
         static let cancelButton = NSLocalizedString("Cancel", comment: "Deletion button - title")
         static let confirmButton = NSLocalizedString("Confirm", comment: "Deletion button - title")
+        static let settingsAlertMessage = NSLocalizedString("This app requires access to Contacts to proceed. Go to Settings to grant access.",
+                                                            comment: "Open settings - message")
+        static let settingsAlertActionTitle = NSLocalizedString("Open Settings", comment: "Open settings - button title")
+        static let settingsAlertTitle = NSLocalizedString("Access denied", comment: "Open settings - title")
+        static let accessDenied = "Access Denied"
     }
 }
