@@ -35,11 +35,6 @@ An iOS app that makes easy for the user to delete as many contacts as needed, as
 <p align="row">
 <img src= "https://github.com/realm/realm-core/blob/master/doc/logo.png" width="100" >
 </p>
-## Installation
-
-#### Manually
-    1. Download or clone the project to your repo
-    2. Congratulations!  
 
 ## Tech Stack
 
