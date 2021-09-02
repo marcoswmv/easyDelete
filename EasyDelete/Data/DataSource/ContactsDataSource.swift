@@ -12,8 +12,9 @@ class ContactsDataSource: BaseDataSource {
     
     private(set) var data: EDTypes.GroupedContacts = EDTypes.GroupedContacts()
     private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
+    private var selectedCount: Int = 0
+    var updateCountText: ((Int) -> Void)?
     var isSearching: Bool = false
-    
     var token: NotificationToken?
     
     deinit {
@@ -145,6 +146,16 @@ class ContactsDataSource: BaseDataSource {
             parentVC.navigationController?.present(navigationController, animated: true, completion: nil)
             
             tableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            selectedCount += 1
+            updateCountText?(selectedCount)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            selectedCount -= 1
+            updateCountText?(selectedCount)
         }
     }
 }

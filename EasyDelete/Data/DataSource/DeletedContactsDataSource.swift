@@ -12,6 +12,8 @@ class DeletedContactsDataSource: BaseDataSource {
     private(set) var data: EDTypes.ContactsList = EDTypes.ContactsList()
     private(set) var filteredData: EDTypes.ContactsList = EDTypes.ContactsList()
     private var isSearching: Bool = false
+    private var selectedCount: Int = 0
+    var updateCountText: ((Int) -> Void)?
     
     var needsToFetchFromContactStore: Bool = false
     
@@ -121,11 +123,17 @@ class DeletedContactsDataSource: BaseDataSource {
         return cell
     }
     
-    // MARK: - Delegate
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !tableView.isEditing {
-            tableView.deselectRow(at: indexPath, animated: true)
+        if tableView.isEditing {
+            selectedCount += 1
+            updateCountText?(selectedCount)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            selectedCount -= 1
+            updateCountText?(selectedCount)
         }
     }
 }
