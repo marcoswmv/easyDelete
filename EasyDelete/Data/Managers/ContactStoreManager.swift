@@ -27,12 +27,10 @@ class ContactStoreManager {
         ContactStoreManager.shared.contactsRequestPublisher
             .sink { completion in
                 switch completion {
-                case .failure(let error):
-                    if error.localizedDescription == Consts.Alert.accessDenied {
-                        DispatchQueue.main.async {
-                            if let topViewController = UIApplication.topViewController() {
-                                Alert.showSettingsAlert(on: topViewController)
-                            }
+                case .failure(_):
+                    DispatchQueue.main.async {
+                        if let topViewController = UIApplication.topViewController() {
+                            Alert.showSettingsAlert(on: topViewController)
                         }
                     }
                 case .finished:
@@ -56,62 +54,30 @@ class ContactStoreManager {
     }
     
     private func checkAuthorizationStatus(completionHandler: @escaping EDTypes.ContactsRequestResultHandler) {
+        
         let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey,
-                    CNContactImageDataKey, CNContactImageDataAvailableKey,
-                    CNContactIdentifierKey, CNContactOrganizationNameKey, CNContactEmailAddressesKey, CNContactJobTitleKey]
+                    CNContactImageDataKey, CNContactImageDataAvailableKey, CNContactIdentifierKey,
+                    CNContactOrganizationNameKey, CNContactEmailAddressesKey, CNContactJobTitleKey]
         let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
         
         DispatchQueue.global().async { [unowned self] in
             
-            switch CNContactStore.authorizationStatus(for: .contacts) {
-            case .authorized:
-                // [Contact Store] Access granted
-                if DataSourceManager.shared.getContactsListFromDataBase().isEmpty {
-                    self.fetchContacts(request: request, completionHandler: completionHandler)
-                }
-            case .denied:
-                // [Contact Store] Access denied
-                DispatchQueue.main.async {
-                    if let topViewController = UIApplication.topViewController() {
-                        Alert.showSettingsAlert(on: topViewController)
-                    }
-                }
-            case .notDetermined, .restricted:
-                // [Contact Store] Need to request permission
-                self.requestAccess(request: request) { result in
-                    switch result {
-                    case .success(let isGranted):
-                        if isGranted {
-                            self.fetchContacts(request: request, completionHandler: completionHandler)
+            store.requestAccess(for: .contacts) { granted, error in
+                if let error = error {
+                    completionHandler(.failure(error))
+                } else {
+                    if granted {
+                        do {
+                            try self.store.enumerateContacts(with: request, usingBlock: { (contact, _) in
+                                let contact = Contact(contact: contact)
+                                completionHandler(.success(contact))
+                            })
+                        } catch {
+                            completionHandler(.failure(error))
                         }
-                    case .failure(let error):
-                        completionHandler(.failure(error))
                     }
                 }
-            @unknown default:
-                fatalError("An unknown case was meet")
             }
-        }
-    }
-    
-    private func requestAccess(request: CNContactFetchRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
-        store.requestAccess(for: .contacts) { granted, error in
-            if let error = error {
-                completionHandler(.failure(error))
-            } else {
-                completionHandler(.success(granted))
-            }
-        }
-    }
-    
-    private func fetchContacts(request: CNContactFetchRequest, completionHandler: @escaping EDTypes.ContactsRequestResultHandler) {
-        do {
-            try self.store.enumerateContacts(with: request, usingBlock: { (contact, _) in
-                let contact = Contact(contact: contact)
-                completionHandler(.success(contact))
-            })
-        } catch {
-            completionHandler(.failure(error))
         }
     }
     

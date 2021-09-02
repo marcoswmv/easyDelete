@@ -141,7 +141,7 @@ class DeletedContactsViewController: UIViewController {
     private func manageDeletedContacts(enable: Bool) {
         if enable {
             navigationItem.title = Consts.DeletedContactsList.title
-            rightNavBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
+            rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.done, style: .plain, target: self, action: #selector(handleDone))
         } else {
             let buttonTitle = Consts.DeletedContactsList.manage
             rightNavBarButton = UIBarButtonItem(title: buttonTitle, style: .plain, target: self, action: #selector(handleManage))
@@ -177,6 +177,11 @@ class DeletedContactsViewController: UIViewController {
                     self.dataSource?.deleteContact(at: indexPathsToDelete)
                 }
             }
+            if isAllSelected {
+                selectAllButton.title = Consts.DeletedContactsList.selectAll
+                isAllSelected = false
+            }
+            navigationItem.title = Consts.DeletedContactsList.title
         } else {
             if let data = dataSource?.data, data.isEmpty {
                 Alert.showNoContactsAlert(on: self)
@@ -198,6 +203,11 @@ class DeletedContactsViewController: UIViewController {
             }
             dataSource?.needsToFetchFromContactStore = true
             dataSource?.reload()
+            if isAllSelected {
+                selectAllButton.title = Consts.DeletedContactsList.selectAll
+                isAllSelected = false
+            }
+            navigationItem.title = Consts.DeletedContactsList.title
         } else {
             if let data = dataSource?.data, data.isEmpty {
                 Alert.showNoContactsAlert(on: self)
