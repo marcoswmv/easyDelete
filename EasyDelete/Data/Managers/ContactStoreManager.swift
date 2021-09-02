@@ -20,11 +20,32 @@ class ContactStoreManager {
     
     func commonDataSourceInit() {
         populateDataSource()
-        fetchContactsFromStore()
+        requestContacts()
     }
     
-    func fetchContactsFromStore() {
-        self.requestContacts { [unowned self] (result: EDTypes.ContactsRequestResult) in
+    private func populateDataSource() {
+        ContactStoreManager.shared.contactsRequestPublisher
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    if error.localizedDescription == Consts.Alert.accessDenied {
+                        DispatchQueue.main.async {
+                            if let topViewController = UIApplication.topViewController() {
+                                Alert.showSettingsAlert(on: topViewController)
+                            }
+                        }
+                    }
+                case .finished:
+                    break
+                }
+            } receiveValue: { contact in
+                DataBaseManager.shared.update(with: contact)
+            }
+            .store(in: &Consts.bag)
+    }
+    
+    func requestContacts() {
+        self.checkAuthorizationStatus { [unowned self] (result: EDTypes.ContactsRequestResult) in
             switch result {
             case .success(let contact):
                 self.contactsRequestPublisher.send(contact)
@@ -34,48 +55,64 @@ class ContactStoreManager {
         }
     }
     
-    private func requestContacts(completionHandler: @escaping EDTypes.ContactsRequestResultHandler) {
+    private func checkAuthorizationStatus(completionHandler: @escaping EDTypes.ContactsRequestResultHandler) {
+        let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey,
+                    CNContactImageDataKey, CNContactImageDataAvailableKey,
+                    CNContactIdentifierKey, CNContactOrganizationNameKey, CNContactEmailAddressesKey, CNContactJobTitleKey]
+        let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
+        
         DispatchQueue.global().async { [unowned self] in
-            store.requestAccess(for: .contacts) { [unowned self] (granted, error) in
-                
-                if let errorToCatch = error {
-                    completionHandler(.failure(errorToCatch))
-                } else if granted {
-                    // [Contact Store] Request: Access granted"
-                    
-                    let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey,
-                                CNContactImageDataKey, CNContactImageDataAvailableKey,
-                                CNContactIdentifierKey, CNContactOrganizationNameKey, CNContactEmailAddressesKey, CNContactJobTitleKey]
-                    let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
-                    
-                    do {
-                        try self.store.enumerateContacts(with: request, usingBlock: { (contact, _) in
-                            let contact = Contact(contact: contact)
-                            completionHandler(.success(contact))
-                        })
-                    } catch {
+            
+            switch CNContactStore.authorizationStatus(for: .contacts) {
+            case .authorized:
+                // [Contact Store] Access granted
+                if DataSourceManager.shared.getContactsListFromDataBase().isEmpty {
+                    self.fetchContacts(request: request, completionHandler: completionHandler)
+                }
+            case .denied:
+                // [Contact Store] Access denied
+                DispatchQueue.main.async {
+                    if let topViewController = UIApplication.topViewController() {
+                        Alert.showSettingsAlert(on: topViewController)
+                    }
+                }
+            case .notDetermined, .restricted:
+                // [Contact Store] Need to request permission
+                self.requestAccess(request: request) { result in
+                    switch result {
+                    case .success(let isGranted):
+                        if isGranted {
+                            self.fetchContacts(request: request, completionHandler: completionHandler)
+                        }
+                    case .failure(let error):
                         completionHandler(.failure(error))
                     }
-                } else {
-                    // "[Contact Store] Request: Access denied"
                 }
+            @unknown default:
+                fatalError("An unknown case was meet")
             }
         }
     }
     
-    private func populateDataSource() {
-        ContactStoreManager.shared.contactsRequestPublisher
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
-                case .finished:
-                    break
-                }
-            } receiveValue: { contact in
-                DataBaseManager.shared.update(with: contact)
+    private func requestAccess(request: CNContactFetchRequest, completionHandler: @escaping (Result<Bool, Error>) -> Void) {
+        store.requestAccess(for: .contacts) { granted, error in
+            if let error = error {
+                completionHandler(.failure(error))
+            } else {
+                completionHandler(.success(granted))
             }
-            .store(in: &Consts.bag)
+        }
+    }
+    
+    private func fetchContacts(request: CNContactFetchRequest, completionHandler: @escaping EDTypes.ContactsRequestResultHandler) {
+        do {
+            try self.store.enumerateContacts(with: request, usingBlock: { (contact, _) in
+                let contact = Contact(contact: contact)
+                completionHandler(.success(contact))
+            })
+        } catch {
+            completionHandler(.failure(error))
+        }
     }
     
     func add(contact: Contact) {
