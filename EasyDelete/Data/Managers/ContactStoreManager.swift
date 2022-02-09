@@ -14,41 +14,26 @@ class ContactStoreManager {
     static let shared = ContactStoreManager()
     
     private let store = CNContactStore()
-    private let contactsRequestPublisher = PassthroughSubject<Contact, Error>()
     
     private init() { }
     
-    func commonDataSourceInit() {
-        populateDataSource()
-        requestContacts()
-    }
+    // MARK: - Store Request
     
-    private func populateDataSource() {
-        ContactStoreManager.shared.contactsRequestPublisher
-            .sink { completion in
-                switch completion {
-                case .failure(_):
-                    DispatchQueue.main.async {
-                        if let topViewController = UIApplication.topViewController() {
-                            Alert.showSettingsAlert(on: topViewController)
-                        }
-                    }
-                case .finished:
-                    break
-                }
-            } receiveValue: { contact in
-                DataBaseManager.shared.update(with: contact)
-            }
-            .store(in: &Consts.bag)
-    }
-    
-    func requestContacts() {
-        self.checkAuthorizationStatus { [unowned self] (result: EDTypes.ContactsRequestResult) in
+    func populateDataSource() {
+        self.checkAuthorizationStatus { (result: EDTypes.ContactsRequestResult) in
             switch result {
             case .success(let contact):
-                self.contactsRequestPublisher.send(contact)
+                DataBaseManager.shared.update(with: contact)
             case .failure(let error):
-                self.contactsRequestPublisher.send(completion: Subscribers.Completion<Error>.failure(error))
+                DispatchQueue.main.async {
+                    if let topViewController = UIApplication.topViewController() {
+                        if error.errorCode == 100 {
+                            Alert.showSettingsAlert(on: topViewController, with: error.title, message: error.reason)
+                        } else {
+                            Alert.showErrorAlert(on: topViewController, with: error.title, message: error.reason)
+                        }
+                    }
+                }
             }
         }
     }
@@ -63,8 +48,9 @@ class ContactStoreManager {
         DispatchQueue.global().async { [unowned self] in
             
             store.requestAccess(for: .contacts) { granted, error in
-                if let error = error {
-                    completionHandler(.failure(error))
+                if error != nil {
+                    let errorModel = retrieveErrorModel(error: error)
+                    completionHandler(.failure(errorModel))
                 } else {
                     if granted {
                         do {
@@ -73,13 +59,26 @@ class ContactStoreManager {
                                 completionHandler(.success(contact))
                             })
                         } catch {
-                            completionHandler(.failure(error))
+                            let errorModel = retrieveErrorModel(error: error)
+                            completionHandler(.failure(errorModel))
                         }
                     }
                 }
             }
         }
     }
+    
+    // MARK: - Helpers
+    
+    private func retrieveErrorModel(error: Error?) -> ContactStoreErrorModel {
+        guard let error = error as? CNError,
+              let errorTitle = error.userInfo["NSLocalizedDescription"] as? String,
+              let errorReason = error.userInfo["NSLocalizedFailureReason"] as? String else { return .mocked }
+        
+        return ContactStoreErrorModel(title: errorTitle, reason: errorReason, errorCode: error.errorCode)
+    }
+    
+    // MARK: - CRUD Operations at Store
     
     func add(contact: Contact) {
         // Create a new contact
@@ -99,14 +98,14 @@ class ContactStoreManager {
         
         for (label, phoneNumber) in zip(contact.phoneNumbersLabels, contact.phoneNumbers) {
             newContact.phoneNumbers.append(CNLabeledValue(
-                                            label: label,
-                                            value: CNPhoneNumber(stringValue: phoneNumber)))
+                label: label,
+                value: CNPhoneNumber(stringValue: phoneNumber)))
         }
         
         for (label, email) in zip(contact.emailsLabels, contact.emails) {
             newContact.emailAddresses.append(CNLabeledValue(
-                                                label: label,
-                                                value: NSString(string: email)))
+                label: label,
+                value: NSString(string: email)))
         }
         
         // Save the contact

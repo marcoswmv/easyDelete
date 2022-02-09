@@ -35,6 +35,7 @@
 		F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */; };
 		F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */; };
 		F7C845D926E0635400B971E1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7C845DB26E0635400B971E1 /* Localizable.strings */; };
+		F7E7FFE927B478950086085B /* ContactStoreErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E7FFE827B478940086085B /* ContactStoreErrorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		F7C845D626E062E400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		F7C845DA26E0635400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F7C845DC26E0636D00B971E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F7E7FFE827B478940086085B /* ContactStoreErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStoreErrorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				F7BC54C626BB05CD006C41A5 /* Contact.swift */,
+				F7E7FFE827B478940086085B /* ContactStoreErrorModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F722DE0226A8773D0017493B /* Consts.swift in Sources */,
+				F7E7FFE927B478950086085B /* ContactStoreErrorModel.swift in Sources */,
 				F7231C1D26BDE949001F7787 /* DeletedContactsViewController.swift in Sources */,
 				F7AD900926CB1E5200988F7E /* ContactDetailViewController.swift in Sources */,
 				F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */,

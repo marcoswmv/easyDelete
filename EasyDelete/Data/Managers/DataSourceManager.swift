@@ -91,6 +91,7 @@ class DataSourceManager {
     }
     
     func getContactsListFromDataBase(deleted: Bool = false) -> EDTypes.ContactsList {
+        ContactStoreManager.shared.populateDataSource()
         let contacts = DataBaseManager.shared.fetchContacts(deleted: deleted)
         var finalArr = EDTypes.ContactsList()
         

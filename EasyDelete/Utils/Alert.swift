@@ -23,10 +23,10 @@ struct Alert {
         DispatchQueue.main.async { viewController.present(alert, animated: true, completion: completion) }
     }
     
-    static func showErrorAlert(on viewController: UIViewController, message: String) {
+    static func showErrorAlert(on viewController: UIViewController, with title: String = "", message: String) {
         showBasicAlert(on: viewController,
                        style: .alert,
-                       title: Consts.Alert.errorTitle,
+                       title: title.isEmpty ? Consts.Alert.errorTitle : title,
                        message: message)
     }
     
@@ -58,7 +58,7 @@ struct Alert {
                        actions: [cancel, confirm])
     }
     
-    static func showSettingsAlert(on viewController: UIViewController) {
+    static func showSettingsAlert(on viewController: UIViewController, with title: String, message: String) {
         if let settings = URL(string: UIApplication.openSettingsURLString),
             UIApplication.shared.canOpenURL(settings) {
             
@@ -70,8 +70,8 @@ struct Alert {
             
             showBasicAlert(on: viewController,
                            style: .alert,
-                           title: Consts.Alert.settingsAlertTitle,
-                           message: Consts.Alert.settingsAlertMessage,
+                           title: title,
+                           message: message,
                            actions: [openSettingsAction, cancel])
         }
     }
