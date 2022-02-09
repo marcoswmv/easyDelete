@@ -72,10 +72,7 @@ struct Consts {
                                                                         comment: "Delete warning action sheet - message")
         static let cancelButton = NSLocalizedString("Cancel", comment: "Deletion button - title")
         static let confirmButton = NSLocalizedString("Confirm", comment: "Deletion button - title")
-        static let settingsAlertMessage = NSLocalizedString("This app requires access to Contacts to proceed. Go to Settings to grant access.",
-                                                            comment: "Open settings - message")
         static let settingsAlertActionTitle = NSLocalizedString("Open Settings", comment: "Open settings - button title")
-        static let settingsAlertTitle = NSLocalizedString("Access denied", comment: "Open settings - title")
         static let accessDenied = "Access Denied"
     }
 }

@@ -13,8 +13,8 @@ struct EDTypes {
     typealias ContactDetailsList = [(label: String, item: String)]
     typealias ContactItemsList = List<String>
     typealias GroupedContacts = [(letter: String, names: ContactsList)]
-    typealias ContactsRequestResultHandler = (Result<Contact, Error>) -> Void
-    typealias ContactsRequestResult = Result<Contact, Error>
+    typealias ContactsRequestResultHandler = (Result<Contact, ContactStoreErrorModel>) -> Void
+    typealias ContactsRequestResult = Result<Contact, ContactStoreErrorModel>
     typealias IndexPaths = [IndexPath]
     typealias ExtractedIndexPaths = [Int: [Int]]
     typealias GroupedIndexPaths = [(section: Int, rows: [Int])]
