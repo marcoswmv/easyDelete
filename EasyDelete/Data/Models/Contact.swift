@@ -7,27 +7,39 @@
 
 import Foundation
 import Contacts
-import RealmSwift
 
-class Contact: Object {
+class Contact {
     
-    @Persisted(primaryKey: true) var identifier: String
-    @Persisted var givenName: String?
-    @Persisted var familyName: String?
-    @Persisted var thumbnailPhoto = Data()
-    @Persisted var imageDataAvailable: Bool
-    @Persisted var isDeleted: Bool
-    @Persisted var phoneNumbersLabels: List<String>
-    @Persisted var phoneNumbers: List<String>
-    @Persisted var emailsLabels: List<String>
-    @Persisted var emails: List<String>
-    @Persisted var jobTitle: String
-    @Persisted var dayOfDeletion: Date?
-    @Persisted var remainingDaysForDeletion: Int
-    @Persisted var scheduledDayForDeletion: Date?
+    var identifier: String
+    var givenName: String?
+    var familyName: String?
+    var thumbnailPhoto = Data()
+    var imageDataAvailable: Bool
+    var isDeleted: Bool
+    var phoneNumbersLabels: [String]
+    var phoneNumbers: [String]
+    var emailsLabels: [String]
+    var emails: [String]
+    var jobTitle: String
+    var dayOfDeletion: Date?
+    var remainingDaysForDeletion: Int
+    var scheduledDayForDeletion: Date?
     
-    override init() {
-        super.init()
+    init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data = Data(), imageDataAvailable: Bool = false, isDeleted: Bool = false, phoneNumbersLabels: [String] = [], phoneNumbers: [String] = [], emailsLabels: [String] = [], emails: [String] = [], jobTitle: String = "", dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int = 0, scheduledDayForDeletion: Date? = nil) {
+        self.identifier = identifier
+        self.givenName = givenName
+        self.familyName = familyName
+        self.thumbnailPhoto = thumbnailPhoto
+        self.imageDataAvailable = imageDataAvailable
+        self.isDeleted = isDeleted
+        self.phoneNumbersLabels = phoneNumbersLabels
+        self.phoneNumbers = phoneNumbers
+        self.emailsLabels = emailsLabels
+        self.emails = emails
+        self.jobTitle = jobTitle
+        self.dayOfDeletion = dayOfDeletion
+        self.remainingDaysForDeletion = remainingDaysForDeletion
+        self.scheduledDayForDeletion = scheduledDayForDeletion
     }
     
     convenience init(contact: CNContact) {

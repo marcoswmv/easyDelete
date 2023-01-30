@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,8 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         ContactStoreManager.shared.commonDataSourceInit()
-//        print(Realm.Configuration.defaultConfiguration.fileURL)
-        
         return true
     }
 

@@ -7,49 +7,20 @@
 
 import UIKit
 
-final class ContactsViewController: UIViewController {
+class ContactsViewController: UIViewController {
     
-    lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.allowsMultipleSelectionDuringEditing = true
-
-        return tableView
-    }()
-
-    private lazy var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.obscuresBackgroundDuringPresentation = false
-
-        return searchController
-    }()
-
-    private lazy var refreshControl: UIRefreshControl = {
-        UIRefreshControl()
-    }()
-
-    lazy var tableViewTapRecognizer: UITapGestureRecognizer = {
-        UITapGestureRecognizer()
-    }()
+    private var tableView: UITableView = UITableView()
+    private let searchController: UISearchController = UISearchController(searchResultsController: nil)
+    private let refreshControl: UIRefreshControl = UIRefreshControl()
     
     var dataSource: ContactsDataSource?
     var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupUI()
+        
         setupDataSource()
-
-        dataSource?.updateCountText = { [weak self] count in
-            guard let self = self else { return }
-            // swiftlint:disable:next empty_count
-            if count > 0 {
-                self.navigationItem.title = "Selected \(count) contact\(count >= 2 ? "s" : "")"
-            } else {
-                self.navigationItem.title = Consts.ContactsList.title
-            }
-        }
+        configureUIEssentials()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,46 +35,57 @@ final class ContactsViewController: UIViewController {
         editingMode(disable: true)
     }
     
-    private func setupUI() {
-        setupNavigationBar()
-        setupTableView()
-        setupToolbar()
-        searchController.searchBar.delegate = self
+    fileprivate func configureUIEssentials() {
+        configureTableView()
+        configureNavigationBar()
+        configureToolbar()
+        configureSearchBarController()
+        configureRefreshControl()
     }
     
     private func setupDataSource() {
         dataSource = ContactsDataSource(tableView: tableView)
         dataSource?.reload()
     }
-
-    private func setupNavigationBar() {
+    
+    private func configureTableView() {
+        view.addSubview(tableView)
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.ContactsList.cell)
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.enableAutoLayout()
+        tableView.setConstraints(to: view)
+        
+        layoutTableViewHeader(with: String(dataSource?.contactsCount() ?? 0))
+    }
+    
+    func layoutTableViewHeader(with text: String) {
+        let textLabel = UILabel(frame: CGRect(x: 0, y: 0,
+                                                width: tableView.bounds.size.width,
+                                                height: tableView.bounds.size.height))
+        textLabel.text = "\(String(describing: text)) \(Consts.contacts)"
+        textLabel.textAlignment = .center
+        
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        customView.backgroundColor = .systemBackground
+        customView.addSubview(textLabel)
+        
+        textLabel.enableAutoLayout()
+        textLabel.setConstraints(to: customView)
+        
+        tableView.tableHeaderView = customView
+    }
+    
+    fileprivate func configureNavigationBar() {
         navigationItem.title = Consts.ContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
-
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        definesPresentationContext = true
-
         let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .plain, target: self, action: #selector(handlePushDeleted))
         let rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.select, style: .plain, target: self, action: #selector(handleSelect))
         navigationItem.leftBarButtonItem = leftNavBarButton
         navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
-    private func setupTableView() {
-        view.addSubview(tableView)
-
-        tableView.enableAutoLayout()
-        tableView.setConstraints(to: view)
-
-        tableView.refreshControl = self.refreshControl
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.ContactsList.cell)
-
-        tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-    }
-    
-    private func setupToolbar() {
+    fileprivate func configureToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let deleteButton = UIBarButtonItem(title: Consts.ContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
         deleteButton.tintColor = .red
@@ -112,16 +94,24 @@ final class ContactsViewController: UIViewController {
         toolbarItems = [deleteButton, flexibleSpace, doneButton]
     }
     
-    func editingMode(disable: Bool) {
-        if disable {
-            self.navigationItem.title = Consts.ContactsList.title
-        }
+    fileprivate func configureSearchBarController() {
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        self.definesPresentationContext = true
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+    }
+    
+    fileprivate func configureRefreshControl() {
+        tableView.refreshControl = self.refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    }
+    
+    fileprivate func editingMode(disable: Bool) {
         navigationItem.leftBarButtonItem?.isEnabled = disable
         navigationItem.rightBarButtonItem?.isEnabled = disable
         navigationController?.setToolbarHidden(disable, animated: true)
-        searchController.searchBar.endEditing(true)
         tableView.setEditing(!disable, animated: disable)
-        tableView.removeGestureRecognizer(tableViewTapRecognizer)
     }
     
     // MARK: - Handlers
@@ -133,12 +123,9 @@ final class ContactsViewController: UIViewController {
     @objc private func handleDelete() {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
-            var indexPathsToDelete = EDTypes.IndexPaths()
-            
             for indexPath in sortedIndexPaths {
-                indexPathsToDelete.append(indexPath)
+                dataSource?.deleteContact(at: indexPath)
             }
-            dataSource?.deleteContact(at: indexPathsToDelete)
         } else {
             Alert.showNoContactSelectedAlert(on: UIApplication.topViewController()!)
         }
@@ -155,14 +142,8 @@ final class ContactsViewController: UIViewController {
     
     @objc private func handleRefresh() {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            if self.dataSource?.isSearching == false {
-                self.dataSource?.reload()
-                self.refreshControl.endRefreshing()
-            }
+            self.dataSource?.reload()
+            self.refreshControl.endRefreshing()
         }
-    }
-    
-    @objc private func handleTapOnTable() {
-        print("Tapping table view")
     }
 }

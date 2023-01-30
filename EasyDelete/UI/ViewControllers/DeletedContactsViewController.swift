@@ -69,7 +69,7 @@ class DeletedContactsViewController: UIViewController {
         
         tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
         
-        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
+//        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
     }
     
     func layoutTableViewFooter(with text: String) {
@@ -168,14 +168,14 @@ class DeletedContactsViewController: UIViewController {
         if let indexPaths = self.tableView.indexPathsForSelectedRows {
             Alert.showActionSheetToAskForConfirmationToDelete(on: self, numberOfContacts: indexPaths.count) { [weak self] confirmation in
                 guard let self = self else { return }
-                if confirmation {
-                    let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
-                    var indexPathsToDelete = EDTypes.IndexPaths()
-                    for indexPath in sortedIndexPaths {
-                        indexPathsToDelete.append(indexPath)
-                    }
-                    self.dataSource?.deleteContact(at: indexPathsToDelete)
-                }
+//                if confirmation {
+//                    let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
+//                    var indexPathsToDelete = EDTypes.IndexPaths()
+//                    for indexPath in sortedIndexPaths {
+//                        indexPathsToDelete.append(indexPath)
+//                    }
+//                    self.dataSource?.deleteContact(at: indexPathsToDelete)
+//                }
             }
             if isAllSelected {
                 selectAllButton.title = Consts.DeletedContactsList.selectAll
@@ -197,10 +197,10 @@ class DeletedContactsViewController: UIViewController {
     
     @objc private func handleRecover() {
         if let indexPaths = self.tableView.indexPathsForSelectedRows {
-            let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
-            for indexPath in sortedIndexPaths {
-                dataSource?.recoverContact(at: indexPath)
-            }
+//            let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
+//            for indexPath in sortedIndexPaths {
+//                dataSource?.recoverContact(at: indexPath)
+//            }
             dataSource?.needsToFetchFromContactStore = true
             dataSource?.reload()
             if isAllSelected {

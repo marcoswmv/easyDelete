@@ -24,12 +24,12 @@ class ContactDetailsDataSource: BaseDataSource {
     }
     
     override func reload() {
-        if let contact = contact {
-            phoneNumbersData = DataSourceManager.shared.group(items: contact.phoneNumbers, with: contact.phoneNumbersLabels)
-        }
-        if let contact = contact {
-            emailsData = DataSourceManager.shared.group(items: contact.emails, with: contact.emailsLabels)
-        }
+//        if let contact = contact {
+//            phoneNumbersData = DataSourceManager.shared.group(items: contact.phoneNumbers, with: contact.phoneNumbersLabels)
+//        }
+//        if let contact = contact {
+//            emailsData = DataSourceManager.shared.group(items: contact.emails, with: contact.emailsLabels)
+//        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

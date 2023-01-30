@@ -37,7 +37,7 @@ class ContactStoreManager {
                     break
                 }
             } receiveValue: { contact in
-                DataBaseManager.shared.update(with: contact)
+//                DataBaseManager.shared.update(with: contact)
             }
             .store(in: &Consts.bag)
     }

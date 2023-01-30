@@ -27,7 +27,7 @@ class DeletedContactsDataSource: BaseDataSource {
             ContactStoreManager.shared.requestContacts()
         }
         
-        data = DataSourceManager.shared.getContactsListFromDataBase(deleted: true)
+//        data = DataSourceManager.shared.getContactsListFromDataBase(deleted: true)
         isSearching = false
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -36,12 +36,12 @@ class DeletedContactsDataSource: BaseDataSource {
         layoutTableViewFooter(with: String(data.count))
     }
     
-    func contactsCount() -> Int {
-        return DataSourceManager.shared.getContactsListFromDataBase(deleted: true).count
-    }
+//    func contactsCount() -> Int {
+//        return DataSourceManager.shared.getContactsListFromDataBase(deleted: true).count
+//    }
     
     @objc func updateContactsRemainingDays() {
-        DataBaseManager.shared.updateRemainingDaysForDeletion()
+//        DataBaseManager.shared.updateRemainingDaysForDeletion()
         reload()
     }
     
@@ -94,12 +94,12 @@ class DeletedContactsDataSource: BaseDataSource {
             var content = cell.defaultContentConfiguration()
             
             if isSearching {
-                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+//                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
                 content.secondaryText = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) \(Consts.DeletedContactsList.daysLeft)"
                 content.secondaryTextProperties.color = .gray
                 content.secondaryTextProperties.font = UIFont.italicSystemFont(ofSize: 15)
             } else {
-                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
+//                content.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
                 content.secondaryText = "\(data[indexPath.row].remainingDaysForDeletion.description) \(Consts.DeletedContactsList.daysLeft)"
                 content.secondaryTextProperties.color = .gray
                 content.secondaryTextProperties.font = UIFont.italicSystemFont(ofSize: 15)
@@ -108,12 +108,12 @@ class DeletedContactsDataSource: BaseDataSource {
             cell.contentConfiguration = content
         } else {
             if isSearching {
-                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
+//                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: filteredData[indexPath.row])
                 cell.detailTextLabel?.text = "\(filteredData[indexPath.row].remainingDaysForDeletion.description) \(Consts.DeletedContactsList.daysLeft)"
                 cell.detailTextLabel?.textColor = .gray
                 cell.detailTextLabel?.font = UIFont.italicSystemFont(ofSize: 15)
             } else {
-                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
+//                cell.textLabel?.attributedText = DataSourceManager.shared.nameAttributedString(contact: data[indexPath.row])
                 cell.detailTextLabel?.text = "\(data[indexPath.row].remainingDaysForDeletion.description) \(Consts.DeletedContactsList.daysLeft)"
                 cell.detailTextLabel?.textColor = .gray
                 cell.detailTextLabel?.font = UIFont.italicSystemFont(ofSize: 15)
@@ -158,7 +158,7 @@ extension DeletedContactsDataSource: BaseDataSourceDelegate {
             contactsToDelete.append(contact)
         }
         
-        DataBaseManager.shared.delete(contacts: contactsToDelete)
+//        DataBaseManager.shared.delete(contacts: contactsToDelete)
         reload()
     }
     
@@ -168,7 +168,7 @@ extension DeletedContactsDataSource: BaseDataSourceDelegate {
         } else {
             let contactToRecover = data[indexPath.row]
             ContactStoreManager.shared.add(contact: contactToRecover)
-            DataBaseManager.shared.delete(contacts: [contactToRecover]) // Deleting to avoid duplicated contact with different ID's
+//            DataBaseManager.shared.delete(contacts: [contactToRecover]) // Deleting to avoid duplicated contact with different ID's
         }
     }
 }
