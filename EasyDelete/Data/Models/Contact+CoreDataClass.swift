@@ -27,9 +27,12 @@ public class Contact: NSManagedObject {
         self.dayOfDeletion = contact.dayOfDeletion
         self.remainingDaysForDeletion = Int64(contact.remainingDaysForDeletion)
         self.scheduledDayForDeletion = contact.scheduledDayForDeletion
+        self.organizationName = contact.organizationName
+        self.jobTitle = contact.jobTitle
+        self.emails = contact.emails
     }
 
-    convenience init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data = Data(), imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String] = [], dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int64 = 0, scheduledDayForDeletion: Date? = nil, insertInto context: NSManagedObjectContext?) {
+    convenience init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data = Data(), imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String] = [], emails: [String]? = nil, dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int64 = 0, scheduledDayForDeletion: Date? = nil, organizationName: String? = nil, jobTitle: String? = nil, insertInto context: NSManagedObjectContext?) {
         let entity = NSEntityDescription.entity(forEntityName: "Contact", in: context!)
         self.init(entity: entity!, insertInto: context)
         
@@ -43,6 +46,9 @@ public class Contact: NSManagedObject {
         self.dayOfDeletion = dayOfDeletion
         self.remainingDaysForDeletion = remainingDaysForDeletion
         self.scheduledDayForDeletion = scheduledDayForDeletion
+        self.organizationName = organizationName
+        self.jobTitle = jobTitle
+        self.emails = emails
     }
     
     convenience init(contact: CNContact, insertInto context: NSManagedObjectContext) {
@@ -54,6 +60,8 @@ public class Contact: NSManagedObject {
         self.familyName = contact.familyName
         self.imageDataAvailable = contact.imageDataAvailable
         self.thumbnailPhoto = (self.imageDataAvailable ? contact.imageData ?? Data() : Data())
+        self.organizationName = organizationName
+        self.jobTitle = jobTitle
         
         self.isContactDeleted = false
         self.dayOfDeletion = nil
@@ -62,6 +70,10 @@ public class Contact: NSManagedObject {
         
         for contact in contact.phoneNumbers {
             self.phoneNumbers?.append(contact.value.stringValue)
+        }
+        
+        for email in contact.emailAddresses {
+            self.emails?.append(email.value as String)
         }
     }
 }

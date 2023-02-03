@@ -15,6 +15,7 @@ protocol ContactProtocol: AnyObject {
     var imageDataAvailable: Bool { get set }
     var isContactDeleted: Bool { get set }
     var phoneNumbers: [String]? { get set }
+    var emails: [String]? { get set }
     var dayOfDeletion: Date? { get set }
     var remainingDaysForDeletion: Int64 { get set }
     var scheduledDayForDeletion: Date? { get set }

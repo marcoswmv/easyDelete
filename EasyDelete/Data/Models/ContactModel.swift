@@ -16,14 +16,14 @@ final class ContactModel: ContactProtocol {
     var imageDataAvailable: Bool
     var isContactDeleted: Bool
     var phoneNumbers: [String]?
+    var emails: [String]?
     var dayOfDeletion: Date?
     var remainingDaysForDeletion: Int64
     var scheduledDayForDeletion: Date?
     var organizationName: String?
     var jobTitle: String?
     
-    
-    init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data? = nil, imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String]? = nil, dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int64 = 0, scheduledDayForDeletion: Date? = nil, organizationName: String? = nil, jobTitle: String? = nil) {
+    init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data? = nil, imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String]? = nil, emails: [String]? = nil, dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int64 = 0, scheduledDayForDeletion: Date? = nil, organizationName: String? = nil, jobTitle: String? = nil) {
         self.identifier = identifier
         self.givenName = givenName
         self.familyName = familyName
@@ -34,6 +34,9 @@ final class ContactModel: ContactProtocol {
         self.dayOfDeletion = dayOfDeletion
         self.remainingDaysForDeletion = remainingDaysForDeletion
         self.scheduledDayForDeletion = scheduledDayForDeletion
+        self.emails = emails
+        self.organizationName = organizationName
+        self.jobTitle = jobTitle
     }
     
     convenience init(contact: CNContact) {
@@ -43,6 +46,8 @@ final class ContactModel: ContactProtocol {
         self.familyName = contact.familyName
         self.imageDataAvailable = contact.imageDataAvailable
         self.thumbnailPhoto = (self.imageDataAvailable ? contact.imageData ?? Data() : Data())
+        self.organizationName = contact.organizationName
+        self.jobTitle = contact.jobTitle
         
         self.isContactDeleted = false
         self.dayOfDeletion = nil
@@ -51,6 +56,10 @@ final class ContactModel: ContactProtocol {
         
         for contact in contact.phoneNumbers {
             self.phoneNumbers?.append(contact.value.stringValue)
+        }
+        
+        for email in contact.emailAddresses {
+            self.emails?.append(email.value as String)
         }
     }
 }

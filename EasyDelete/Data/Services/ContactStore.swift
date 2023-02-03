@@ -62,27 +62,7 @@ final class ContactsStore: ContactsStoreProtocol {
     
     func add(contact: ContactProtocol) {
         // Create a new contact
-        let newContact = CNMutableContact()
-        
-        if let givenName = contact.givenName,
-           let familyName = contact.familyName {
-            newContact.givenName = givenName
-            newContact.familyName = familyName
-        }
-        
-        // Store the profile picture as data
-        if let thumbnailPhoto = contact.thumbnailPhoto {
-            let image = UIImage(data: thumbnailPhoto)
-            newContact.imageData = image?.jpegData(compressionQuality: 1.0)
-        }
-        
-        if let phoneNumbers = contact.phoneNumbers {    
-            for phoneNumber in phoneNumbers {
-                newContact.phoneNumbers.append(CNLabeledValue(
-                    label: "Mobile",
-                    value: CNPhoneNumber(stringValue: phoneNumber)))
-            }
-        }
+        let newContact = CNMutableContact(contact: contact)
         
         // Save the contact
         let saveRequest = CNSaveRequest()

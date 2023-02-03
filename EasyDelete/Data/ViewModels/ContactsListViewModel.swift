@@ -42,7 +42,7 @@ final class ContactsListViewModel {
                 // Save deleted to data base
                 databaseManager.setAsDeleted(contact: contactModelToDelete, isDeleted: true)
                 // Delete from Contacts store
-                contactsStore.delete(contactWith: contactModelToDelete.identifier ?? "")
+                contactsStore.delete(contactWith: contactModelToDelete.identifier)
             }
         }
         

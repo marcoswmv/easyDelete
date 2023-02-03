@@ -25,8 +25,9 @@ extension Contact {
     @NSManaged public var remainingDaysForDeletion: Int64
     @NSManaged public var scheduledDayForDeletion: Date?
     @NSManaged public var thumbnailPhoto: Data?
-    @NSManaged public var organizationName: String?
     @NSManaged public var jobTitle: String?
+    @NSManaged public var organizationName: String?
+    @NSManaged public var emails: [String]?
 
 }
 
