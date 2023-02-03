@@ -45,6 +45,7 @@
 		F7F55463298D74DC004F062C /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55461298D74DC004F062C /* Contact+CoreDataProperties.swift */; };
 		F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */; };
 		F7F55467298D966A004F062C /* DeletedContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */; };
+		F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55468298DA7EE004F062C /* ContactProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		F7F55461298D74DC004F062C /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsListViewController.swift; sourceTree = "<group>"; };
 		F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactTableViewCell.swift; sourceTree = "<group>"; };
+		F7F55468298DA7EE004F062C /* ContactProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 			children = (
 				F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */,
 				F7F55461298D74DC004F062C /* Contact+CoreDataProperties.swift */,
+				F7F55468298DA7EE004F062C /* ContactProtocol.swift */,
 				F7BC54C626BB05CD006C41A5 /* ContactModel.swift */,
 			);
 			path = Models;
@@ -432,6 +435,7 @@
 				F7361812298B07D700D3ADDA /* DatabaseManager.swift in Sources */,
 				F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */,
 				F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */,
+				F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */,
 				F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */,
 				F7172F1126C42E960019B760 /* EDTypes.swift in Sources */,
 				F7172F1526C43BD50019B760 /* UIApplication+Extension.swift in Sources */,

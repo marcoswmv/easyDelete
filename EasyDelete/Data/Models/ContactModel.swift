@@ -8,33 +8,22 @@
 import Foundation
 import Contacts
 
-protocol ContactProtocol: AnyObject {
-    var identifier: String { get set }
-    var givenName: String? { get set }
-    var familyName: String? { get set }
-    var thumbnailPhoto: Data { get set }
-    var imageDataAvailable: Bool { get set }
-    var isContactDeleted: Bool { get set }
-    var phoneNumbers: [String] { get set }
-    var dayOfDeletion: Date? { get set }
-    var remainingDaysForDeletion: Int { get set }
-    var scheduledDayForDeletion: Date? { get set }
-}
-
-class ContactModel: ContactProtocol {
-    
+final class ContactModel: ContactProtocol {
     var identifier: String
     var givenName: String?
     var familyName: String?
-    var thumbnailPhoto = Data()
+    var thumbnailPhoto: Data?
     var imageDataAvailable: Bool
     var isContactDeleted: Bool
-    var phoneNumbers: [String]
+    var phoneNumbers: [String]?
     var dayOfDeletion: Date?
-    var remainingDaysForDeletion: Int
+    var remainingDaysForDeletion: Int64
     var scheduledDayForDeletion: Date?
+    var organizationName: String?
+    var jobTitle: String?
     
-    init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data = Data(), imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String] = [], dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int = 0, scheduledDayForDeletion: Date? = nil) {
+    
+    init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data? = nil, imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String]? = nil, dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int64 = 0, scheduledDayForDeletion: Date? = nil, organizationName: String? = nil, jobTitle: String? = nil) {
         self.identifier = identifier
         self.givenName = givenName
         self.familyName = familyName
@@ -61,7 +50,7 @@ class ContactModel: ContactProtocol {
         self.scheduledDayForDeletion = nil
         
         for contact in contact.phoneNumbers {
-            self.phoneNumbers.append(contact.value.stringValue)
+            self.phoneNumbers?.append(contact.value.stringValue)
         }
     }
 }

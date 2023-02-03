@@ -4,9 +4,11 @@
         <attribute name="dayOfDeletion" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="familyName" optional="YES" attributeType="String"/>
         <attribute name="givenName" optional="YES" attributeType="String"/>
-        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="identifier" attributeType="String"/>
         <attribute name="imageDataAvailable" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isContactDeleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="jobTitle" optional="YES" attributeType="String"/>
+        <attribute name="organizationName" optional="YES" attributeType="String"/>
         <attribute name="phoneNumbers" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
         <attribute name="remainingDaysForDeletion" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="scheduledDayForDeletion" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

@@ -65,3 +65,7 @@ public class Contact: NSManagedObject {
         }
     }
 }
+
+extension Contact: ContactProtocol {
+    
+}

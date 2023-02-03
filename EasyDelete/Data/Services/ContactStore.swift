@@ -17,6 +17,7 @@ enum ContactStoreError: Error {
 
 protocol ContactsStoreProtocol: AnyObject {
     func fetchContacts(completionHandler: @escaping ContactsRequestCompletionBlock)
+    func add(contact: ContactProtocol)
     func delete(contactWith identifier: String)
 }
 
@@ -59,7 +60,7 @@ final class ContactsStore: ContactsStoreProtocol {
         }
     }
     
-    func add(contact: Contact) {
+    func add(contact: ContactProtocol) {
         // Create a new contact
         let newContact = CNMutableContact()
         
@@ -82,14 +83,6 @@ final class ContactsStore: ContactsStoreProtocol {
                     value: CNPhoneNumber(stringValue: phoneNumber)))
             }
         }
-        
-//        if let emailsLabels = contact.emailsLabels, let emails = contact.emails {    
-//            for (label, email) in zip(emailsLabels, emails) {
-//                newContact.emailAddresses.append(CNLabeledValue(
-//                    label: label,
-//                    value: NSString(string: email)))
-//            }
-//        }
         
         // Save the contact
         let saveRequest = CNSaveRequest()

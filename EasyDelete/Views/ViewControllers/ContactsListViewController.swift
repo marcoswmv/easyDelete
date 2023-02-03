@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class ContactsListViewController: UITableViewController, UISearchControllerDelegate {
+final class ContactsListViewController: UITableViewController, UISearchControllerDelegate {
     
     // MARK: - Properties and Initialization
     
@@ -130,10 +130,13 @@ class ContactsListViewController: UITableViewController, UISearchControllerDeleg
     
     @objc private func handleDelete() {
         if let indexPaths = tableView.indexPathsForSelectedRows {
-            indexPaths.sorted(by: { $0.row > $1.row }).forEach { indexPath in
-                let contactToDeleteID = viewModel.contactsViewModels[indexPath.section].names
-                    .filter { $0.isDeleted == false }[indexPath.row].identifier
-                viewModel.deleteContact(with: contactToDeleteID)
+            indexPaths.sorted(by: { $0 > $1 }).forEach { indexPath in
+                if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
+                   self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+                    let contactToDeleteID = viewModel.contactsViewModels[indexPath.section].names
+                        .filter { $0.isDeleted == false }[indexPath.row].identifier
+                    viewModel.deleteContact(with: contactToDeleteID)
+                }
             }
         } else {
             Alert.showNoContactSelectedAlert(on: self)
