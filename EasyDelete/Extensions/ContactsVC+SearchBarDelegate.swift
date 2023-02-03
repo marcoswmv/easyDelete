@@ -7,20 +7,20 @@
 
 import UIKit
 
-extension ContactsViewController: UISearchBarDelegate {
+extension ContactsListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         cancelSearchTimer()
         search(query: searchBar.text)
         if tableView.isEditing {
-            tableView.removeGestureRecognizer(tableViewTapRecognizer)
+            tableView.gestureRecognizers?.removeAll(where: { $0 is UITapGestureRecognizer })
         }
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         if !tableView.isEditing {
-            tableView.addGestureRecognizer(tableViewTapRecognizer)
+            tableView.gestureRecognizers?.removeAll(where: { $0 is UITapGestureRecognizer })
         }
     }
     
@@ -33,8 +33,8 @@ extension ContactsViewController: UISearchBarDelegate {
         cancelSearchTimer()
         search(query: nil)
         searchBar.text = ""
-        dataSource?.reload()
-        tableView.removeGestureRecognizer(tableViewTapRecognizer)
+        tableView.reloadData()
+        tableView.gestureRecognizers?.removeAll(where: { $0 is UITapGestureRecognizer })
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -42,9 +42,9 @@ extension ContactsViewController: UISearchBarDelegate {
     }
     
     private func cancelSearchTimer() {
-        if timer != nil, timer!.isValid {
-            timer?.invalidate()
-            timer = nil
+        if var timer, timer.isValid {
+            timer.invalidate()
+            self.timer = nil
         }
     }
     
@@ -58,9 +58,9 @@ extension ContactsViewController: UISearchBarDelegate {
     
     private func search(query: String?) {
         if let searchText = query {
-            dataSource?.startQuery(with: searchText)
+//            viewModel.startQuery(with: searchText)
         } else {
-            dataSource?.startQuery(with: "")
+//            viewModel.startQuery(with: "")
         }
     }
 }

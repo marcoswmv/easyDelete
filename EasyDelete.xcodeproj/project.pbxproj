@@ -3,38 +3,49 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0FBB895A329E88CDB55A453F /* Pods_EasyDeleteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDC15730FA8D6B749CE951C /* Pods_EasyDeleteTests.framework */; };
-		377EB7EAC22735884B536D87 /* Pods_EasyDelete.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E2D808C54794C07B5A01639 /* Pods_EasyDelete.framework */; };
 		F702C28E26CBEC81003D687C /* ContactDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F702C28D26CBEC81003D687C /* ContactDetailsDataSource.swift */; };
+		F70A5CCC2988969A00B602B9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCB2988969A00B602B9 /* ContactTableViewCell.swift */; };
+		F70A5CCE298896EC00B602B9 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */; };
+		F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */; };
 		F7172F1126C42E960019B760 /* EDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1026C42E960019B760 /* EDTypes.swift */; };
-		F7172F1326C42EAA0019B760 /* ContactStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */; };
-		F7172F1526C43BD50019B760 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1426C43BD50019B760 /* UIApplication+TopViewController.swift */; };
+		F7172F1326C42EAA0019B760 /* ContactStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1226C42EAA0019B760 /* ContactStore.swift */; };
+		F7172F1526C43BD50019B760 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1426C43BD50019B760 /* UIApplication+Extension.swift */; };
 		F7172F1726C44A620019B760 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1626C44A620019B760 /* DataBaseManager.swift */; };
 		F71C7A2F26CEF9EC0009182A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F71C7A2E26CEF9EC0009182A /* Assets.xcassets */; };
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
-		F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsViewController.swift */; };
+		F722DDEA26A8702A0017493B /* ContactsListViewControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsListViewControllerOld.swift */; };
 		F722DDF226A8702C0017493B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F722DDF026A8702C0017493B /* LaunchScreen.storyboard */; };
 		F722DE0226A8773D0017493B /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DE0126A8773D0017493B /* Consts.swift */; };
 		F7231C1926BDE481001F7787 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F7231C1826BDE481001F7787 /* .swiftlint.yml */; };
-		F7231C1D26BDE949001F7787 /* DeletedContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C1C26BDE949001F7787 /* DeletedContactsViewController.swift */; };
+		F7231C1D26BDE949001F7787 /* DeletedContactsViewControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C1C26BDE949001F7787 /* DeletedContactsViewControllerOld.swift */; };
 		F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C1E26BDEF3D001F7787 /* Alert.swift */; };
 		F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */; };
 		F7231C2326BDF88D001F7787 /* DeletedContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C2226BDF88D001F7787 /* DeletedContactsDataSource.swift */; };
+		F7361812298B07D700D3ADDA /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7361811298B07D700D3ADDA /* DatabaseManager.swift */; };
+		F73881BD28B6C43F00704850 /* ContactsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73881BC28B6C43F00704850 /* ContactsListViewModel.swift */; };
 		F75D7D7C26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75D7D7B26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift */; };
+		F768DF9A2989477900969914 /* ContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F768DF992989477900969914 /* ContactsListViewController.swift */; };
+		F768DF9C2989614500969914 /* ContactsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F768DF9B2989614500969914 /* ContactsCellViewModel.swift */; };
+		F768DFC42989AB0200969914 /* EasyDelete.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F768DFC22989AB0200969914 /* EasyDelete.xcdatamodeld */; };
 		F7AD900926CB1E5200988F7E /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AD900826CB1E5200988F7E /* ContactDetailViewController.swift */; };
-		F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */; };
+		F7BC54B026BAAF4E006C41A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */; };
 		F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */; };
 		F7BC54BB26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */; };
-		F7BC54C726BB05CD006C41A5 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* Contact.swift */; };
+		F7BC54C726BB05CD006C41A5 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* ContactModel.swift */; };
 		F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */; };
 		F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */; };
-		F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */; };
 		F7C845D926E0635400B971E1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7C845DB26E0635400B971E1 /* Localizable.strings */; };
+		F7F55462298D74DC004F062C /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */; };
+		F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */; };
+		F7F55467298D966A004F062C /* DeletedContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */; };
+		F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55468298DA7EE004F062C /* ContactProtocol.swift */; };
+		F7F55471298DAD6A004F062C /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F5546F298DAD6A004F062C /* Contact+CoreDataProperties.swift */; };
+		F7F55473298DAE12004F062C /* CNMutableContact+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55472298DAE12004F062C /* CNMutableContact+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,44 +59,51 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		13BB0C8C90AC6D9A1FAFD303 /* Pods-EasyDeleteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDeleteTests.release.xcconfig"; path = "Target Support Files/Pods-EasyDeleteTests/Pods-EasyDeleteTests.release.xcconfig"; sourceTree = "<group>"; };
-		3E2D808C54794C07B5A01639 /* Pods_EasyDelete.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyDelete.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C7AF1CDA8572E1CF9B851AC /* Pods-EasyDelete.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDelete.debug.xcconfig"; path = "Target Support Files/Pods-EasyDelete/Pods-EasyDelete.debug.xcconfig"; sourceTree = "<group>"; };
-		6EDC15730FA8D6B749CE951C /* Pods_EasyDeleteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyDeleteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BA075FC9AEAABF0DF1F5D33 /* Pods-EasyDeleteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDeleteTests.debug.xcconfig"; path = "Target Support Files/Pods-EasyDeleteTests/Pods-EasyDeleteTests.debug.xcconfig"; sourceTree = "<group>"; };
-		91C4D3CA35B1DD5F4441BD72 /* Pods-EasyDelete.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyDelete.release.xcconfig"; path = "Target Support Files/Pods-EasyDelete/Pods-EasyDelete.release.xcconfig"; sourceTree = "<group>"; };
 		F702C28D26CBEC81003D687C /* ContactDetailsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsDataSource.swift; sourceTree = "<group>"; };
+		F70A5CCB2988969A00B602B9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
+		F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
 		F7172F1026C42E960019B760 /* EDTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDTypes.swift; sourceTree = "<group>"; };
-		F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactStoreManager.swift; sourceTree = "<group>"; };
-		F7172F1426C43BD50019B760 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
+		F7172F1226C42EAA0019B760 /* ContactStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactStore.swift; sourceTree = "<group>"; };
+		F7172F1426C43BD50019B760 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		F7172F1626C44A620019B760 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		F71C7A2E26CEF9EC0009182A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F722DDE926A8702A0017493B /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		F722DDE926A8702A0017493B /* ContactsListViewControllerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewControllerOld.swift; sourceTree = "<group>"; };
 		F722DDF126A8702C0017493B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F722DDF326A8702C0017493B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F722DE0126A8773D0017493B /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		F7231C1826BDE481001F7787 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		F7231C1C26BDE949001F7787 /* DeletedContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsViewController.swift; sourceTree = "<group>"; };
+		F7231C1C26BDE949001F7787 /* DeletedContactsViewControllerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsViewControllerOld.swift; sourceTree = "<group>"; };
 		F7231C1E26BDEF3D001F7787 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeletedContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
 		F7231C2226BDF88D001F7787 /* DeletedContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsDataSource.swift; sourceTree = "<group>"; };
+		F7361811298B07D700D3ADDA /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		F73881BC28B6C43F00704850 /* ContactsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewModel.swift; sourceTree = "<group>"; };
 		F75D7D7B26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteDataBaseTests.swift; sourceTree = "<group>"; };
+		F768DF992989477900969914 /* ContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewController.swift; sourceTree = "<group>"; };
+		F768DF9B2989614500969914 /* ContactsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCellViewModel.swift; sourceTree = "<group>"; };
+		F768DFC32989AB0200969914 /* EasyDelete.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyDelete.xcdatamodel; sourceTree = "<group>"; };
 		F7AD900826CB1E5200988F7E /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
-		F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceManager.swift; sourceTree = "<group>"; };
 		F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDeleteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteDataSourceTests.swift; sourceTree = "<group>"; };
 		F7BC54BC26BACE05006C41A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7BC54C626BB05CD006C41A5 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		F7BC54C626BB05CD006C41A5 /* ContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
 		F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDataSource.swift; sourceTree = "<group>"; };
 		F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDataSource.swift; sourceTree = "<group>"; };
-		F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
 		F7C845D626E062E400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		F7C845DA26E0635400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F7C845DC26E0636D00B971E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsListViewController.swift; sourceTree = "<group>"; };
+		F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactTableViewCell.swift; sourceTree = "<group>"; };
+		F7F55468298DA7EE004F062C /* ContactProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactProtocol.swift; sourceTree = "<group>"; };
+		F7F5546F298DAD6A004F062C /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		F7F55472298DAE12004F062C /* CNMutableContact+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CNMutableContact+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +111,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				377EB7EAC22735884B536D87 /* Pods_EasyDelete.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,37 +118,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FBB895A329E88CDB55A453F /* Pods_EasyDeleteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3EAE57C85F8D5F1F189C7567 /* Pods */ = {
+		F70A5CCA2988967A00B602B9 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				4C7AF1CDA8572E1CF9B851AC /* Pods-EasyDelete.debug.xcconfig */,
-				91C4D3CA35B1DD5F4441BD72 /* Pods-EasyDelete.release.xcconfig */,
-				8BA075FC9AEAABF0DF1F5D33 /* Pods-EasyDeleteTests.debug.xcconfig */,
-				13BB0C8C90AC6D9A1FAFD303 /* Pods-EasyDeleteTests.release.xcconfig */,
+				F70A5CCB2988969A00B602B9 /* ContactTableViewCell.swift */,
+				F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */,
 			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		865B0AFEF80F78DF17E9517F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3E2D808C54794C07B5A01639 /* Pods_EasyDelete.framework */,
-				6EDC15730FA8D6B749CE951C /* Pods_EasyDeleteTests.framework */,
-			);
-			name = Frameworks;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		F7172F0526C1B37A0019B760 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				F7172F1226C42EAA0019B760 /* ContactStoreManager.swift */,
 				F7172F1626C44A620019B760 /* DataBaseManager.swift */,
 				F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */,
 			);
@@ -141,12 +145,11 @@
 		F722DDD926A8702A0017493B = {
 			isa = PBXGroup;
 			children = (
+				F768DFC22989AB0200969914 /* EasyDelete.xcdatamodeld */,
 				F7231C1826BDE481001F7787 /* .swiftlint.yml */,
 				F722DDE426A8702A0017493B /* EasyDelete */,
 				F7BC54B926BACE05006C41A5 /* EasyDeleteTests */,
 				F722DDE326A8702A0017493B /* Products */,
-				3EAE57C85F8D5F1F189C7567 /* Pods */,
-				865B0AFEF80F78DF17E9517F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,7 +168,7 @@
 				F7BC54C426BB05B2006C41A5 /* Data */,
 				F7BC54AE26BA9C4A006C41A5 /* Extensions */,
 				F722DDFC26A874EB0017493B /* Supporting Files */,
-				F7BC54CE26BB0A4D006C41A5 /* UI */,
+				F7BC54CE26BB0A4D006C41A5 /* Views */,
 				F722DE0026A8772B0017493B /* Utils */,
 			);
 			path = EasyDelete;
@@ -174,9 +177,11 @@
 		F722DDFB26A874E30017493B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				F722DDE926A8702A0017493B /* ContactsViewController.swift */,
+				F722DDE926A8702A0017493B /* ContactsListViewControllerOld.swift */,
+				F768DF992989477900969914 /* ContactsListViewController.swift */,
 				F7AD900826CB1E5200988F7E /* ContactDetailViewController.swift */,
-				F7231C1C26BDE949001F7787 /* DeletedContactsViewController.swift */,
+				F7231C1C26BDE949001F7787 /* DeletedContactsViewControllerOld.swift */,
+				F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -204,12 +209,32 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		F73881BB28B6C41E00704850 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F73881BC28B6C43F00704850 /* ContactsListViewModel.swift */,
+				F768DF9B2989614500969914 /* ContactsCellViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F768DF982989469000969914 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F7172F1226C42EAA0019B760 /* ContactStore.swift */,
+				F7361811298B07D700D3ADDA /* DatabaseManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		F7BC54AE26BA9C4A006C41A5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F7BC54AF26BAAF4E006C41A5 /* UIView+Constraints.swift */,
-				F7BC54CF26BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift */,
-				F7172F1426C43BD50019B760 /* UIApplication+TopViewController.swift */,
+				F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */,
+				F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */,
+				F7F55472298DAE12004F062C /* CNMutableContact+Extension.swift */,
+				F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */,
+				F7172F1426C43BD50019B760 /* UIApplication+Extension.swift */,
 				F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */,
 			);
 			path = Extensions;
@@ -228,6 +253,8 @@
 		F7BC54C426BB05B2006C41A5 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				F768DF982989469000969914 /* Services */,
+				F73881BB28B6C41E00704850 /* ViewModels */,
 				F7172F0526C1B37A0019B760 /* Managers */,
 				F7BC54C826BB0867006C41A5 /* DataSource */,
 				F7BC54C526BB05C0006C41A5 /* Models */,
@@ -238,7 +265,10 @@
 		F7BC54C526BB05C0006C41A5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F7BC54C626BB05CD006C41A5 /* Contact.swift */,
+				F7F5546F298DAD6A004F062C /* Contact+CoreDataProperties.swift */,
+				F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */,
+				F7F55468298DA7EE004F062C /* ContactProtocol.swift */,
+				F7BC54C626BB05CD006C41A5 /* ContactModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -254,12 +284,13 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
-		F7BC54CE26BB0A4D006C41A5 /* UI */ = {
+		F7BC54CE26BB0A4D006C41A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F70A5CCA2988967A00B602B9 /* Cells */,
 				F722DDFB26A874E30017493B /* ViewControllers */,
 			);
-			path = UI;
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,18 +300,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F722DDF626A8702C0017493B /* Build configuration list for PBXNativeTarget "EasyDelete" */;
 			buildPhases = (
-				CC5BFADD39AC38C3306BAB2B /* [CP] Check Pods Manifest.lock */,
 				F722DDDE26A8702A0017493B /* Sources */,
 				F722DDDF26A8702A0017493B /* Frameworks */,
 				F722DDE026A8702A0017493B /* Resources */,
 				F7231C1726BDE3AD001F7787 /* ShellScript */,
-				47E8F6724C8C80C9E868C368 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = EasyDelete;
+			packageProductDependencies = (
+			);
 			productName = EasyDelete;
 			productReference = F722DDE226A8702A0017493B /* EasyDelete.app */;
 			productType = "com.apple.product-type.application";
@@ -289,7 +320,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7BC54BF26BACE05006C41A5 /* Build configuration list for PBXNativeTarget "EasyDeleteTests" */;
 			buildPhases = (
-				0C8376BF000750D9FAB7CB3C /* [CP] Check Pods Manifest.lock */,
 				F7BC54B426BACE05006C41A5 /* Sources */,
 				F7BC54B526BACE05006C41A5 /* Frameworks */,
 				F7BC54B626BACE05006C41A5 /* Resources */,
@@ -332,6 +362,8 @@
 				"pt-PT",
 			);
 			mainGroup = F722DDD926A8702A0017493B;
+			packageReferences = (
+			);
 			productRefGroup = F722DDE326A8702A0017493B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -364,67 +396,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0C8376BF000750D9FAB7CB3C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EasyDeleteTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		47E8F6724C8C80C9E868C368 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EasyDelete/Pods-EasyDelete-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EasyDelete/Pods-EasyDelete-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EasyDelete/Pods-EasyDelete-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CC5BFADD39AC38C3306BAB2B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EasyDelete-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F7231C1726BDE3AD001F7787 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -449,26 +420,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F768DF9C2989614500969914 /* ContactsCellViewModel.swift in Sources */,
 				F722DE0226A8773D0017493B /* Consts.swift in Sources */,
-				F7231C1D26BDE949001F7787 /* DeletedContactsViewController.swift in Sources */,
+				F7231C1D26BDE949001F7787 /* DeletedContactsViewControllerOld.swift in Sources */,
+				F70A5CCC2988969A00B602B9 /* ContactTableViewCell.swift in Sources */,
+				F768DFC42989AB0200969914 /* EasyDelete.xcdatamodeld in Sources */,
 				F7AD900926CB1E5200988F7E /* ContactDetailViewController.swift in Sources */,
-				F722DDEA26A8702A0017493B /* ContactsViewController.swift in Sources */,
+				F7F55473298DAE12004F062C /* CNMutableContact+Extension.swift in Sources */,
+				F7F55471298DAD6A004F062C /* Contact+CoreDataProperties.swift in Sources */,
+				F722DDEA26A8702A0017493B /* ContactsListViewControllerOld.swift in Sources */,
+				F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */,
+				F73881BD28B6C43F00704850 /* ContactsListViewModel.swift in Sources */,
 				F702C28E26CBEC81003D687C /* ContactDetailsDataSource.swift in Sources */,
+				F7361812298B07D700D3ADDA /* DatabaseManager.swift in Sources */,
 				F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */,
 				F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */,
+				F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */,
 				F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */,
 				F7172F1126C42E960019B760 /* EDTypes.swift in Sources */,
-				F7BC54D026BB2D68006C41A5 /* ContactsVC+SearchBarDelegate.swift in Sources */,
-				F7172F1526C43BD50019B760 /* UIApplication+TopViewController.swift in Sources */,
-				F7172F1326C42EAA0019B760 /* ContactStoreManager.swift in Sources */,
+				F7172F1526C43BD50019B760 /* UIApplication+Extension.swift in Sources */,
+				F7172F1326C42EAA0019B760 /* ContactStore.swift in Sources */,
 				F7172F1726C44A620019B760 /* DataBaseManager.swift in Sources */,
 				F7231C2326BDF88D001F7787 /* DeletedContactsDataSource.swift in Sources */,
 				F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */,
+				F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */,
 				F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */,
+				F768DF9A2989477900969914 /* ContactsListViewController.swift in Sources */,
+				F7F55462298D74DC004F062C /* Contact+CoreDataClass.swift in Sources */,
 				F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */,
 				F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */,
-				F7BC54B026BAAF4E006C41A5 /* UIView+Constraints.swift in Sources */,
-				F7BC54C726BB05CD006C41A5 /* Contact.swift in Sources */,
+				F70A5CCE298896EC00B602B9 /* UITableViewCell+Extension.swift in Sources */,
+				F7F55467298D966A004F062C /* DeletedContactTableViewCell.swift in Sources */,
+				F7BC54B026BAAF4E006C41A5 /* UIView+Extension.swift in Sources */,
+				F7BC54C726BB05CD006C41A5 /* ContactModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +539,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "${TARGET_NAME}";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -565,10 +550,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "/Users/marcosvicente/Documents/Xcode/MyProjects/EasyDeleteOld/EasyDeleteOld/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_NAME} ";
+				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -615,15 +603,19 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "${TARGET_NAME}";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "/Users/marcosvicente/Documents/Xcode/MyProjects/EasyDeleteOld/EasyDeleteOld/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_NAME} ";
+				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -633,20 +625,24 @@
 		};
 		F722DDF726A8702C0017493B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C7AF1CDA8572E1CF9B851AC /* Pods-EasyDelete.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = Q4L92P5BF3;
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = EasyDelete;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ao.mwmv.EasyDelete;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = EasyDelete;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -654,20 +650,24 @@
 		};
 		F722DDF826A8702C0017493B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91C4D3CA35B1DD5F4441BD72 /* Pods-EasyDelete.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = Q4L92P5BF3;
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = EasyDelete;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ao.mwmv.EasyDelete;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = EasyDelete;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -675,7 +675,6 @@
 		};
 		F7BC54C026BACE05006C41A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BA075FC9AEAABF0DF1F5D33 /* Pods-EasyDeleteTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -697,7 +696,6 @@
 		};
 		F7BC54C126BACE05006C41A5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13BB0C8C90AC6D9A1FAFD303 /* Pods-EasyDeleteTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -748,6 +746,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F768DFC22989AB0200969914 /* EasyDelete.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F768DFC32989AB0200969914 /* EasyDelete.xcdatamodel */,
+			);
+			currentVersion = F768DFC32989AB0200969914 /* EasyDelete.xcdatamodel */;
+			path = EasyDelete.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F722DDDA26A8702A0017493B /* Project object */;
 }

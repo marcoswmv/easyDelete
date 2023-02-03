@@ -10,7 +10,7 @@ import UIKit
 
 protocol BaseDataSourceDelegate: BaseDataSource {
     func startQuery(with text: String)
-    func deleteContact(at indexPaths: EDTypes.IndexPaths)
+    func deleteContact(at indexPaths: [IndexPath])
     func recoverContact(at indexPath: IndexPath)
 }
 
@@ -103,8 +103,8 @@ class BaseDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
             customView.backgroundColor = .systemBackground
             customView.addSubview(textLabel)
             
-            textLabel.enableAutoLayout()
-            textLabel.setConstraints(to: customView)
+//            textLabel.enableAutoLayout()
+//            textLabel.setConstraints(to: customView)
             
             tableView.tableFooterView = customView
         }
