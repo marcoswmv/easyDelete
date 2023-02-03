@@ -21,25 +21,18 @@ An iOS app that makes easy for the user to delete as many contacts as needed, as
 - Fullscreen mode
 - Cross platform
 
-  
 ## Requirements
 
 - iOS 13.0+
 - Xcode 12.5
-## Dependency manager
-
-- Cocoapods
-
-### Dependencies
-
-<p align="row">
-<img src= "https://github.com/realm/realm-core/blob/master/doc/logo.png" width="100" >
-</p>
 
 ## Tech Stack
 
-- UIKit, Contacts(from Apple)
-- Realm
+- UIKit
+- Contacts(from Apple)
+- Combine
+- CoreData
+
 ## 🔗 Links
 
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/marcoswmvicente/)
