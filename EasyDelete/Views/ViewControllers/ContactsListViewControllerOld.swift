@@ -6,56 +6,15 @@
 //
 
 import UIKit
+import SnapKit
 
-final class ContactsListViewController: UIViewController {
+final class ContactsListViewControllerOld: UITableViewController {
     
-    lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.allowsMultipleSelectionDuringEditing = true
-
-        return tableView
-    }()
-
-    private lazy var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.obscuresBackgroundDuringPresentation = false
-
-        return searchController
-    }()
-
-    private lazy var refreshControl: UIRefreshControl = {
-        UIRefreshControl()
-    }()
-
-    lazy var tableViewTapRecognizer: UITapGestureRecognizer = {
-        UITapGestureRecognizer()
-    }()
-    
-//    var dataSource: ContactsDataSource?
-//    var timer: Timer?
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
-        setupDataSource()
-
-//        dataSource?.updateCountText = { [weak self] count in
-//            guard let self = self else { return }
-//            // swiftlint:disable:next empty_count
-//            if count > 0 {
-//                self.navigationItem.title = "Selected \(count) contact\(count >= 2 ? "s" : "")"
-//            } else {
-//                self.navigationItem.title = Consts.ContactsList.title
-//            }
-//        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-//        dataSource?.reload()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -68,19 +27,14 @@ final class ContactsListViewController: UIViewController {
         setupNavigationBar()
         setupTableView()
         setupToolbar()
-        searchController.searchBar.delegate = self
-    }
-    
-    private func setupDataSource() {
-//        dataSource = ContactsDataSource(tableView: tableView)
-//        dataSource?.reload()
+//        searchController.searchBar.delegate = self
     }
 
     private func setupNavigationBar() {
         navigationItem.title = Consts.ContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
 
-        navigationItem.searchController = searchController
+//        navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
 
@@ -93,14 +47,12 @@ final class ContactsListViewController: UIViewController {
     private func setupTableView() {
         view.addSubview(tableView)
 
-        tableView.enableAutoLayout()
-        tableView.setConstraints(to: view)
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         tableView.refreshControl = self.refreshControl
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Consts.ContactsList.cell)
-
-        tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.identifier)
     }
     
     private func setupToolbar() {
@@ -119,9 +71,9 @@ final class ContactsListViewController: UIViewController {
         navigationItem.leftBarButtonItem?.isEnabled = disable
         navigationItem.rightBarButtonItem?.isEnabled = disable
         navigationController?.setToolbarHidden(disable, animated: true)
-        searchController.searchBar.endEditing(true)
+//        searchController.searchBar.endEditing(true)
         tableView.setEditing(!disable, animated: disable)
-        tableView.removeGestureRecognizer(tableViewTapRecognizer)
+//        tableView.removeGestureRecognizer(tableViewTapRecognizer)
     }
     
     // MARK: - Handlers
@@ -160,9 +112,5 @@ final class ContactsListViewController: UIViewController {
 //                self.refreshControl.endRefreshing()
 //            }
         }
-    }
-    
-    @objc private func handleTapOnTable() {
-        print("Tapping table view")
     }
 }

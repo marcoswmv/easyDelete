@@ -78,4 +78,6 @@ struct Consts {
         static let settingsAlertTitle = NSLocalizedString("Access denied", comment: "Open settings - title")
         static let accessDenied = "Access Denied"
     }
+    
+    static let permissionError = NSLocalizedString("Access denied", comment: "Open settings - title") 
 }

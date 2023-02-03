@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension DeletedContactsViewController: UISearchBarDelegate {
+extension DeletedContactsListViewController: UISearchBarDelegate {
     
 //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 //        searchBar.resignFirstResponder()
