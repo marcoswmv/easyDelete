@@ -5,7 +5,7 @@
 //  Created by Marcos Vicente on 04.08.2021.
 //
 
-//import UIKit
+import UIKit
 //
 //class DataSourceManager {
 //    
@@ -24,46 +24,46 @@
 //        .sorted { $0.letter < $1.letter }
 //    }
 //    
-//    func sortIndexPathsInDescendingOrder(_ indexPaths: EDTypes.IndexPaths) -> EDTypes.IndexPaths {
-//        let sectionsDict = extractIndexPathArrayToDictionary(indexPaths: indexPaths)
-//        let resultArray = createSortedArrayOfTuples(sectionsDict: sectionsDict)
-//        
-//        return createNewIndexPathsArray(resultArray: resultArray)
-//    }
-//    
-//    func extractIndexPathArrayToDictionary(indexPaths: EDTypes.IndexPaths) -> EDTypes.ExtractedIndexPaths {
-//        var sectionsDict: EDTypes.ExtractedIndexPaths = [:]
-//        
-//        for indexPath in indexPaths {
-//            if sectionsDict.contains(where: { $0.key == indexPath.section }) {
-//                sectionsDict[indexPath.section]?.append(indexPath.row)
-//            } else {
-//                sectionsDict.updateValue([indexPath.row], forKey: indexPath.section)
-//            }
-//        }
-//        
-//        return sectionsDict
-//    }
-//    
-//    func createSortedArrayOfTuples(sectionsDict: EDTypes.ExtractedIndexPaths) -> EDTypes.GroupedIndexPaths {
-//        return sectionsDict.map { (key: Int, value: [Int]) -> (section: Int, rows: [Int]) in
-//            let sortedValues = value.sorted(by: >)
-//            return (section: key, rows: sortedValues)
-//        }
-//        .sorted(by: { $0.section > $1.section })
-//    }
-//    
-//    func createNewIndexPathsArray(resultArray: EDTypes.GroupedIndexPaths) -> EDTypes.IndexPaths {
-//        var resultIndexPaths: EDTypes.IndexPaths = []
-//        
-//        for result in resultArray {
-//            for row in result.rows {
-//                resultIndexPaths.append(IndexPath(row: row, section: result.section))
-//            }
-//        }
-//        
-//        return resultIndexPaths
-//    }
+    func sortIndexPathsInDescendingOrder(_ indexPaths: [IndexPath]) -> [IndexPath] {
+        let sectionsDict = extractIndexPathArrayToDictionary(indexPaths: indexPaths)
+        let resultArray = createSortedArrayOfTuples(sectionsDict: sectionsDict)
+        
+        return createNewIndexPathsArray(resultArray: resultArray)
+    }
+    
+    func extractIndexPathArrayToDictionary(indexPaths: [IndexPath]) -> [Int: [Int]] {
+        var sectionsDict: [Int: [Int]] = [:]
+        
+        for indexPath in indexPaths {
+            if sectionsDict.contains(where: { $0.key == indexPath.section }) {
+                sectionsDict[indexPath.section]?.append(indexPath.row)
+            } else {
+                sectionsDict.updateValue([indexPath.row], forKey: indexPath.section)
+            }
+        }
+        
+        return sectionsDict
+    }
+    
+    func createSortedArrayOfTuples(sectionsDict: [Int: [Int]]) -> [(section: Int, rows: [Int])] {
+        return sectionsDict.map { (key: Int, value: [Int]) -> (section: Int, rows: [Int]) in
+            let sortedValues = value.sorted(by: >)
+            return (section: key, rows: sortedValues)
+        }
+        .sorted(by: { $0.section > $1.section })
+    }
+    
+    func createNewIndexPathsArray(resultArray: [(section: Int, rows: [Int])]) -> [IndexPath] {
+        var resultIndexPaths: [IndexPath] = []
+        
+        for result in resultArray {
+            for row in result.rows {
+                resultIndexPaths.append(IndexPath(row: row, section: result.section))
+            }
+        }
+        
+        return resultIndexPaths
+    }
 //    
 //    func nameAttributedString(contact: Contact) -> NSMutableAttributedString {
 //        var attributedString = NSMutableAttributedString(string: "")

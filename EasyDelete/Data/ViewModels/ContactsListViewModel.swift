@@ -33,14 +33,19 @@ final class ContactsListViewModel {
         }
     }
     
-    func deleteContact(with deletedContactViewModelID: String) {
+    func deleteContact(with deletedContactViewModelID: String, permanently: Bool = false) {
         let retrievedContactModels = retrieveContactsFromDatabase()
         
         if let contactModelToDelete = retrievedContactModels.first(where: { $0.identifier == deletedContactViewModelID }) {
-            // Save deleted to data base
-            databaseManager.setAsDeleted(contact: contactModelToDelete)
-            // Delete from Contacts store
-            // contactsStore.delete(contactWith: contactModelToDelete.identifier ?? "")
+            if permanently, contactModelToDelete.isContactDeleted {
+                // Delete from database
+                databaseManager.delete(contact: contactModelToDelete)
+            } else {
+                // Save deleted to data base
+                databaseManager.setAsDeleted(contact: contactModelToDelete)
+                // Delete from Contacts store
+                contactsStore.delete(contactWith: contactModelToDelete.identifier ?? "")
+            }
         }
         
         generateViewModels()

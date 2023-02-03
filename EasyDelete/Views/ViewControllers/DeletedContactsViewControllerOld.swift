@@ -69,7 +69,7 @@ class DeletedContactsViewControllerOld: UIViewController {
 //        
 //        tableViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapOnTable))
 //        
-////        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
+//        layoutTableViewFooter(with: String(dataSource?.contactsCount() ?? 0))
 //    }
 //    
 //    func layoutTableViewFooter(with text: String) {
@@ -164,18 +164,18 @@ class DeletedContactsViewControllerOld: UIViewController {
 //        manageDeletedContacts(enable: true)
 //    }
 //    
-//    @objc private func handleDelete() {
+    @objc private func handleDelete() {
 //        if let indexPaths = self.tableView.indexPathsForSelectedRows {
 //            Alert.showActionSheetToAskForConfirmationToDelete(on: self, numberOfContacts: indexPaths.count) { [weak self] confirmation in
 //                guard let self = self else { return }
-////                if confirmation {
-////                    let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
-////                    var indexPathsToDelete = EDTypes.IndexPaths()
-////                    for indexPath in sortedIndexPaths {
-////                        indexPathsToDelete.append(indexPath)
-////                    }
-////                    self.dataSource?.deleteContact(at: indexPathsToDelete)
-////                }
+//                if confirmation {
+//                    let sortedIndexPaths = DataSourceManager.shared.sortIndexPathsInDescendingOrder(indexPaths)
+//                    var indexPathsToDelete = EDTypes.IndexPaths()
+//                    for indexPath in sortedIndexPaths {
+//                        indexPathsToDelete.append(indexPath)
+//                    }
+//                    self.dataSource?.deleteContact(at: indexPathsToDelete)
+//                }
 //            }
 //            if isAllSelected {
 //                selectAllButton.title = Consts.DeletedContactsList.selectAll
@@ -189,7 +189,7 @@ class DeletedContactsViewControllerOld: UIViewController {
 //                Alert.showNoContactSelectedAlert(on: self)
 //            }
 //        }
-//    }
+    }
 //    
 //    @objc private func handleDone() {
 //        manageDeletedContacts(enable: false)

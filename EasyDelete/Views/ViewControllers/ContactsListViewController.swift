@@ -141,7 +141,7 @@ class ContactsListViewController: UITableViewController, UISearchControllerDeleg
     }
     
     @objc private func handlePushDeleted() {
-        let deletedContactsVC = DeletedContactsListViewController()
+        let deletedContactsVC = DeletedContactsListViewController(viewModel: viewModel)
         navigationController?.pushViewController(deletedContactsVC, animated: true)
     }
     
@@ -157,7 +157,6 @@ class ContactsListViewController: UITableViewController, UISearchControllerDeleg
 // MARK: - Table view data source
 
 extension ContactsListViewController {
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.contactsViewModels.count
     }
