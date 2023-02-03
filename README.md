@@ -17,14 +17,8 @@ An iOS app that makes easy for the user to delete as many contacts as needed, as
 
 ## Features
 
-- Light/dark mode toggle
-- Fullscreen mode
-- Cross platform
-
-## Requirements
-
-- iOS 13.0+
-- Xcode 12.5
+- Delete contact on swipe or multiple selection
+- Recover contacts on swipe or multiple selection
 
 ## Tech Stack
 
@@ -32,6 +26,11 @@ An iOS app that makes easy for the user to delete as many contacts as needed, as
 - Contacts(from Apple)
 - Combine
 - CoreData
+
+## Requirements
+
+- iOS 13.0+
+- Xcode 12.5
 
 ## 🔗 Links
 
