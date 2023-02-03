@@ -35,10 +35,21 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         return searchController
     }()
     
+    private lazy var countLabel: UILabel = {
+        let countLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 80.0)))
+        countLabel.textColor = .gray
+        countLabel.textAlignment = .center
+        return countLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.fetchContacts()
     }
     
@@ -52,6 +63,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         viewModel.$contactsViewModels.sink { [weak self] _ in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
+                let count = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.count }
+                self.countLabel.text = "\(count) \(Consts.contacts)"
                 self.tableView.reloadData()
             }
         }.store(in: &cancellables)
@@ -89,6 +102,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.refreshControl = refreshControl
+        
+        tableView.tableFooterView = countLabel
     }
     
     private func setupToolbar() {

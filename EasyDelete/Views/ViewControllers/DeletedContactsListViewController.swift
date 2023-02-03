@@ -39,6 +39,13 @@ final class DeletedContactsListViewController: UITableViewController {
         return searchController
     }()
     
+    private lazy var countLabel: UILabel = {
+        let countLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 80.0)))
+        countLabel.textColor = .gray
+        countLabel.textAlignment = .center
+        return countLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -56,6 +63,9 @@ final class DeletedContactsListViewController: UITableViewController {
         viewModel.$contactsViewModels.sink { [weak self] _ in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
+                let count = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.filter { $0.isDeleted }.count }
+                self.countLabel.text = "\(count) \(Consts.contacts)"
+                
                 self.tableView.reloadData()
             }
         }.store(in: &cancellables)
@@ -89,6 +99,8 @@ final class DeletedContactsListViewController: UITableViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.refreshControl = refreshControl
+        
+        tableView.tableFooterView = countLabel
     }
     
     private func setupToolbar() {

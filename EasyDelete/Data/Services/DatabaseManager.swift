@@ -12,7 +12,7 @@ protocol DatabaseManagerProtocol: AnyObject {
     func retrieveContacts() throws -> [Contact]
     func create(contact: ContactProtocol)
     func delete(contact: Contact)
-    func setAsDeleted(contact: Contact, isDeleted: Bool)
+    func setAsDeleted(contact: Contact)
     func deleteAll()
 }
 
@@ -55,9 +55,9 @@ final class DatabaseManager: DatabaseManagerProtocol {
     }
     
     /// Updating isDeleted status
-    func setAsDeleted(contact: Contact, isDeleted: Bool = true) {
+    func setAsDeleted(contact: Contact) {
         guard let context else { return }
-        contact.isContactDeleted = isDeleted
+        contact.isContactDeleted = true
         
         do {
             try context.save()

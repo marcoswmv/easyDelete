@@ -40,7 +40,7 @@ final class ContactsListViewModel {
                 databaseManager.delete(contact: contactModelToDelete)
             } else {
                 // Save deleted to data base
-                databaseManager.setAsDeleted(contact: contactModelToDelete, isDeleted: true)
+                databaseManager.setAsDeleted(contact: contactModelToDelete)
                 // Delete from Contacts store
                 contactsStore.delete(contactWith: contactModelToDelete.identifier)
             }
@@ -53,8 +53,9 @@ final class ContactsListViewModel {
         if let contactModelToRecover = retrieveContactsFromDatabase().first(where: { $0.identifier == deletedContactViewModelID }) {
             // Add to the contact store
             contactsStore.add(contact: contactModelToRecover)
-            // Unset as deleted from database
-            databaseManager.setAsDeleted(contact: contactModelToRecover, isDeleted: false)
+            // Delete contact from database because another "instance" of the same contact 
+            // is going to be added after add it to the contact store
+            databaseManager.delete(contact: contactModelToRecover)
         }
         
         generateViewModels()
