@@ -3,48 +3,41 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F702C28E26CBEC81003D687C /* ContactDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F702C28D26CBEC81003D687C /* ContactDetailsDataSource.swift */; };
 		F70A5CCC2988969A00B602B9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCB2988969A00B602B9 /* ContactTableViewCell.swift */; };
 		F70A5CCE298896EC00B602B9 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */; };
 		F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */; };
 		F7172F1126C42E960019B760 /* EDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1026C42E960019B760 /* EDTypes.swift */; };
 		F7172F1326C42EAA0019B760 /* ContactStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1226C42EAA0019B760 /* ContactStore.swift */; };
-		F7172F1526C43BD50019B760 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1426C43BD50019B760 /* UIApplication+Extension.swift */; };
-		F7172F1726C44A620019B760 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7172F1626C44A620019B760 /* DataBaseManager.swift */; };
 		F71C7A2F26CEF9EC0009182A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F71C7A2E26CEF9EC0009182A /* Assets.xcassets */; };
 		F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE526A8702A0017493B /* AppDelegate.swift */; };
 		F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE726A8702A0017493B /* SceneDelegate.swift */; };
-		F722DDEA26A8702A0017493B /* ContactsListViewControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DDE926A8702A0017493B /* ContactsListViewControllerOld.swift */; };
 		F722DDF226A8702C0017493B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F722DDF026A8702C0017493B /* LaunchScreen.storyboard */; };
 		F722DE0226A8773D0017493B /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F722DE0126A8773D0017493B /* Consts.swift */; };
 		F7231C1926BDE481001F7787 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F7231C1826BDE481001F7787 /* .swiftlint.yml */; };
-		F7231C1D26BDE949001F7787 /* DeletedContactsViewControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C1C26BDE949001F7787 /* DeletedContactsViewControllerOld.swift */; };
 		F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C1E26BDEF3D001F7787 /* Alert.swift */; };
 		F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */; };
-		F7231C2326BDF88D001F7787 /* DeletedContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C2226BDF88D001F7787 /* DeletedContactsDataSource.swift */; };
 		F7361812298B07D700D3ADDA /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7361811298B07D700D3ADDA /* DatabaseManager.swift */; };
 		F73881BD28B6C43F00704850 /* ContactsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73881BC28B6C43F00704850 /* ContactsListViewModel.swift */; };
 		F75D7D7C26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75D7D7B26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift */; };
 		F768DF9A2989477900969914 /* ContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F768DF992989477900969914 /* ContactsListViewController.swift */; };
 		F768DF9C2989614500969914 /* ContactsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F768DF9B2989614500969914 /* ContactsCellViewModel.swift */; };
 		F768DFC42989AB0200969914 /* EasyDelete.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F768DFC22989AB0200969914 /* EasyDelete.xcdatamodeld */; };
+		F7810CA3299D73C70085CF5A /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7810CA2299D73C70085CF5A /* Contact+CoreDataProperties.swift */; };
+		F7810CA6299D888E0085CF5A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F7810CA5299D888E0085CF5A /* SnapKit */; };
 		F7AD900926CB1E5200988F7E /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AD900826CB1E5200988F7E /* ContactDetailViewController.swift */; };
 		F7BC54B026BAAF4E006C41A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */; };
-		F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */; };
 		F7BC54BB26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */; };
 		F7BC54C726BB05CD006C41A5 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* ContactModel.swift */; };
-		F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */; };
-		F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */; };
+		F7BF154729D87FAF00F9730A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BF154629D87FAF00F9730A /* Array+Extension.swift */; };
 		F7C845D926E0635400B971E1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7C845DB26E0635400B971E1 /* Localizable.strings */; };
 		F7F55462298D74DC004F062C /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */; };
 		F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */; };
 		F7F55467298D966A004F062C /* DeletedContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */; };
 		F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55468298DA7EE004F062C /* ContactProtocol.swift */; };
-		F7F55471298DAD6A004F062C /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F5546F298DAD6A004F062C /* Contact+CoreDataProperties.swift */; };
 		F7F55473298DAE12004F062C /* CNMutableContact+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55472298DAE12004F062C /* CNMutableContact+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,42 +52,35 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F702C28D26CBEC81003D687C /* ContactDetailsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsDataSource.swift; sourceTree = "<group>"; };
 		F70A5CCB2988969A00B602B9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
 		F7172F1026C42E960019B760 /* EDTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDTypes.swift; sourceTree = "<group>"; };
 		F7172F1226C42EAA0019B760 /* ContactStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactStore.swift; sourceTree = "<group>"; };
-		F7172F1426C43BD50019B760 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
-		F7172F1626C44A620019B760 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		F71C7A2E26CEF9EC0009182A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F722DDE226A8702A0017493B /* EasyDelete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyDelete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F722DDE526A8702A0017493B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F722DDE726A8702A0017493B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F722DDE926A8702A0017493B /* ContactsListViewControllerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewControllerOld.swift; sourceTree = "<group>"; };
 		F722DDF126A8702C0017493B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F722DDF326A8702C0017493B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F722DE0126A8773D0017493B /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		F7231C1826BDE481001F7787 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		F7231C1C26BDE949001F7787 /* DeletedContactsViewControllerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsViewControllerOld.swift; sourceTree = "<group>"; };
 		F7231C1E26BDEF3D001F7787 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeletedContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
-		F7231C2226BDF88D001F7787 /* DeletedContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsDataSource.swift; sourceTree = "<group>"; };
 		F7361811298B07D700D3ADDA /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		F73881BC28B6C43F00704850 /* ContactsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewModel.swift; sourceTree = "<group>"; };
 		F75D7D7B26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteDataBaseTests.swift; sourceTree = "<group>"; };
 		F768DF992989477900969914 /* ContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewController.swift; sourceTree = "<group>"; };
 		F768DF9B2989614500969914 /* ContactsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCellViewModel.swift; sourceTree = "<group>"; };
 		F768DFC32989AB0200969914 /* EasyDelete.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyDelete.xcdatamodel; sourceTree = "<group>"; };
+		F7810CA2299D73C70085CF5A /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F7AD900826CB1E5200988F7E /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
 		F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceManager.swift; sourceTree = "<group>"; };
 		F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDeleteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteDataSourceTests.swift; sourceTree = "<group>"; };
 		F7BC54BC26BACE05006C41A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7BC54C626BB05CD006C41A5 /* ContactModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
-		F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDataSource.swift; sourceTree = "<group>"; };
-		F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsDataSource.swift; sourceTree = "<group>"; };
+		F7BF154629D87FAF00F9730A /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		F7C845D626E062E400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		F7C845DA26E0635400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F7C845DC26E0636D00B971E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -102,7 +88,6 @@
 		F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsListViewController.swift; sourceTree = "<group>"; };
 		F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactTableViewCell.swift; sourceTree = "<group>"; };
 		F7F55468298DA7EE004F062C /* ContactProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactProtocol.swift; sourceTree = "<group>"; };
-		F7F5546F298DAD6A004F062C /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		F7F55472298DAE12004F062C /* CNMutableContact+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CNMutableContact+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7810CA6299D888E0085CF5A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,15 +117,6 @@
 				F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		F7172F0526C1B37A0019B760 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				F7172F1626C44A620019B760 /* DataBaseManager.swift */,
-				F7BC54B226BACCE4006C41A5 /* DataSourceManager.swift */,
-			);
-			path = Managers;
 			sourceTree = "<group>";
 		};
 		F722DDD926A8702A0017493B = {
@@ -177,10 +154,8 @@
 		F722DDFB26A874E30017493B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				F722DDE926A8702A0017493B /* ContactsListViewControllerOld.swift */,
 				F768DF992989477900969914 /* ContactsListViewController.swift */,
 				F7AD900826CB1E5200988F7E /* ContactDetailViewController.swift */,
-				F7231C1C26BDE949001F7787 /* DeletedContactsViewControllerOld.swift */,
 				F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */,
 			);
 			path = ViewControllers;
@@ -231,10 +206,10 @@
 			isa = PBXGroup;
 			children = (
 				F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */,
+				F7BF154629D87FAF00F9730A /* Array+Extension.swift */,
 				F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */,
 				F7F55472298DAE12004F062C /* CNMutableContact+Extension.swift */,
 				F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */,
-				F7172F1426C43BD50019B760 /* UIApplication+Extension.swift */,
 				F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */,
 			);
 			path = Extensions;
@@ -255,8 +230,6 @@
 			children = (
 				F768DF982989469000969914 /* Services */,
 				F73881BB28B6C41E00704850 /* ViewModels */,
-				F7172F0526C1B37A0019B760 /* Managers */,
-				F7BC54C826BB0867006C41A5 /* DataSource */,
 				F7BC54C526BB05C0006C41A5 /* Models */,
 			);
 			path = Data;
@@ -265,23 +238,12 @@
 		F7BC54C526BB05C0006C41A5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F7F5546F298DAD6A004F062C /* Contact+CoreDataProperties.swift */,
 				F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */,
 				F7F55468298DA7EE004F062C /* ContactProtocol.swift */,
+				F7810CA2299D73C70085CF5A /* Contact+CoreDataProperties.swift */,
 				F7BC54C626BB05CD006C41A5 /* ContactModel.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		F7BC54C826BB0867006C41A5 /* DataSource */ = {
-			isa = PBXGroup;
-			children = (
-				F7BC54C926BB0881006C41A5 /* BaseDataSource.swift */,
-				F7BC54CB26BB08A8006C41A5 /* ContactsDataSource.swift */,
-				F7231C2226BDF88D001F7787 /* DeletedContactsDataSource.swift */,
-				F702C28D26CBEC81003D687C /* ContactDetailsDataSource.swift */,
-			);
-			path = DataSource;
 			sourceTree = "<group>";
 		};
 		F7BC54CE26BB0A4D006C41A5 /* Views */ = {
@@ -311,6 +273,7 @@
 			);
 			name = EasyDelete;
 			packageProductDependencies = (
+				F7810CA5299D888E0085CF5A /* SnapKit */,
 			);
 			productName = EasyDelete;
 			productReference = F722DDE226A8702A0017493B /* EasyDelete.app */;
@@ -363,6 +326,7 @@
 			);
 			mainGroup = F722DDD926A8702A0017493B;
 			packageReferences = (
+				F7810CA4299D888E0085CF5A /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = F722DDE326A8702A0017493B /* Products */;
 			projectDirPath = "";
@@ -422,33 +386,25 @@
 			files = (
 				F768DF9C2989614500969914 /* ContactsCellViewModel.swift in Sources */,
 				F722DE0226A8773D0017493B /* Consts.swift in Sources */,
-				F7231C1D26BDE949001F7787 /* DeletedContactsViewControllerOld.swift in Sources */,
 				F70A5CCC2988969A00B602B9 /* ContactTableViewCell.swift in Sources */,
 				F768DFC42989AB0200969914 /* EasyDelete.xcdatamodeld in Sources */,
 				F7AD900926CB1E5200988F7E /* ContactDetailViewController.swift in Sources */,
+				F7810CA3299D73C70085CF5A /* Contact+CoreDataProperties.swift in Sources */,
 				F7F55473298DAE12004F062C /* CNMutableContact+Extension.swift in Sources */,
-				F7F55471298DAD6A004F062C /* Contact+CoreDataProperties.swift in Sources */,
-				F722DDEA26A8702A0017493B /* ContactsListViewControllerOld.swift in Sources */,
+				F7BF154729D87FAF00F9730A /* Array+Extension.swift in Sources */,
 				F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */,
 				F73881BD28B6C43F00704850 /* ContactsListViewModel.swift in Sources */,
-				F702C28E26CBEC81003D687C /* ContactDetailsDataSource.swift in Sources */,
 				F7361812298B07D700D3ADDA /* DatabaseManager.swift in Sources */,
-				F7BC54CC26BB08A8006C41A5 /* ContactsDataSource.swift in Sources */,
-				F7BC54B326BACCE4006C41A5 /* DataSourceManager.swift in Sources */,
 				F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */,
 				F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */,
 				F7172F1126C42E960019B760 /* EDTypes.swift in Sources */,
-				F7172F1526C43BD50019B760 /* UIApplication+Extension.swift in Sources */,
 				F7172F1326C42EAA0019B760 /* ContactStore.swift in Sources */,
-				F7172F1726C44A620019B760 /* DataBaseManager.swift in Sources */,
-				F7231C2326BDF88D001F7787 /* DeletedContactsDataSource.swift in Sources */,
 				F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */,
 				F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */,
 				F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */,
 				F768DF9A2989477900969914 /* ContactsListViewController.swift in Sources */,
 				F7F55462298D74DC004F062C /* Contact+CoreDataClass.swift in Sources */,
 				F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */,
-				F7BC54CA26BB0881006C41A5 /* BaseDataSource.swift in Sources */,
 				F70A5CCE298896EC00B602B9 /* UITableViewCell+Extension.swift in Sources */,
 				F7F55467298D966A004F062C /* DeletedContactTableViewCell.swift in Sources */,
 				F7BC54B026BAAF4E006C41A5 /* UIView+Extension.swift in Sources */,
@@ -746,6 +702,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F7810CA4299D888E0085CF5A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F7810CA5299D888E0085CF5A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7810CA4299D888E0085CF5A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		F768DFC22989AB0200969914 /* EasyDelete.xcdatamodeld */ = {

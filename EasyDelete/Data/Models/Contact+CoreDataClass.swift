@@ -13,7 +13,8 @@ import Contacts
 @objc(Contact)
 public class Contact: NSManagedObject {
     
-    convenience init(contact: ContactProtocol, insertInto context: NSManagedObjectContext?) {
+    convenience init(contact: ContactProtocol, 
+                     insertInto context: NSManagedObjectContext?) {
         let entity = NSEntityDescription.entity(forEntityName: "Contact", in: context!)
         self.init(entity: entity!, insertInto: context)
         
@@ -24,15 +25,24 @@ public class Contact: NSManagedObject {
         self.imageDataAvailable = contact.imageDataAvailable
         self.isContactDeleted = contact.isContactDeleted
         self.phoneNumbers = contact.phoneNumbers
-        self.dayOfDeletion = contact.dayOfDeletion
-        self.remainingDaysForDeletion = Int64(contact.remainingDaysForDeletion)
-        self.scheduledDayForDeletion = contact.scheduledDayForDeletion
+        self.deletionDate = contact.deletionDate
         self.organizationName = contact.organizationName
         self.jobTitle = contact.jobTitle
         self.emails = contact.emails
     }
 
-    convenience init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data = Data(), imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String] = [], emails: [String]? = nil, dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int64 = 0, scheduledDayForDeletion: Date? = nil, organizationName: String? = nil, jobTitle: String? = nil, insertInto context: NSManagedObjectContext?) {
+    convenience init(identifier: String = "", 
+                     givenName: String? = nil, 
+                     familyName: String? = nil, 
+                     thumbnailPhoto: Data = Data(), 
+                     imageDataAvailable: Bool = false, 
+                     isContactDeleted: Bool = false, 
+                     phoneNumbers: [String] = [], 
+                     emails: [String]? = nil, 
+                     deletionDate: Date? = nil, 
+                     organizationName: String? = nil, 
+                     jobTitle: String? = nil, 
+                     insertInto context: NSManagedObjectContext?) {
         let entity = NSEntityDescription.entity(forEntityName: "Contact", in: context!)
         self.init(entity: entity!, insertInto: context)
         
@@ -43,15 +53,14 @@ public class Contact: NSManagedObject {
         self.imageDataAvailable = imageDataAvailable
         self.isContactDeleted = isContactDeleted
         self.phoneNumbers = phoneNumbers
-        self.dayOfDeletion = dayOfDeletion
-        self.remainingDaysForDeletion = remainingDaysForDeletion
-        self.scheduledDayForDeletion = scheduledDayForDeletion
+        self.deletionDate = deletionDate
         self.organizationName = organizationName
         self.jobTitle = jobTitle
         self.emails = emails
     }
     
-    convenience init(contact: CNContact, insertInto context: NSManagedObjectContext) {
+    convenience init(contact: CNContact, 
+                     insertInto context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entity(forEntityName: "Contact", in: context)
         self.init(entity: entity!, insertInto: context)
         
@@ -64,9 +73,7 @@ public class Contact: NSManagedObject {
         self.jobTitle = jobTitle
         
         self.isContactDeleted = false
-        self.dayOfDeletion = nil
-        self.remainingDaysForDeletion = 0
-        self.scheduledDayForDeletion = nil
+        self.deletionDate = nil
         
         for contact in contact.phoneNumbers {
             self.phoneNumbers?.append(contact.value.stringValue)

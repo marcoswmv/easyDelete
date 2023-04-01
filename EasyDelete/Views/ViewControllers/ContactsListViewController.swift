@@ -27,6 +27,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     // MARK: - UI Declaration
     
+    private var rightNavBarButton: UIBarButtonItem!
+    
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
@@ -40,6 +42,13 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         countLabel.textColor = .gray
         countLabel.textAlignment = .center
         return countLabel
+    }()
+    
+    private lazy var noContactsLabel: UILabel = {
+        let label = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 80.0)))
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
     }()
     
     override func viewDidLoad() {
@@ -63,8 +72,18 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         viewModel.$contactsViewModels.sink { [weak self] _ in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
-                let count = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.count }
-                self.countLabel.text = "\(count) \(Consts.contacts)"
+                let contactsCount = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.count }
+                let hasContacts = contactsCount > 0
+                
+                self.countLabel.isHidden = !hasContacts
+                self.noContactsLabel.isHidden = hasContacts
+                self.enableRightNavigationBarButton(hasContacts)
+                
+                if hasContacts {
+                    self.countLabel.text = "\(contactsCount) \(Consts.contacts)"
+                } else {
+                    self.noContactsLabel.text = Consts.ListScreen.emptyList
+                }
                 self.tableView.reloadData()
             }
         }.store(in: &cancellables)
@@ -87,12 +106,17 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         definesPresentationContext = true
 
         let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .plain, target: self, action: #selector(handlePushDeleted))
-        let rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.select, style: .plain, target: self, action: #selector(handleSelect))
+        rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.select, style: .plain, target: self, action: #selector(handleSelect))
         navigationItem.leftBarButtonItem = leftNavBarButton
         navigationItem.rightBarButtonItem = rightNavBarButton
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleNavigationBarTap))
         navigationController?.navigationBar.addGestureRecognizer(tapGesture)
+    }
+    
+    private func enableRightNavigationBarButton(_ enable: Bool) {
+        rightNavBarButton.isEnabled = enable
+        rightNavBarButton.tintColor = enable ? .link : .gray
     }
     
     private func setupTableView() {
@@ -104,6 +128,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         tableView.refreshControl = refreshControl
         
         tableView.tableFooterView = countLabel
+        tableView.backgroundView = noContactsLabel
     }
     
     private func setupToolbar() {
@@ -192,7 +217,10 @@ extension ContactsListViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.identifier, 
-                                                       for: indexPath) as? ContactTableViewCell else { return ContactTableViewCell() }
+                                                       for: indexPath) as? ContactTableViewCell,
+              viewModel.contactsViewModels.indices.contains(indexPath.section),
+              viewModel.contactsViewModels[indexPath.section].names
+            .filter({ $0.isDeleted == false }).indices.contains(indexPath.row) else { return ContactTableViewCell() }
         
         let contactViewModel = viewModel.contactsViewModels[indexPath.section].names.filter { $0.isDeleted == false }[indexPath.row]
         

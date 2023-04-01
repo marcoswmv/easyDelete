@@ -13,19 +13,32 @@ struct ContactCellViewModel {
     var name: String
     var phoneNumbers: [String]
     var isDeleted: Bool
+    var deletionDate: Date
     
-    init(contact: Contact) {
-        self.identifier = contact.identifier ?? ""
+    var handleExpiration: ((String) -> Void)?
+    
+    init(contact: Contact, handleExpiration: ((String) -> Void)?) {
+        self.identifier = contact.identifier 
         self.name = (contact.givenName ?? "") + " " + (contact.familyName ?? "")
         if self.name.trimmingCharacters(in: .whitespaces).isEmpty {
             self.name = contact.phoneNumbers?.first ?? ""
         }
         self.phoneNumbers = contact.phoneNumbers ?? []
         self.isDeleted = contact.isContactDeleted
+        self.deletionDate = contact.deletionDate ?? Date()
+        self.handleExpiration = handleExpiration
     }
 }
 
 extension ContactCellViewModel: Comparable {
+    static func == (lhs: ContactCellViewModel, rhs: ContactCellViewModel) -> Bool {
+        lhs.identifier == rhs.identifier &&
+        lhs.name == rhs.name &&
+        lhs.phoneNumbers == rhs.phoneNumbers &&
+        lhs.isDeleted == rhs.isDeleted &&
+        lhs.deletionDate == rhs.deletionDate
+    }
+    
     static func < (lhs: ContactCellViewModel, rhs: ContactCellViewModel) -> Bool {
         lhs.name < rhs.name
     }
