@@ -17,13 +17,21 @@ final class ContactModel: ContactProtocol {
     var isContactDeleted: Bool
     var phoneNumbers: [String]?
     var emails: [String]?
-    var dayOfDeletion: Date?
-    var remainingDaysForDeletion: Int64
-    var scheduledDayForDeletion: Date?
+    var deletionDate: Date?
     var organizationName: String?
     var jobTitle: String?
     
-    init(identifier: String = "", givenName: String? = nil, familyName: String? = nil, thumbnailPhoto: Data? = nil, imageDataAvailable: Bool = false, isContactDeleted: Bool = false, phoneNumbers: [String]? = nil, emails: [String]? = nil, dayOfDeletion: Date? = nil, remainingDaysForDeletion: Int64 = 0, scheduledDayForDeletion: Date? = nil, organizationName: String? = nil, jobTitle: String? = nil) {
+    init(identifier: String = "", 
+         givenName: String? = nil, 
+         familyName: String? = nil, 
+         thumbnailPhoto: Data? = nil, 
+         imageDataAvailable: Bool = false, 
+         isContactDeleted: Bool = false, 
+         phoneNumbers: [String]? = nil, 
+         emails: [String]? = nil, 
+         deletionDate: Date? = nil,
+         organizationName: String? = nil, 
+         jobTitle: String? = nil) {
         self.identifier = identifier
         self.givenName = givenName
         self.familyName = familyName
@@ -31,9 +39,7 @@ final class ContactModel: ContactProtocol {
         self.imageDataAvailable = imageDataAvailable
         self.isContactDeleted = isContactDeleted
         self.phoneNumbers = phoneNumbers
-        self.dayOfDeletion = dayOfDeletion
-        self.remainingDaysForDeletion = remainingDaysForDeletion
-        self.scheduledDayForDeletion = scheduledDayForDeletion
+        self.deletionDate = deletionDate
         self.emails = emails
         self.organizationName = organizationName
         self.jobTitle = jobTitle
@@ -50,9 +56,7 @@ final class ContactModel: ContactProtocol {
         self.jobTitle = contact.jobTitle
         
         self.isContactDeleted = false
-        self.dayOfDeletion = nil
-        self.remainingDaysForDeletion = 0
-        self.scheduledDayForDeletion = nil
+        self.deletionDate = nil
         
         for contact in contact.phoneNumbers {
             self.phoneNumbers?.append(contact.value.stringValue)

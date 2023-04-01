@@ -16,9 +16,7 @@ protocol ContactProtocol: AnyObject {
     var isContactDeleted: Bool { get set }
     var phoneNumbers: [String]? { get set }
     var emails: [String]? { get set }
-    var dayOfDeletion: Date? { get set }
-    var remainingDaysForDeletion: Int64 { get set }
-    var scheduledDayForDeletion: Date? { get set }
+    var deletionDate: Date? { get set }
     var organizationName: String? { get set }
     var jobTitle: String? { get set }
 }

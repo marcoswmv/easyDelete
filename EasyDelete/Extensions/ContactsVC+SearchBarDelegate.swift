@@ -42,7 +42,7 @@ extension ContactsListViewController: UISearchBarDelegate {
     }
     
     private func cancelSearchTimer() {
-        if var timer, timer.isValid {
+        if let timer, timer.isValid {
             timer.invalidate()
             self.timer = nil
         }
@@ -57,10 +57,6 @@ extension ContactsListViewController: UISearchBarDelegate {
     }
     
     private func search(query: String?) {
-        if let searchText = query {
-//            viewModel.startQuery(with: searchText)
-        } else {
-//            viewModel.startQuery(with: "")
-        }
+        viewModel.startQuery(with: query)
     }
 }

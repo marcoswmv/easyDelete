@@ -33,10 +33,32 @@ final class DatabaseManager: DatabaseManagerProtocol {
         do {
             let request: NSFetchRequest<Contact> = Contact.fetchRequest()
             request.predicate = NSPredicate(format: "identifier == %@", contact.identifier)
-            let numberOfRecords = try context.count(for: request)
-            if numberOfRecords == 0 {
-                let newContact = Contact(contact: contact, insertInto: context)
+            let recordsCount = try context.count(for: request)
+            
+            if recordsCount == 0 {
+                _ = Contact(contact: contact, insertInto: context)
                 try context.save()
+            } else {
+                let request: NSFetchRequest<Contact> = Contact.fetchRequest()
+                 let giveNamePredicate = NSPredicate(format: "givenName == %@", contact.givenName ?? "")
+                let familyNamePredicate = NSPredicate(format: "familyName == %@", contact.familyName ?? "")
+                let phoneNumbersPredicate = NSPredicate(format: "phoneNumbers == %@", contact.phoneNumbers ?? [])
+                let emailsPredicate = NSPredicate(format: "emails == %@", contact.emails ?? [])
+                let organizationNamePredicate = NSPredicate(format: "organizationName == %@", contact.organizationName ?? "")
+                let jobTitlePredicate = NSPredicate(format: "jobTitle == %@", contact.jobTitle ?? "")
+                let andPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [giveNamePredicate, 
+                                                                                       familyNamePredicate, 
+                                                                                       phoneNumbersPredicate, 
+                                                                                       emailsPredicate, 
+                                                                                       organizationNamePredicate, 
+                                                                                       jobTitlePredicate])
+                
+                request.predicate = andPredicate
+                let compoundRecordsCount = try context.count(for: request)
+                if compoundRecordsCount > 0 {
+                    _ = Contact(contact: contact, insertInto: context)
+                    try context.save()
+                }
             }
         } catch {
             print("[Debug - \(#function)]: \(error.localizedDescription)")
@@ -54,10 +76,11 @@ final class DatabaseManager: DatabaseManagerProtocol {
         }
     }
     
-    /// Updating isDeleted status
+    /// Updating deletion related properties: isContactDeleted and deletionDate
     func setAsDeleted(contact: Contact) {
         guard let context else { return }
         contact.isContactDeleted = true
+        contact.deletionDate = Date()
         
         do {
             try context.save()

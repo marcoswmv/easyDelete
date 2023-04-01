@@ -40,6 +40,7 @@ struct Consts {
         static let done = NSLocalizedString("Done", comment: "Generic list string item - Done")
         static let select = NSLocalizedString("Select", comment: "Generic list string item - Select")
         static let noResults = NSLocalizedString("No results", comment: "Generic list string item - No results")
+        static let emptyList = NSLocalizedString("No contacts", comment: "Contacts list - No contacts")
     }
     
     struct ContactsList {

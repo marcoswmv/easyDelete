@@ -46,6 +46,13 @@ final class DeletedContactsListViewController: UITableViewController {
         return countLabel
     }()
     
+    private lazy var noContactsLabel: UILabel = {
+        let countLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 80.0)))
+        countLabel.textColor = .gray
+        countLabel.textAlignment = .center
+        return countLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -63,9 +70,18 @@ final class DeletedContactsListViewController: UITableViewController {
         viewModel.$contactsViewModels.sink { [weak self] _ in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
-                let count = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.filter { $0.isDeleted }.count }
-                self.countLabel.text = "\(count) \(Consts.contacts)"
+                let contactsCount = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.filter { $0.isDeleted }.count }
+                let hasContacts = contactsCount > 0
                 
+                self.countLabel.isHidden = !hasContacts
+                self.noContactsLabel.isHidden = hasContacts
+                self.enableRightNavigationBarButton(hasContacts)
+                
+                if hasContacts {
+                    self.countLabel.text = "\(contactsCount) \(Consts.contacts)"
+                } else {
+                    self.noContactsLabel.text = Consts.ListScreen.emptyList
+                }
                 self.tableView.reloadData()
             }
         }.store(in: &cancellables)
@@ -82,6 +98,11 @@ final class DeletedContactsListViewController: UITableViewController {
         navigationItem.title = Consts.DeletedContactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
+        
         rightNavBarButton = UIBarButtonItem(title: Consts.DeletedContactsList.manage, 
                                             style: .plain, 
                                             target: self, 
@@ -90,6 +111,11 @@ final class DeletedContactsListViewController: UITableViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleNavigationBarTap))
         navigationController?.navigationBar.addGestureRecognizer(tapGesture)
+    }
+    
+    private func enableRightNavigationBarButton(_ enable: Bool) {
+        rightNavBarButton.isEnabled = enable
+        rightNavBarButton.tintColor = enable ? .link : .gray
     }
     
     private func setupTableView() {
@@ -101,6 +127,7 @@ final class DeletedContactsListViewController: UITableViewController {
         tableView.refreshControl = refreshControl
         
         tableView.tableFooterView = countLabel
+        tableView.backgroundView = noContactsLabel
     }
     
     private func setupToolbar() {
@@ -149,7 +176,9 @@ extension DeletedContactsListViewController {
     @objc private func handleNavigationBarTap() {
         view.endEditing(true)
         navigationController?.navigationBar.endEditing(true)
-        tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
+        if viewModel.contactsViewModels.filter({ $0.names.allSatisfy({ $0.isDeleted }) }).isEmpty == false {
+            tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
+        }
     }
     
     @objc private func handleManage() {
@@ -252,10 +281,9 @@ extension DeletedContactsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if viewModel.contactsViewModels[section].names.allSatisfy({ $0.isDeleted == false }) {
-            return nil
-        }
-        return viewModel.contactsViewModels[section].letter
+        guard let section = viewModel.contactsViewModels[safe: section],
+              section.names.allSatisfy({ $0.isDeleted == false }) == false else { return nil }
+        return section.letter
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -263,20 +291,16 @@ extension DeletedContactsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DeletedContactTableViewCell.identifier, 
-                                                       for: indexPath) as? DeletedContactTableViewCell else { return DeletedContactTableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: DeletedContactTableViewCell.identifier, 
+            for: indexPath) as? DeletedContactTableViewCell,
+              let section = viewModel.contactsViewModels[safe: indexPath.section],
+              let contactViewModel = section.names.filter({ $0.isDeleted })[safe: indexPath.row] else { 
+            print("Something went wrong!")
+            return DeletedContactTableViewCell()
+        }
         
-        let contactViewModel = viewModel.contactsViewModels[indexPath.section].names.filter { $0.isDeleted }[indexPath.row]
-        
-        let name = contactViewModel.name
-        let phoneNumbers = contactViewModel.phoneNumbers
-        
-        cell.textLabel?.lineBreakMode = .byWordWrapping
-        cell.textLabel?.font = .boldSystemFont(ofSize: 15)
-        cell.textLabel?.text = name
-        
-        cell.detailTextLabel?.lineBreakMode = .byWordWrapping
-        cell.detailTextLabel?.text = phoneNumbers.joined(separator: ", ")
+        cell.fill(with: contactViewModel)
         
         return cell
     }
@@ -321,5 +345,9 @@ extension DeletedContactsListViewController {
         }
         recoverAction.backgroundColor = .link
         return UISwipeActionsConfiguration(actions: [recoverAction])
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
 }

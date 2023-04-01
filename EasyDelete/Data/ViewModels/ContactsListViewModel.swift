@@ -15,6 +15,10 @@ final class ContactsListViewModel {
     private let contactsStore: ContactsStoreProtocol = ContactsStore()
     private let databaseManager: DatabaseManagerProtocol = DatabaseManager()
     
+    private var localContactsViewModels: GroupedContactsViewModels = []
+    private var filteredContactsViewModels: GroupedContactsViewModels = []
+    private var isSearching: Bool = false
+    
     @Published var error: Error?
     @Published var contactsViewModels: GroupedContactsViewModels = []
     
@@ -42,7 +46,9 @@ final class ContactsListViewModel {
                 // Save deleted to data base
                 databaseManager.setAsDeleted(contact: contactModelToDelete)
                 // Delete from Contacts store
-                contactsStore.delete(contactWith: contactModelToDelete.identifier)
+                contactsStore.delete(contactWith: contactModelToDelete.identifier) { [weak self] error in
+                    self?.error = error
+                }
             }
         }
         
@@ -52,20 +58,30 @@ final class ContactsListViewModel {
     func recoverContact(with deletedContactViewModelID: String) {
         if let contactModelToRecover = retrieveContactsFromDatabase().first(where: { $0.identifier == deletedContactViewModelID }) {
             // Add to the contact store
-            contactsStore.add(contact: contactModelToRecover)
+            contactsStore.add(contact: contactModelToRecover) { [weak self] error in
+                self?.error = error
+            }
             // Delete contact from database because another "instance" of the same contact 
-            // is going to be added after add it to the contact store
+            // is going to be added after adding it to the contact store
             databaseManager.delete(contact: contactModelToRecover)
         }
         
         generateViewModels()
     }
     
-    func startQuery(with text: String) {
-        let filteredViewModels = contactsViewModels
-            .filter({ $0.names.contains(where: { $0.name.lowercased().hasPrefix(text.lowercased())}) })
-        // let groupedContacts = self.groupContactsBySections(filteredViewModels)
-        self.contactsViewModels = filteredViewModels
+    func startQuery(with text: String?, ofDeleted: Bool = false) {
+        if let text, text.isEmpty == false {
+            isSearching = true
+            filteredContactsViewModels = groupContactsBySections(localContactsViewModels
+                .filter({ $0.names.allSatisfy({ $0.isDeleted == ofDeleted })})
+                .flatMap({ $0.names })
+                .filter({ $0.name.lowercased().contains(text.lowercased()) }))
+            
+            contactsViewModels = isSearching ? filteredContactsViewModels : localContactsViewModels
+        } else {
+            isSearching = false
+            generateViewModels()
+        }
     }
 }
 
@@ -85,7 +101,11 @@ extension ContactsListViewModel {
     
     private func generateViewModels() {
         let retrievedContactModels = retrieveContactsFromDatabase()
-        self.contactsViewModels = self.groupContactsBySections(retrievedContactModels.map { ContactCellViewModel(contact: $0)})
+        localContactsViewModels = groupContactsBySections(retrievedContactModels.map { ContactCellViewModel(contact: $0) { [weak self] identifier in
+            self?.deleteContact(with: identifier, permanently: true)
+        }})
+        
+        contactsViewModels = isSearching ? filteredContactsViewModels : localContactsViewModels
     }
     
     private func retrieveContactsFromDatabase() -> [Contact] {

@@ -17,8 +17,8 @@ enum ContactStoreError: Error {
 
 protocol ContactsStoreProtocol: AnyObject {
     func fetchContacts(completionHandler: @escaping ContactsRequestCompletionBlock)
-    func add(contact: ContactProtocol)
-    func delete(contactWith identifier: String)
+    func add(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void))
+    func delete(contactWith identifier: String, completionHandler: @escaping ((ContactStoreError) -> Void))
 }
 
 final class ContactsStore: ContactsStoreProtocol {
@@ -60,25 +60,30 @@ final class ContactsStore: ContactsStoreProtocol {
         }
     }
     
-    func add(contact: ContactProtocol) {
+    func add(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void)) {
         // Create a new contact
         let newContact = CNMutableContact(contact: contact)
         
         // Save the contact
         let saveRequest = CNSaveRequest()
         saveRequest.add(newContact, toContainerWithIdentifier: nil)
+        if #available(iOS 15.4, *) {
+            saveRequest.shouldRefetchContacts = true
+        } else {
+            // Fallback on earlier versions
+        }
         
         queue.async { [weak self] in
             guard let `self` = self else { return }
             do {
                 try self.store.execute(saveRequest)
             } catch {
-                Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
+                completionHandler(.commonError(error))
             }
         }
     }
     
-    func delete(contactWith identifier: String) {
+    func delete(contactWith identifier: String, completionHandler: @escaping ((ContactStoreError) -> Void)) {
         guard !identifier.isEmpty else { print("[Debug - \(#function)]: Identifier is empty"); return }
         let predicate = CNContact.predicateForContacts(withIdentifiers: [identifier])
         let keys = [CNContactIdentifierKey]
@@ -98,7 +103,7 @@ final class ContactsStore: ContactsStoreProtocol {
                 
                 try self.store.execute(request)
             } catch let error {
-                Alert.showErrorAlert(on: UIApplication.topViewController()!, message: error.localizedDescription)
+                completionHandler(.commonError(error))
             }
         }
     }
