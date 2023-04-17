@@ -13,6 +13,7 @@ import CoreData
 enum ContactStoreError: Error {
     case permission(String)
     case commonError(Error)
+    // TODO: Write more specific errors
 }
 
 protocol ContactsStoreProtocol: AnyObject {
@@ -30,11 +31,7 @@ final class ContactsStore: ContactsStoreProtocol {
     init() { }
     
     func fetchContacts(completionHandler: @escaping ContactsRequestCompletionBlock) {
-        
-        let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey,
-                    CNContactImageDataKey, CNContactImageDataAvailableKey, CNContactIdentifierKey,
-                    CNContactOrganizationNameKey, CNContactEmailAddressesKey, CNContactJobTitleKey]
-        let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
+        let request: CNContactFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactVCardSerialization.descriptorForRequiredKeys()])
         
         store.requestAccess(for: .contacts) { granted, error in
             if let error = error {
@@ -43,13 +40,21 @@ final class ContactsStore: ContactsStoreProtocol {
             if granted {
                 DispatchQueue.global().async {
                     do {
-                        var contacts: [ContactModel] = [] 
+                        var contacts: [CNContact] = []
+                        
                         try self.store.enumerateContacts(with: request, usingBlock: { (contact, _) in
-                            let contact = ContactModel(contact: contact)
                             contacts.append(contact)
                         })
                         
-                        completionHandler(.success(contacts))
+                        self.exportContactsToFile(contacts) { result in
+                            switch result {
+                            case .success: break
+                            case .failure(let error):
+                                completionHandler(.failure(.commonError(error)))
+                            }
+                        }
+                        let contactModels: [ContactModel] = contacts.map { ContactModel(contact: $0) } 
+                        completionHandler(.success(contactModels))
                     } catch {
                         completionHandler(.failure(.commonError(error)))
                     }
@@ -104,6 +109,29 @@ final class ContactsStore: ContactsStoreProtocol {
                 try self.store.execute(request)
             } catch let error {
                 completionHandler(.commonError(error))
+            }
+        }
+    }
+}
+
+//MARK: Helper methods
+extension ContactsStore {
+    private func exportContactsToFile(_ contacts: [CNContact], completionHandler: @escaping ((Result<Void, ContactStoreError>) -> Void)) {
+        if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = directoryURL.appendingPathComponent("EasyDeleteContacts").appendingPathExtension("vcf")
+            
+            do {
+                let contactData = try CNContactVCardSerialization.data(with: contacts)
+                
+                do {
+                    try contactData.write(to: fileURL, options: .atomic)
+                    completionHandler(.success(()))
+                } catch { 
+                    completionHandler(.failure(.commonError(error)))
+                }
+                
+            } catch {
+                completionHandler(.failure(.commonError(error)))
             }
         }
     }

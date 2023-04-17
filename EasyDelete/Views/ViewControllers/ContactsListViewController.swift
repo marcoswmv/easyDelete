@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import Combine
 
 final class ContactsListViewController: UITableViewController, UISearchControllerDelegate {
@@ -253,3 +254,20 @@ extension ContactsListViewController {
         }  
     }
 }
+
+#if DEBUG
+private struct ViewControllerRepresentable: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> some UIViewController {
+        return ContactsListViewController(viewModel: ContactsListViewModel())
+    }    
+    
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+    }
+}
+
+struct DynamicFontTableViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        ViewControllerRepresentable()
+    }
+}
+#endif
