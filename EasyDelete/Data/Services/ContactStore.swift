@@ -19,7 +19,7 @@ enum ContactStoreError: Error {
 protocol ContactsStoreProtocol: AnyObject {
     func fetchContacts(completionHandler: @escaping ContactsRequestCompletionBlock)
     func add(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void))
-    func delete(contactWith identifier: String, completionHandler: @escaping ((ContactStoreError) -> Void))
+    func delete(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void))
 }
 
 final class ContactsStore: ContactsStoreProtocol {
@@ -38,22 +38,17 @@ final class ContactsStore: ContactsStoreProtocol {
                 completionHandler(.failure(.commonError(error)))
             }
             if granted {
-                DispatchQueue.global().async {
+                DispatchQueue.global().async { [weak self] in
+                    guard let `self` = self else { return }
                     do {
-                        var contacts: [CNContact] = []
+                        var contactModels: [ContactModel] = []
                         
                         try self.store.enumerateContacts(with: request, usingBlock: { (contact, _) in
-                            contacts.append(contact)
+                            let contactData = self.archiveContact(contact: contact) 
+                            contactModels.append(ContactModel(contact: contact,
+                                                             vCard: contactData))
                         })
                         
-                        self.exportContactsToFile(contacts) { result in
-                            switch result {
-                            case .success: break
-                            case .failure(let error):
-                                completionHandler(.failure(.commonError(error)))
-                            }
-                        }
-                        let contactModels: [ContactModel] = contacts.map { ContactModel(contact: $0) } 
                         completionHandler(.success(contactModels))
                     } catch {
                         completionHandler(.failure(.commonError(error)))
@@ -66,73 +61,46 @@ final class ContactsStore: ContactsStoreProtocol {
     }
     
     func add(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void)) {
-        // Create a new contact
-        let newContact = CNMutableContact(contact: contact)
+        guard let vCard = contact.vCard,
+              let unarchivedContact = unarchiveContact(data: vCard),
+              let mutableNewContact = unarchivedContact.mutableCopy() as? CNMutableContact else { return }
         
-        // Save the contact
         let saveRequest = CNSaveRequest()
-        saveRequest.add(newContact, toContainerWithIdentifier: nil)
-        if #available(iOS 15.4, *) {
-            saveRequest.shouldRefetchContacts = true
-        } else {
-            // Fallback on earlier versions
-        }
+        saveRequest.add(mutableNewContact, toContainerWithIdentifier: nil)
         
+        executeRequest(saveRequest, completionHandler)
+    }
+    
+    func delete(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void)) {
+        guard let vCard = contact.vCard,
+              let unarchivedContact = unarchiveContact(data: vCard),
+              let mutableContact = unarchivedContact.mutableCopy() as? CNMutableContact else { return }
+        
+        let deleteRequest = CNSaveRequest()
+        deleteRequest.delete(mutableContact)
+        
+        executeRequest(deleteRequest, completionHandler)
+    }
+}
+
+// MARK: Helper methods
+extension ContactsStore {
+    private func executeRequest(_ request: CNSaveRequest, _ completionHandler: @escaping ((ContactStoreError) -> Void)) {
         queue.async { [weak self] in
             guard let `self` = self else { return }
             do {
-                try self.store.execute(saveRequest)
+                try self.store.execute(request)
             } catch {
                 completionHandler(.commonError(error))
             }
         }
     }
     
-    func delete(contactWith identifier: String, completionHandler: @escaping ((ContactStoreError) -> Void)) {
-        guard !identifier.isEmpty else { print("[Debug - \(#function)]: Identifier is empty"); return }
-        let predicate = CNContact.predicateForContacts(withIdentifiers: [identifier])
-        let keys = [CNContactIdentifierKey]
-        
-        queue.async { [weak self] in
-            guard let `self` = self else { return }
-            do {
-                let contacts = try self.store.unifiedContacts(matching: predicate, keysToFetch: keys as [CNKeyDescriptor])
-                guard !contacts.isEmpty else { print("[Debug - \(#function)]: No contacts found"); return }
-                guard let contact = contacts.first else { return }
-                
-                let request = CNSaveRequest()
-                // swiftlint:disable:next force_cast
-                let mutableContact = contact.mutableCopy() as! CNMutableContact
-                
-                request.delete(mutableContact)
-                
-                try self.store.execute(request)
-            } catch let error {
-                completionHandler(.commonError(error))
-            }
-        }
+    public func archiveContact(contact: CNContact) -> Data? {
+        return try? NSKeyedArchiver.archivedData(withRootObject: contact, requiringSecureCoding: false)
     }
-}
-
-//MARK: Helper methods
-extension ContactsStore {
-    private func exportContactsToFile(_ contacts: [CNContact], completionHandler: @escaping ((Result<Void, ContactStoreError>) -> Void)) {
-        if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = directoryURL.appendingPathComponent("EasyDeleteContacts").appendingPathExtension("vcf")
-            
-            do {
-                let contactData = try CNContactVCardSerialization.data(with: contacts)
-                
-                do {
-                    try contactData.write(to: fileURL, options: .atomic)
-                    completionHandler(.success(()))
-                } catch { 
-                    completionHandler(.failure(.commonError(error)))
-                }
-                
-            } catch {
-                completionHandler(.failure(.commonError(error)))
-            }
-        }
+    
+    public func unarchiveContact(data: Data) -> CNContact? {
+        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: CNContact.self, from: data)
     }
 }

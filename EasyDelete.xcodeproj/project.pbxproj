@@ -26,13 +26,13 @@
 		F768DF9A2989477900969914 /* ContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F768DF992989477900969914 /* ContactsListViewController.swift */; };
 		F768DF9C2989614500969914 /* ContactsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F768DF9B2989614500969914 /* ContactsCellViewModel.swift */; };
 		F768DFC42989AB0200969914 /* EasyDelete.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F768DFC22989AB0200969914 /* EasyDelete.xcdatamodeld */; };
-		F7810CA3299D73C70085CF5A /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7810CA2299D73C70085CF5A /* Contact+CoreDataProperties.swift */; };
 		F7810CA6299D888E0085CF5A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F7810CA5299D888E0085CF5A /* SnapKit */; };
 		F7BC54B026BAAF4E006C41A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */; };
 		F7BC54BB26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */; };
 		F7BC54C726BB05CD006C41A5 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* ContactModel.swift */; };
 		F7BF154729D87FAF00F9730A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BF154629D87FAF00F9730A /* Array+Extension.swift */; };
 		F7C845D926E0635400B971E1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7C845DB26E0635400B971E1 /* Localizable.strings */; };
+		F7CDE0C529EE112D003AEACA /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CDE0C429EE112D003AEACA /* Contact+CoreDataProperties.swift */; };
 		F7F55462298D74DC004F062C /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */; };
 		F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */; };
 		F7F55467298D966A004F062C /* DeletedContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */; };
@@ -72,7 +72,6 @@
 		F768DF992989477900969914 /* ContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewController.swift; sourceTree = "<group>"; };
 		F768DF9B2989614500969914 /* ContactsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCellViewModel.swift; sourceTree = "<group>"; };
 		F768DFC32989AB0200969914 /* EasyDelete.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyDelete.xcdatamodel; sourceTree = "<group>"; };
-		F7810CA2299D73C70085CF5A /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDeleteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteDataSourceTests.swift; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 		F7C845D626E062E400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		F7C845DA26E0635400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F7C845DC26E0636D00B971E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F7CDE0C429EE112D003AEACA /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsListViewController.swift; sourceTree = "<group>"; };
 		F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -236,8 +236,8 @@
 			isa = PBXGroup;
 			children = (
 				F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */,
+				F7CDE0C429EE112D003AEACA /* Contact+CoreDataProperties.swift */,
 				F7F55468298DA7EE004F062C /* ContactProtocol.swift */,
-				F7810CA2299D73C70085CF5A /* Contact+CoreDataProperties.swift */,
 				F7BC54C626BB05CD006C41A5 /* ContactModel.swift */,
 			);
 			path = Models;
@@ -385,7 +385,6 @@
 				F722DE0226A8773D0017493B /* Consts.swift in Sources */,
 				F70A5CCC2988969A00B602B9 /* ContactTableViewCell.swift in Sources */,
 				F768DFC42989AB0200969914 /* EasyDelete.xcdatamodeld in Sources */,
-				F7810CA3299D73C70085CF5A /* Contact+CoreDataProperties.swift in Sources */,
 				F7F55473298DAE12004F062C /* CNMutableContact+Extension.swift in Sources */,
 				F7BF154729D87FAF00F9730A /* Array+Extension.swift in Sources */,
 				F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */,
@@ -394,6 +393,7 @@
 				F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */,
 				F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */,
 				F7172F1126C42E960019B760 /* EDTypes.swift in Sources */,
+				F7CDE0C529EE112D003AEACA /* Contact+CoreDataProperties.swift in Sources */,
 				F7172F1326C42EAA0019B760 /* ContactStore.swift in Sources */,
 				F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */,
 				F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */,

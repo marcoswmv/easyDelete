@@ -26,7 +26,7 @@ final class DatabaseManager: DatabaseManagerProtocol {
         return try context.fetch(Contact.fetchRequest())
     }
     
-    /// Creates a new object if it's not existent
+    /// Creates a new object or updates it if already exists
     func create(contact: ContactProtocol) {
         guard let context else { return }
         
@@ -39,26 +39,18 @@ final class DatabaseManager: DatabaseManagerProtocol {
                 _ = Contact(contact: contact, insertInto: context)
                 try context.save()
             } else {
-                let request: NSFetchRequest<Contact> = Contact.fetchRequest()
-                 let giveNamePredicate = NSPredicate(format: "givenName == %@", contact.givenName ?? "")
-                let familyNamePredicate = NSPredicate(format: "familyName == %@", contact.familyName ?? "")
-                let phoneNumbersPredicate = NSPredicate(format: "phoneNumbers == %@", contact.phoneNumbers ?? [])
-                let emailsPredicate = NSPredicate(format: "emails == %@", contact.emails ?? [])
-                let organizationNamePredicate = NSPredicate(format: "organizationName == %@", contact.organizationName ?? "")
-                let jobTitlePredicate = NSPredicate(format: "jobTitle == %@", contact.jobTitle ?? "")
-                let andPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [giveNamePredicate, 
-                                                                                       familyNamePredicate, 
-                                                                                       phoneNumbersPredicate, 
-                                                                                       emailsPredicate, 
-                                                                                       organizationNamePredicate, 
-                                                                                       jobTitlePredicate])
+                let records = try context.fetch(Contact.fetchRequest())
+                let currentContact = records.first(where: { $0.identifier == contact.identifier })
                 
-                request.predicate = andPredicate
-                let compoundRecordsCount = try context.count(for: request)
-                if compoundRecordsCount > 0 {
-                    _ = Contact(contact: contact, insertInto: context)
-                    try context.save()
-                }
+                currentContact?.setValue(contact.givenName, forKey: "givenName")
+                currentContact?.setValue(contact.familyName, forKey: "familyName")
+                currentContact?.setValue(contact.jobTitle, forKey: "jobTitle")
+                currentContact?.setValue(contact.organizationName, forKey: "organizationName")
+                currentContact?.setValue(contact.thumbnailPhoto, forKey: "thumbnailPhoto")
+                currentContact?.setValue(contact.phoneNumbers, forKey: "phoneNumbers")
+                currentContact?.setValue(contact.emails, forKey: "emails")
+                
+                try context.save()
             }
         } catch {
             print("[Debug - \(#function)]: \(error.localizedDescription)")
@@ -81,18 +73,6 @@ final class DatabaseManager: DatabaseManagerProtocol {
         guard let context else { return }
         contact.isContactDeleted = true
         contact.deletionDate = Date()
-        
-        do {
-            try context.save()
-        } catch {
-            print("[Debug - \(#function)]: \(error.localizedDescription)")
-        }
-    }
-    
-    func update(contact: Contact, with newContact: Contact) {
-        guard let context else { return }
-//        var contact = contact
-//        contact.givenName = newContact.givenName
         
         do {
             try context.save()

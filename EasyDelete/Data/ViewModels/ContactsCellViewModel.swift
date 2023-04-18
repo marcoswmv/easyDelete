@@ -21,9 +21,9 @@ struct ContactCellViewModel {
         self.identifier = contact.identifier 
         self.name = (contact.givenName ?? "") + " " + (contact.familyName ?? "")
         if self.name.trimmingCharacters(in: .whitespaces).isEmpty {
-            self.name = contact.phoneNumbers?.first ?? ""
+            self.name = contact.phoneNumbers.first ?? ""
         }
-        self.phoneNumbers = contact.phoneNumbers ?? []
+        self.phoneNumbers = contact.phoneNumbers
         self.isDeleted = contact.isContactDeleted
         self.deletionDate = contact.deletionDate ?? Date()
         self.handleExpiration = handleExpiration
