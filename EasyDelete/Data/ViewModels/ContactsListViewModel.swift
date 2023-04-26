@@ -46,7 +46,7 @@ final class ContactsListViewModel {
                 // Save deleted to data base
                 databaseManager.setAsDeleted(contact: contactModelToDelete)
                 // Delete from Contacts store
-                contactsStore.delete(contactWith: contactModelToDelete.identifier) { [weak self] error in
+                contactsStore.delete(contact: contactModelToDelete) { [weak self] error in
                     self?.error = error
                 }
             }

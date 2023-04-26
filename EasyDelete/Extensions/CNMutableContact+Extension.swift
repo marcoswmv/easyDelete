@@ -32,18 +32,15 @@ extension CNMutableContact {
             self.imageData = image?.jpegData(compressionQuality: 1.0)
         }
         
-        if let phoneNumbers = contact.phoneNumbers {    
-            for phoneNumber in phoneNumbers {
-                self.phoneNumbers.append(CNLabeledValue(label: "Mobile",
-                                                        value: CNPhoneNumber(stringValue: phoneNumber)))
-            }
+        for phoneNumber in contact.phoneNumbers {
+            self.phoneNumbers.append(CNLabeledValue(label: "Mobile",
+                                                    value: CNPhoneNumber(stringValue: phoneNumber)))
         }
         
-        if let emails = contact.emails {    
-            for email in emails {
-                self.emailAddresses.append(CNLabeledValue(label: "Personal",
-                                                          value: NSString(string: email)))
-            }
+        for email in contact.emails {
+            self.emailAddresses.append(CNLabeledValue(label: "Personal",
+                                                      value: NSString(string: email)))
+            
         }
     }
 }
