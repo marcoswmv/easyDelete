@@ -40,15 +40,15 @@ final class DatabaseManager: DatabaseManagerProtocol {
                 try context.save()
             } else {
                 let records = try context.fetch(Contact.fetchRequest())
-                let currentContact = records.first(where: { $0.identifier == contact.identifier })
+                guard let currentContact = records.first(where: { $0.identifier == contact.identifier }) else { return }
                 
-                currentContact?.setValue(contact.givenName, forKey: "givenName")
-                currentContact?.setValue(contact.familyName, forKey: "familyName")
-                currentContact?.setValue(contact.jobTitle, forKey: "jobTitle")
-                currentContact?.setValue(contact.organizationName, forKey: "organizationName")
-                currentContact?.setValue(contact.thumbnailPhoto, forKey: "thumbnailPhoto")
-                currentContact?.setValue(contact.phoneNumbers, forKey: "phoneNumbers")
-                currentContact?.setValue(contact.emails, forKey: "emails")
+                currentContact.setValue(contact.givenName, forKey: "givenName")
+                currentContact.setValue(contact.familyName, forKey: "familyName")
+                currentContact.setValue(contact.jobTitle, forKey: "jobTitle")
+                currentContact.setValue(contact.organizationName, forKey: "organizationName")
+                currentContact.setValue(contact.thumbnailPhoto, forKey: "thumbnailPhoto")
+                currentContact.setValue(contact.phoneNumbers, forKey: "phoneNumbers")
+                currentContact.setValue(contact.emails, forKey: "emails")
                 
                 try context.save()
             }
