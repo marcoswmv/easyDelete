@@ -12,14 +12,14 @@ protocol DatabaseManagerProtocol: AnyObject {
     func retrieveContacts() throws -> [Contact]
     func create(contact: ContactProtocol)
     func delete(contact: Contact)
-    func setAsDeleted(contact: Contact)
+    func setIsDeleted(_ isDeleted: Bool, contact: Contact)
     func deleteAll()
 }
 
 final class DatabaseManager: DatabaseManagerProtocol {
     
     private let context: NSManagedObjectContext? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-    let persistenStoreCoordinator = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.persistentStoreCoordinator
+    private let persistenStoreCoordinator = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.persistentStoreCoordinator
     
     func retrieveContacts() throws -> [Contact] {
         guard let context else { return [] }
@@ -69,9 +69,9 @@ final class DatabaseManager: DatabaseManagerProtocol {
     }
     
     /// Updating deletion related properties: isContactDeleted and deletionDate
-    func setAsDeleted(contact: Contact) {
+    func setIsDeleted(_ isDeleted: Bool, contact: Contact) {
         guard let context else { return }
-        contact.isContactDeleted = true
+        contact.isContactDeleted = isDeleted
         contact.deletionDate = Date()
         
         do {

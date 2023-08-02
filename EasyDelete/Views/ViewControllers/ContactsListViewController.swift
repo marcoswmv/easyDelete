@@ -26,6 +26,10 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .CNContactStoreDidChange, object: nil)
+        print("Deinit \(self)")
+    }
     // MARK: - UI Declaration
     
     private var rightNavBarButton: UIBarButtonItem!
@@ -56,11 +60,15 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         super.viewDidLoad()
         setupUI()
         bindViewModel()
+        viewModel.fetchContacts()
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(didContactsStoreChange), name: .CNContactStoreDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchContacts()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     private func setupUI() {
@@ -196,6 +204,10 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
             }
         }
     }
+    
+    @objc func didContactsStoreChange(notification: Notification) {
+        viewModel.fetchContacts()
+    }
 }
 
 // MARK: - Table view data source
@@ -239,6 +251,9 @@ extension ContactsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !tableView.isEditing {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
         searchController.searchBar.endEditing(true)
     }
     
