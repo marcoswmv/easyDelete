@@ -28,8 +28,10 @@ final class DeletedContactsListViewController: UITableViewController {
     
     // MARK: - UI Declaration
     
-    private var selectAllButton: UIBarButtonItem!
-    private var rightNavBarButton: UIBarButtonItem!
+    private var selectAllButton: UIBarButtonItem?
+    private var rightNavBarButton: UIBarButtonItem?
+    private var deleteButton: UIBarButtonItem?
+    private var recoverButton: UIBarButtonItem?
     
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -88,6 +90,7 @@ final class DeletedContactsListViewController: UITableViewController {
                     self.noContactsLabel.text = Consts.ListScreen.emptyList
                 }
                 self.tableView.reloadData()
+                self.updateSelectionCount()
             }
         }.store(in: &cancellables)
         
@@ -119,8 +122,8 @@ final class DeletedContactsListViewController: UITableViewController {
     }
     
     private func enableRightNavigationBarButton(_ enable: Bool) {
-        rightNavBarButton.isEnabled = enable
-        rightNavBarButton.tintColor = enable ? .link : .gray
+        rightNavBarButton?.isEnabled = enable
+        rightNavBarButton?.tintColor = enable ? .link : .gray
     }
     
     private func setupTableView() {
@@ -137,12 +140,12 @@ final class DeletedContactsListViewController: UITableViewController {
     
     private func setupToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, 
+        deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, 
                                            style: .plain, 
                                            target: self, 
                                            action: #selector(handleDelete))
-        deleteButton.tintColor = .red
-        let recoverButton = UIBarButtonItem(title: Consts.DeletedContactsList.recover, 
+        deleteButton?.tintColor = .red
+        recoverButton = UIBarButtonItem(title: Consts.DeletedContactsList.recover, 
                                             style: .plain, 
                                             target: self, 
                                             action: #selector(handleRecover))
@@ -151,7 +154,9 @@ final class DeletedContactsListViewController: UITableViewController {
                                           target: self, 
                                           action: #selector(handleSelectAll))
         
-        toolbarItems = [deleteButton, flexibleSpace, recoverButton, flexibleSpace, selectAllButton]
+        if let deleteButton, let recoverButton, let selectAllButton {
+            toolbarItems = [deleteButton, flexibleSpace, recoverButton, flexibleSpace, selectAllButton]
+        }
     }
     
     private func manageDeletedContacts(enable: Bool) {
@@ -171,6 +176,7 @@ final class DeletedContactsListViewController: UITableViewController {
         navigationItem.rightBarButtonItem = rightNavBarButton
         navigationController?.setToolbarHidden(!enable, animated: true)
         tableView.setEditing(enable, animated: enable)
+        updateSelectionCount()
     }
 }
 
@@ -218,7 +224,7 @@ extension DeletedContactsListViewController {
                 }
             }
             if isAllSelected {
-                selectAllButton.title = Consts.DeletedContactsList.selectAll
+                selectAllButton?.title = Consts.DeletedContactsList.selectAll
                 isAllSelected = false
             }
             navigationItem.title = Consts.DeletedContactsList.title
@@ -244,7 +250,7 @@ extension DeletedContactsListViewController {
             }
             
             if isAllSelected {
-                selectAllButton.title = Consts.DeletedContactsList.selectAll
+                selectAllButton?.title = Consts.DeletedContactsList.selectAll
                 isAllSelected = false
             }
             navigationItem.title = Consts.DeletedContactsList.title
@@ -264,7 +270,7 @@ extension DeletedContactsListViewController {
                     tableView.deselectRow(at: IndexPath(row: row, section: section), animated: true)
                 }
             }
-            selectAllButton.title = Consts.DeletedContactsList.selectAll
+            selectAllButton?.title = Consts.DeletedContactsList.selectAll
             isAllSelected = false
         } else {
             for section in 0..<tableView.numberOfSections {
@@ -272,8 +278,23 @@ extension DeletedContactsListViewController {
                     tableView.selectRow(at: IndexPath(row: row, section: section), animated: true, scrollPosition: .none)
                 }
             }
-            selectAllButton.title = Consts.DeletedContactsList.unselectAll
+            selectAllButton?.title = Consts.DeletedContactsList.unselectAll
             isAllSelected = true
+        }
+        updateSelectionCount()
+    }
+    
+    private func updateSelectionCount() {  
+        deleteButton?.title = generateButtonTitle(with: tableView.indexPathsForSelectedRows?.count)
+        recoverButton?.title = generateButtonTitle(with: tableView.indexPathsForSelectedRows?.count, isRecover: true)
+    }
+    
+    private func generateButtonTitle(with count: Int? = nil, isRecover: Bool = false) -> String {
+        let text = isRecover ? Consts.DeletedContactsList.recover : Consts.DeletedContactsList.delete
+        if let count {
+            return "\(text) (\(count))"
+        } else {
+            return "\(text)"
         }
     }
     
@@ -327,7 +348,12 @@ extension DeletedContactsListViewController {
         if !tableView.isEditing {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+        updateSelectionCount()
         searchController.searchBar.endEditing(true)
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        updateSelectionCount()
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

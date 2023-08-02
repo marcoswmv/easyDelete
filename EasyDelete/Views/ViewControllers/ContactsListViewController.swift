@@ -32,7 +32,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     }
     // MARK: - UI Declaration
     
-    private var rightNavBarButton: UIBarButtonItem!
+    private var rightNavBarButton: UIBarButtonItem?
+    private var deleteButton: UIBarButtonItem?
     
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -62,7 +63,6 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         bindViewModel()
         viewModel.fetchContacts()
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(didContactsStoreChange), name: .CNContactStoreDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +94,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
                     self.noContactsLabel.text = Consts.ListScreen.emptyList
                 }
                 self.tableView.reloadData()
+                self.updateSelectionCount()
             }
         }.store(in: &cancellables)
         
@@ -124,8 +125,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     }
     
     private func enableRightNavigationBarButton(_ enable: Bool) {
-        rightNavBarButton.isEnabled = enable
-        rightNavBarButton.tintColor = enable ? .link : .gray
+        rightNavBarButton?.isEnabled = enable
+        rightNavBarButton?.tintColor = enable ? .link : .gray
     }
     
     private func setupTableView() {
@@ -142,11 +143,14 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     private func setupToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let deleteButton = UIBarButtonItem(title: Consts.ContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
-        deleteButton.tintColor = .red
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
+        deleteButton = UIBarButtonItem(title: Consts.ContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
+        deleteButton?.tintColor = .red
         
-        toolbarItems = [deleteButton, flexibleSpace, doneButton]
+        let doneButton = UIBarButtonItem(title: Consts.ListScreen.done, style: .plain, target: self, action: #selector(handleDone))
+        
+        if let deleteButton {
+            toolbarItems = [deleteButton, flexibleSpace, doneButton]
+        }
     }
     
     func enableEditingMode(_ enable: Bool) {
@@ -159,6 +163,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         searchController.searchBar.endEditing(true)
         tableView.setEditing(enable, animated: true)
         tableView.gestureRecognizers?.removeAll(where: { $0 is UITapGestureRecognizer })
+        updateSelectionCount()
     }
     
     // MARK: - Handlers
@@ -205,8 +210,16 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         }
     }
     
-    @objc func didContactsStoreChange(notification: Notification) {
-        viewModel.fetchContacts()
+    private func updateSelectionCount() {  
+        deleteButton?.title = generateDeleteButtonTitle(with: tableView.indexPathsForSelectedRows?.count)
+    }
+    
+    private func generateDeleteButtonTitle(with count: Int? = nil) -> String {
+        if let count {
+            return "\(Consts.ContactsList.delete) (\(count))"
+        } else {
+            return "\(Consts.ContactsList.delete)"
+        }
     }
     
     private func deleteContact(at indexPath: IndexPath) {
@@ -260,7 +273,12 @@ extension ContactsListViewController {
         if !tableView.isEditing {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+        updateSelectionCount()
         searchController.searchBar.endEditing(true)
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        updateSelectionCount()
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
