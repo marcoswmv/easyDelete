@@ -60,6 +60,11 @@ final class DeletedContactsListViewController: UITableViewController {
         viewModel.fetchContacts()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
     private func setupUI() {
         setupNavigationBar()
         setupTableView()

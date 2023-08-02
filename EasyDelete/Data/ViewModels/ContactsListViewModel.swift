@@ -27,9 +27,11 @@ final class ContactsListViewModel {
             guard let `self` = self else { return }
             switch result {
             case .success(let contacts):
-                contacts.forEach { self.databaseManager.create(contact: $0) }
+                contacts.forEach { contact in
+                    self.databaseManager.create(contact: contact) 
+                }
                 self.generateViewModels()
-                // self.databaseManager.deleteAll()
+//                 self.databaseManager.deleteAll()
             case .failure(let error):
                 self.error = error
             }
@@ -44,7 +46,7 @@ final class ContactsListViewModel {
                 databaseManager.delete(contact: contactModelToDelete)
             } else {
                 // Save deleted to data base
-                databaseManager.setAsDeleted(contact: contactModelToDelete)
+                databaseManager.setIsDeleted(true, contact: contactModelToDelete)
                 // Delete from Contacts store
                 contactsStore.delete(contact: contactModelToDelete) { [weak self] error in
                     self?.error = error
@@ -57,13 +59,12 @@ final class ContactsListViewModel {
     
     func recoverContact(with deletedContactViewModelID: String) {
         if let contactModelToRecover = retrieveContactsFromDatabase().first(where: { $0.identifier == deletedContactViewModelID }) {
+            databaseManager.setIsDeleted(false, contact: contactModelToRecover)
+            
             // Add to the contact store
             contactsStore.add(contact: contactModelToRecover) { [weak self] error in
                 self?.error = error
             }
-            // Delete contact from database because another "instance" of the same contact 
-            // is going to be added after adding it to the contact store
-            databaseManager.delete(contact: contactModelToRecover)
         }
         
         generateViewModels()
@@ -94,7 +95,7 @@ extension ContactsListViewModel {
             return firstLetter.uppercased()
         }
         .map { (key: String, value: [ContactCellViewModel]) -> (letter: String, names: [ContactCellViewModel]) in
-            (letter: key, names: value)
+            (letter: key, names: value.sorted { $0.name.lowercased() < $1.name.lowercased() })
         }
         .sorted { $0.letter < $1.letter }
     }

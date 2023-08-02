@@ -592,7 +592,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ao.mwmv.EasyDelete;
+				PRODUCT_BUNDLE_IDENTIFIER = ao.marwil.EasyDelete;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = EasyDelete;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -618,7 +618,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ao.mwmv.EasyDelete;
+				PRODUCT_BUNDLE_IDENTIFIER = ao.marwil.EasyDelete;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = EasyDelete;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
