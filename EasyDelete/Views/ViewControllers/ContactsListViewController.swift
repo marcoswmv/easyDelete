@@ -208,6 +208,12 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     @objc func didContactsStoreChange(notification: Notification) {
         viewModel.fetchContacts()
     }
+    
+    private func deleteContact(at indexPath: IndexPath) {
+        let contactToDeleteID = viewModel.contactsViewModels[indexPath.section].names
+            .filter { $0.isDeleted == false }[indexPath.row].identifier
+        viewModel.deleteContact(with: contactToDeleteID)
+    }
 }
 
 // MARK: - Table view data source
@@ -263,10 +269,19 @@ extension ContactsListViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let contactToDeleteID = viewModel.contactsViewModels[indexPath.section].names
-                .filter { $0.isDeleted == false }[indexPath.row].identifier
-            viewModel.deleteContact(with: contactToDeleteID)
+            deleteContact(at: indexPath)
         }  
+    }
+    
+    override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let deleteAction = UIAction(title: Consts.ContactsList.delete) { [weak self] _ in
+                guard let `self` = self else { return }
+                self.deleteContact(at: indexPath)
+            }
+            
+            return UIMenu(title: "", children: [deleteAction])
+        }
     }
 }
 

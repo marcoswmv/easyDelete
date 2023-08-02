@@ -276,6 +276,19 @@ extension DeletedContactsListViewController {
             isAllSelected = true
         }
     }
+    
+    private func deleteContact(at indexPath: IndexPath) {
+        let contactToDeleteID = self.viewModel.contactsViewModels[indexPath.section].names
+            .filter { $0.isDeleted }[indexPath.row].identifier
+        viewModel.deleteContact(with: contactToDeleteID, permanently: true)
+    }
+    
+    private func recoverContact(at indexPath: IndexPath, _ completionHandler: (Bool) -> Void) {
+        let contactToRecoverID = self.viewModel.contactsViewModels[indexPath.section].names
+            .filter { $0.isDeleted }[indexPath.row].identifier
+        self.viewModel.recoverContact(with: contactToRecoverID)
+        completionHandler(true)
+    }
 }
 
     // MARK: - Table view data source
@@ -311,6 +324,9 @@ extension DeletedContactsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !tableView.isEditing {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
         searchController.searchBar.endEditing(true)
     }
     
@@ -326,10 +342,7 @@ extension DeletedContactsListViewController {
                 if confirmation,
                    self.viewModel.contactsViewModels.indices.contains(indexPath.section),
                    self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
-                    
-                    let contactToDeleteID = self.viewModel.contactsViewModels[indexPath.section].names
-                        .filter { $0.isDeleted }[indexPath.row].identifier
-                    self.viewModel.deleteContact(with: contactToDeleteID, permanently: true)
+                    self.deleteContact(at: indexPath)
                 }
             }
         }  
@@ -341,11 +354,7 @@ extension DeletedContactsListViewController {
             
             if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
                self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
-                
-                let contactToRecoverID = self.viewModel.contactsViewModels[indexPath.section].names
-                    .filter { $0.isDeleted }[indexPath.row].identifier
-                self.viewModel.recoverContact(with: contactToRecoverID)
-                completionHandler(true)
+                self.recoverContact(at: indexPath, completionHandler)
             }
         }
         recoverAction.backgroundColor = .link
@@ -354,5 +363,20 @@ extension DeletedContactsListViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let deleteAction = UIAction(title: Consts.ContactsList.delete) { [weak self] _ in
+                guard let `self` = self else { return }
+                self.deleteContact(at: indexPath)
+            }
+            
+            let recoverAction = UIAction(title: Consts.DeletedContactsList.recover) { _ in
+                self.recoverContact(at: indexPath) { _ in }
+            }
+            
+            return UIMenu(title: "", children: [recoverAction, deleteAction])
+        }
     }
 }
