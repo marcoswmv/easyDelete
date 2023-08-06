@@ -13,7 +13,6 @@ import CoreData
 enum ContactStoreError: Error {
     case permission(String)
     case commonError(Error)
-    // TODO: Write more specific errors
 }
 
 protocol ContactsStoreProtocol: AnyObject {
@@ -25,7 +24,6 @@ protocol ContactsStoreProtocol: AnyObject {
 final class ContactsStore: ContactsStoreProtocol {
     
     private let store = CNContactStore()
-    private let databaseManager: DatabaseManagerProtocol = DatabaseManager()
     private let queue = DispatchQueue(label: "ao.mwmv.EasyDelete.ContactStore")
     
     init() { }
