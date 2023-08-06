@@ -81,7 +81,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         viewModel.$contactsViewModels.sink { [weak self] _ in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
-                let contactsCount = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.count }
+                let contactsCount = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.filter { $0.isDeleted == false }.count }
                 let hasContacts = contactsCount > 0
                 
                 self.countLabel.isHidden = !hasContacts

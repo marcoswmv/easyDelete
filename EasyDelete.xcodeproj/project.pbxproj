@@ -20,7 +20,6 @@
 		F7231C1926BDE481001F7787 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F7231C1826BDE481001F7787 /* .swiftlint.yml */; };
 		F7231C1F26BDEF3D001F7787 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C1E26BDEF3D001F7787 /* Alert.swift */; };
 		F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */; };
-		F7361812298B07D700D3ADDA /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7361811298B07D700D3ADDA /* DatabaseManager.swift */; };
 		F73881BD28B6C43F00704850 /* ContactsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73881BC28B6C43F00704850 /* ContactsListViewModel.swift */; };
 		F75D7D7C26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75D7D7B26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift */; };
 		F768DF9A2989477900969914 /* ContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F768DF992989477900969914 /* ContactsListViewController.swift */; };
@@ -33,6 +32,7 @@
 		F7BF154729D87FAF00F9730A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BF154629D87FAF00F9730A /* Array+Extension.swift */; };
 		F7C845D926E0635400B971E1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7C845DB26E0635400B971E1 /* Localizable.strings */; };
 		F7CDE0C529EE112D003AEACA /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CDE0C429EE112D003AEACA /* Contact+CoreDataProperties.swift */; };
+		F7D751A72A7F43DF003093E5 /* ContactsPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D751A62A7F43DF003093E5 /* ContactsPersistence.swift */; };
 		F7F55462298D74DC004F062C /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */; };
 		F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */; };
 		F7F55467298D966A004F062C /* DeletedContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */; };
@@ -66,7 +66,6 @@
 		F7231C1826BDE481001F7787 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F7231C1E26BDEF3D001F7787 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		F7231C2026BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeletedContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
-		F7361811298B07D700D3ADDA /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		F73881BC28B6C43F00704850 /* ContactsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewModel.swift; sourceTree = "<group>"; };
 		F75D7D7B26C6FD4E000F921C /* EasyDeleteDataBaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteDataBaseTests.swift; sourceTree = "<group>"; };
 		F768DF992989477900969914 /* ContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 		F7C845DA26E0635400B971E1 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F7C845DC26E0636D00B971E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F7CDE0C429EE112D003AEACA /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		F7D751A62A7F43DF003093E5 /* ContactsPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsPersistence.swift; sourceTree = "<group>"; };
 		F7F55460298D74DC004F062C /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactsListViewController.swift; sourceTree = "<group>"; };
 		F7F55466298D966A004F062C /* DeletedContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				F7172F1226C42EAA0019B760 /* ContactStore.swift */,
-				F7361811298B07D700D3ADDA /* DatabaseManager.swift */,
+				F7D751A62A7F43DF003093E5 /* ContactsPersistence.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -389,7 +389,6 @@
 				F7BF154729D87FAF00F9730A /* Array+Extension.swift in Sources */,
 				F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */,
 				F73881BD28B6C43F00704850 /* ContactsListViewModel.swift in Sources */,
-				F7361812298B07D700D3ADDA /* DatabaseManager.swift in Sources */,
 				F7F55469298DA7EE004F062C /* ContactProtocol.swift in Sources */,
 				F7231C2126BDF648001F7787 /* DeletedContactsVC+SearchBarDelegate.swift in Sources */,
 				F7172F1126C42E960019B760 /* EDTypes.swift in Sources */,
@@ -399,6 +398,7 @@
 				F7F55465298D91B3004F062C /* DeletedContactsListViewController.swift in Sources */,
 				F722DDE626A8702A0017493B /* AppDelegate.swift in Sources */,
 				F768DF9A2989477900969914 /* ContactsListViewController.swift in Sources */,
+				F7D751A72A7F43DF003093E5 /* ContactsPersistence.swift in Sources */,
 				F7F55462298D74DC004F062C /* Contact+CoreDataClass.swift in Sources */,
 				F722DDE826A8702A0017493B /* SceneDelegate.swift in Sources */,
 				F70A5CCE298896EC00B602B9 /* UITableViewCell+Extension.swift in Sources */,
@@ -503,7 +503,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "/Users/marcosvicente/Documents/Xcode/MyProjects/EasyDeleteOld/EasyDeleteOld/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -563,7 +563,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "/Users/marcosvicente/Documents/Xcode/MyProjects/EasyDeleteOld/EasyDeleteOld/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_NAME} ";
@@ -587,6 +587,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = EasyDelete;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -613,6 +614,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = EasyDelete;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -634,7 +636,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WWR54AX99P;
 				INFOPLIST_FILE = EasyDeleteTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -655,7 +657,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WWR54AX99P;
 				INFOPLIST_FILE = EasyDeleteTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

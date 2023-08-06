@@ -11,9 +11,9 @@ import CoreData
 
 final class ContactsListViewModel {
     
-    let context: NSManagedObjectContext? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+//    let context: NSManagedObjectContext = ContactsPersistence.shared.container.viewContext
     private let contactsStore: ContactsStoreProtocol = ContactsStore()
-    private let databaseManager: DatabaseManagerProtocol = DatabaseManager()
+//    private let databaseManager: DatabaseManagerProtocol = DatabaseManager()
     
     private var localContactsViewModels: GroupedContactsViewModels = []
     private var filteredContactsViewModels: GroupedContactsViewModels = []
@@ -27,11 +27,8 @@ final class ContactsListViewModel {
             guard let `self` = self else { return }
             switch result {
             case .success(let contacts):
-                contacts.forEach { contact in
-                    self.databaseManager.create(contact: contact) 
-                }
+                ContactsPersistence.shared.importContacts(from: contacts)
                 self.generateViewModels()
-//                 self.databaseManager.deleteAll()
             case .failure(let error):
                 self.error = error
             }
@@ -43,10 +40,10 @@ final class ContactsListViewModel {
         if let contactModelToDelete = retrieveContactsFromDatabase().first(where: { $0.identifier == deletedContactViewModelID }) {
             if permanently, contactModelToDelete.isContactDeleted {
                 // Delete from database
-                databaseManager.delete(contact: contactModelToDelete)
+                ContactsPersistence.shared.deleteContacts([contactModelToDelete])
             } else {
                 // Save deleted to data base
-                databaseManager.setIsDeleted(true, contact: contactModelToDelete)
+                ContactsPersistence.shared.setIsDeleted(true, contact: contactModelToDelete)
                 // Delete from Contacts store
                 contactsStore.delete(contact: contactModelToDelete) { [weak self] error in
                     self?.error = error
@@ -59,7 +56,7 @@ final class ContactsListViewModel {
     
     func recoverContact(with deletedContactViewModelID: String) {
         if let contactModelToRecover = retrieveContactsFromDatabase().first(where: { $0.identifier == deletedContactViewModelID }) {
-            databaseManager.setIsDeleted(false, contact: contactModelToRecover)
+            ContactsPersistence.shared.setIsDeleted(false, contact: contactModelToRecover)
             
             // Add to the contact store
             contactsStore.add(contact: contactModelToRecover) { [weak self] error in
@@ -111,7 +108,7 @@ extension ContactsListViewModel {
     
     private func retrieveContactsFromDatabase() -> [Contact] {
         do {
-            return try databaseManager.retrieveContacts()
+            return try ContactsPersistence.shared.retrieveContacts()
         } catch {
             self.error = error
         }

@@ -82,7 +82,6 @@ final class DeletedContactsListViewController: UITableViewController {
                 
                 self.countLabel.isHidden = !hasContacts
                 self.noContactsLabel.isHidden = hasContacts
-                self.enableRightNavigationBarButton(hasContacts)
                 
                 if hasContacts {
                     self.countLabel.text = "\(contactsCount) \(Consts.contacts)"
