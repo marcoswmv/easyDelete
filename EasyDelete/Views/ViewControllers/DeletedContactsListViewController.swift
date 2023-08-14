@@ -406,4 +406,9 @@ extension DeletedContactsListViewController {
             return UIMenu(title: "", children: [recoverAction, deleteAction])
         }
     }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return viewModel.contactsViewModels
+            .compactMap { $0.names.contains(where: { $0.isDeleted }) ? $0.letter : nil }
+    }
 }
