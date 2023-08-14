@@ -11,9 +11,7 @@ import CoreData
 
 final class ContactsListViewModel {
     
-//    let context: NSManagedObjectContext = ContactsPersistence.shared.container.viewContext
     private let contactsStore: ContactsStoreProtocol = ContactsStore()
-//    private let databaseManager: DatabaseManagerProtocol = DatabaseManager()
     
     private var localContactsViewModels: GroupedContactsViewModels = []
     private var filteredContactsViewModels: GroupedContactsViewModels = []
@@ -36,35 +34,37 @@ final class ContactsListViewModel {
         }
     }
     
-    func deleteContact(with deletedContactViewModelID: String, permanently: Bool = false) {
-        if let contactModelToDelete = retrieveContactsFromDatabase().first(where: { $0.identifier == deletedContactViewModelID }) {
-            if permanently, contactModelToDelete.isContactDeleted {
-                // Delete from database
-                ContactsPersistence.shared.deleteContacts([contactModelToDelete])
-            } else {
-                // Save deleted to data base
-                ContactsPersistence.shared.setIsDeleted(true, contact: contactModelToDelete)
-                // Delete from Contacts store
-                contactsStore.delete(contact: contactModelToDelete) { [weak self] error in
-                    self?.error = error
-                }
+    func deleteContacts(with deletedContactViewModelIDs: [String], permanently: Bool = false) {
+        let contactsToDelete = ContactsPersistence.shared.getContactsForContactIDs(deletedContactViewModelIDs)
+        if permanently {
+            // Delete from database
+            ContactsPersistence.shared.deleteContacts(contactsToDelete)
+        } else {
+            // Save deleted to data base
+            ContactsPersistence.shared.setIsDeleted(true, contacts: contactsToDelete) { [weak self] in
+                guard let `self` = self else { return }
+                self.generateViewModels()
             }
-        }
-        
-        generateViewModels()
-    }
-    
-    func recoverContact(with deletedContactViewModelID: String) {
-        if let contactModelToRecover = retrieveContactsFromDatabase().first(where: { $0.identifier == deletedContactViewModelID }) {
-            ContactsPersistence.shared.setIsDeleted(false, contact: contactModelToRecover)
             
-            // Add to the contact store
-            contactsStore.add(contact: contactModelToRecover) { [weak self] error in
+            // Delete from Contacts store
+            contactsStore.delete(contacts: contactsToDelete) { [weak self] error in
                 self?.error = error
             }
         }
+    }
+    
+    func recoverContact(with recoveredContactViewModelIDs: [String]) {
+        let contactsToRecover = ContactsPersistence.shared.getContactsForContactIDs(recoveredContactViewModelIDs)
         
-        generateViewModels()
+        ContactsPersistence.shared.setIsDeleted(false, contacts: contactsToRecover) { [weak self] in
+            guard let `self` = self else { return }
+            self.generateViewModels()
+        }
+        
+        // Add to the contact store
+        contactsStore.add(contacts: contactsToRecover) { [weak self] error in
+            self?.error = error
+        }
     }
     
     func startQuery(with text: String?, ofDeleted: Bool = false) {
@@ -98,20 +98,15 @@ extension ContactsListViewModel {
     }
     
     private func generateViewModels() {
-        let retrievedContactModels = retrieveContactsFromDatabase()
-        localContactsViewModels = groupContactsBySections(retrievedContactModels.map { ContactCellViewModel(contact: $0) { [weak self] identifier in
-            self?.deleteContact(with: identifier, permanently: true)
-        }})
+        let retrievedContactModels = ContactsPersistence.shared.retrieveContacts()
+        localContactsViewModels = groupContactsBySections(
+            retrievedContactModels.map { 
+                ContactCellViewModel(contact: $0) { [weak self] identifier in
+                    self?.deleteContacts(with: [identifier], permanently: true)
+                }
+            }
+        )
         
         contactsViewModels = isSearching ? filteredContactsViewModels : localContactsViewModels
-    }
-    
-    private func retrieveContactsFromDatabase() -> [Contact] {
-        do {
-            return try ContactsPersistence.shared.retrieveContacts()
-        } catch {
-            self.error = error
-        }
-        return []
     }
 }

@@ -217,7 +217,7 @@ extension DeletedContactsListViewController {
                            self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
                             let contactToDeleteID = self.viewModel.contactsViewModels[indexPath.section].names
                                 .filter { $0.isDeleted }[indexPath.row].identifier
-                            self.viewModel.deleteContact(with: contactToDeleteID, permanently: true)
+//                            self.viewModel.deleteContact(with: contactToDeleteID, permanently: true)
                         }
                     }
                 }
@@ -239,14 +239,16 @@ extension DeletedContactsListViewController {
     
     @objc private func handleRecover() {
         if let indexPaths = self.tableView.indexPathsForSelectedRows {
-            indexPaths.sorted(by: { $0 > $1 }).forEach { indexPath in
-                if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
-                   self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
-                    let contactToDeleteID = self.viewModel.contactsViewModels[indexPath.section].names
-                        .filter { $0.isDeleted }[indexPath.row].identifier
-                    self.viewModel.recoverContact(with: contactToDeleteID)
+            let contactIDsToRecover = indexPaths.sorted(by: { $0 > $1 })
+                .compactMap { indexPath in
+                    if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
+                       self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+                        return self.viewModel.contactsViewModels[indexPath.section].names
+                            .filter { $0.isDeleted }[indexPath.row].identifier
+                    }
+                    return nil
                 }
-            }
+            viewModel.recoverContact(with: contactIDsToRecover)
             
             if isAllSelected {
                 selectAllButton?.title = Consts.DeletedContactsList.selectAll
@@ -300,13 +302,13 @@ extension DeletedContactsListViewController {
     private func deleteContact(at indexPath: IndexPath) {
         let contactToDeleteID = self.viewModel.contactsViewModels[indexPath.section].names
             .filter { $0.isDeleted }[indexPath.row].identifier
-        viewModel.deleteContact(with: contactToDeleteID, permanently: true)
+        viewModel.deleteContacts(with: [contactToDeleteID], permanently: true)
     }
     
     private func recoverContact(at indexPath: IndexPath, _ completionHandler: (Bool) -> Void) {
         let contactToRecoverID = self.viewModel.contactsViewModels[indexPath.section].names
             .filter { $0.isDeleted }[indexPath.row].identifier
-        self.viewModel.recoverContact(with: contactToRecoverID)
+        self.viewModel.recoverContact(with: [contactToRecoverID])
         completionHandler(true)
     }
 }

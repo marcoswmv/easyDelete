@@ -22,6 +22,8 @@ class ContactsPersistence {
     private let inMemory: Bool
     private var notificationToken: NSObjectProtocol?
     
+    private var completionHandler: (() -> Void)?
+    
     private init(inMemory: Bool = false) {
         self.inMemory = inMemory
         
@@ -96,8 +98,13 @@ class ContactsPersistence {
     // MARK: - OPERATIONS
     
     /// Gets all objects stored in Core Data
-    func retrieveContacts() throws -> [Contact] {
-        return try container.viewContext.fetch(Contact.fetchRequest())
+    func retrieveContacts() -> [Contact] {
+        do {
+            return try container.viewContext.fetch(Contact.fetchRequest())
+        } catch {
+            logger.debug("Error retrieving contacts from DB - \(error)")
+        }
+        return []
     }
     
     /// Uses `NSBatchInsertRequest` (BIR) to import objects into the Core Data store on a private queue.
@@ -178,6 +185,8 @@ class ContactsPersistence {
     
     /// Asynchronously deletes records in the Core Data store with the specified `Contact` managed objects.
     func deleteContacts(_ contacts: [Contact], shouldDeleteAll: Bool = false) {
+        guard contacts.allSatisfy({ $0.isContactDeleted }) else { return }
+        
         let objectIDs = contacts.map { $0.objectID }
         
         // Add name and author to identify source of persistent history changes.
@@ -210,14 +219,36 @@ class ContactsPersistence {
     }
     
     /// Updating deletion related properties: isContactDeleted and deletionDate
-    func setIsDeleted(_ isDeleted: Bool, contact: Contact) {
-        contact.isContactDeleted = isDeleted
-        contact.deletionDate = Date()
+    func setIsDeleted(_ isDeleted: Bool, contacts: [Contact], completionHandler: @escaping (() -> Void)) {
+        let taskContext = newTaskContext()
+        taskContext.name = "updateContext"
+        taskContext.transactionAuthor = "updateContacts"
         
-        do {
-            try container.viewContext.save()
-        } catch {
-            print("[Debug - \(#function)]: \(error.localizedDescription)")
+        taskContext.performAndWait {
+            let batchUpdateRequest = NSBatchUpdateRequest(entity: Contact.entity())
+            let compoundPredicate = NSCompoundPredicate(
+                type: .and,
+                subpredicates: [
+                    NSPredicate(format: "identifier IN %@", contacts.map { $0.identifier }),
+                    NSPredicate(format: "isContactDeleted != %@", NSNumber(value: isDeleted))
+                ]
+            )
+            
+            batchUpdateRequest.predicate = compoundPredicate
+            batchUpdateRequest.propertiesToUpdate = ["isContactDeleted": isDeleted, 
+                                                     "deletionDate": Date()]
+            
+            guard let fetchResult = try? taskContext.execute(batchUpdateRequest),
+                  let batchUpdateResult = fetchResult as? NSBatchUpdateResult,
+                  let success = batchUpdateResult.result as? Bool, success
+            else {
+                self.logger.debug("Failed to execute batch update request.")
+                return
+            }
+            
+            self.completionHandler = completionHandler
+            
+            self.logger.debug("Successfully updated contacts.")
         }
     }
     
@@ -228,7 +259,7 @@ class ContactsPersistence {
         taskContext.name = "persistentHistoryContext"
         logger.debug("Start fetching persistent history changes from the store...")
         
-        taskContext.perform {
+        taskContext.performAndWait {
             // Execute the persistent history change since the last transaction.
             /// - Tag: fetchHistory
             let changeRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: self.lastToken)
@@ -241,12 +272,10 @@ class ContactsPersistence {
             
             self.logger.debug("No persistent history transactions found.")
         }
-        
-        logger.debug("Finished merging history changes.")
     }
     
     private func mergePersistentHistoryChanges(from history: [NSPersistentHistoryTransaction]) {
-        self.logger.debug("Received \(history.count) persistent history transactions.")
+        logger.debug("Received \(history.count) persistent history transactions.")
         // Update view context with objectIDs from history change request.
         /// - Tag: mergeChanges
         let viewContext = container.viewContext
@@ -255,6 +284,16 @@ class ContactsPersistence {
                 viewContext.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
                 self.lastToken = transaction.token
             }
+            self.logger.debug("Finished merging history changes.")
+            self.completionHandler?()
+        }
+    }
+}
+
+extension ContactsPersistence {
+    func getContactsForContactIDs(_ contactIDs: [String]) -> [Contact] {
+        return retrieveContacts().filter { persistedContact in
+            return contactIDs.contains(where: { $0 == persistedContact.identifier })
         }
     }
 }
