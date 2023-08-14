@@ -582,7 +582,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = Q4L92P5BF3;
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = EasyDelete;
@@ -609,7 +609,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = Q4L92P5BF3;
 				INFOPLIST_FILE = "$(SRCROOT)/EasyDelete/Supporting Files/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = EasyDelete;

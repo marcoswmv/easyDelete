@@ -184,14 +184,17 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     @objc private func handleDelete() {
         if let indexPaths = tableView.indexPathsForSelectedRows {
-            indexPaths.sorted(by: { $0 > $1 }).forEach { indexPath in
-                if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
-                   self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
-                    let contactToDeleteID = viewModel.contactsViewModels[indexPath.section].names
-                        .filter { $0.isDeleted == false }[indexPath.row].identifier
-                    viewModel.deleteContact(with: contactToDeleteID)
+            let contactIDsToDelete = indexPaths.sorted(by: { $0 > $1 })
+                .compactMap { indexPath in
+                    if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
+                       self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+                        return viewModel.contactsViewModels[indexPath.section].names
+                            .filter { $0.isDeleted == false }[indexPath.row].identifier
+                        
+                    }
+                    return nil
                 }
-            }
+            viewModel.deleteContacts(with: contactIDsToDelete)
         } else {
             Alert.showNoContactSelectedAlert(on: self)
         }
@@ -225,7 +228,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     private func deleteContact(at indexPath: IndexPath) {
         let contactToDeleteID = viewModel.contactsViewModels[indexPath.section].names
             .filter { $0.isDeleted == false }[indexPath.row].identifier
-        viewModel.deleteContact(with: contactToDeleteID)
+        viewModel.deleteContacts(with: [contactToDeleteID])
     }
 }
 

@@ -17,8 +17,8 @@ enum ContactStoreError: Error {
 
 protocol ContactsStoreProtocol: AnyObject {
     func fetchContacts(completionHandler: @escaping ContactsRequestCompletionBlock)
-    func add(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void))
-    func delete(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void))
+    func add(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void))
+    func delete(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void))
 }
 
 final class ContactsStore: ContactsStoreProtocol {
@@ -58,24 +58,30 @@ final class ContactsStore: ContactsStoreProtocol {
         }
     }
     
-    func add(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void)) {
-        guard let vCard = contact.vCard,
-              let unarchivedContact = unarchiveContact(data: vCard),
-              let mutableNewContact = unarchivedContact.mutableCopy() as? CNMutableContact else { return }
-        
+    func add(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void)) {
         let saveRequest = CNSaveRequest()
-        saveRequest.add(mutableNewContact, toContainerWithIdentifier: nil)
+        
+        contacts.forEach { contact in
+            guard let vCard = contact.vCard,
+                  let unarchivedContact = unarchiveContact(data: vCard),
+                  let mutableNewContact = unarchivedContact.mutableCopy() as? CNMutableContact else { return }
+            
+            saveRequest.add(mutableNewContact, toContainerWithIdentifier: nil)
+        }
         
         executeRequest(saveRequest, completionHandler)
     }
     
-    func delete(contact: ContactProtocol, completionHandler: @escaping ((ContactStoreError) -> Void)) {
-        guard let vCard = contact.vCard,
-              let unarchivedContact = unarchiveContact(data: vCard),
-              let mutableContact = unarchivedContact.mutableCopy() as? CNMutableContact else { return }
-        
+    func delete(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void)) {
         let deleteRequest = CNSaveRequest()
-        deleteRequest.delete(mutableContact)
+        
+        contacts.forEach { contact in
+            guard let vCard = contact.vCard,
+                  let unarchivedContact = unarchiveContact(data: vCard),
+                  let mutableContact = unarchivedContact.mutableCopy() as? CNMutableContact else { return }
+            
+            deleteRequest.delete(mutableContact)
+        }
         
         executeRequest(deleteRequest, completionHandler)
     }
