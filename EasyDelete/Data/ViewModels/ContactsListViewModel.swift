@@ -25,8 +25,9 @@ final class ContactsListViewModel {
             guard let `self` = self else { return }
             switch result {
             case .success(let contacts):
-                ContactsPersistence.shared.importContacts(from: contacts)
-                self.generateViewModels()
+                ContactsPersistence.shared.importContacts(from: contacts) { [weak self] in
+                    self?.generateViewModels()
+                }
             case .failure(let error):
                 self.error = error
             }
@@ -88,7 +89,7 @@ final class ContactsListViewModel {
 extension ContactsListViewModel {
     private func groupContactsBySections(_ contacts: [ContactCellViewModel]) -> GroupedContactsViewModels {
         return Dictionary(grouping: contacts) { (name) -> String in
-            guard let firstLetter = name.name.first, firstLetter.isLetter else { return "" }
+            guard let firstLetter = name.name.first(where: { $0.isLetter }) else { return "" }
             return firstLetter.uppercased()
         }
         .map { (key: String, value: [ContactCellViewModel]) -> (letter: String, names: [ContactCellViewModel]) in

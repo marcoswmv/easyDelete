@@ -62,7 +62,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         setupUI()
         bindViewModel()
         viewModel.fetchContacts()
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

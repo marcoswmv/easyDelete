@@ -108,7 +108,7 @@ class ContactsPersistence {
     }
     
     /// Uses `NSBatchInsertRequest` (BIR) to import objects into the Core Data store on a private queue.
-    func importContacts(from contactModels: [ContactModel]) {
+    func importContacts(from contactModels: [ContactModel], completionHandler: @escaping (() -> Void)) {
         logger.debug("Received \(contactModels.count) records.")
         
         // Import the Contacts into Core Data.
@@ -126,16 +126,18 @@ class ContactsPersistence {
             // Execute the batch insert.
             /// - Tag: batchInsertRequest
             let batchInsertRequest = self.newBatchInsertRequest(with: contactModels)
-            if let fetchResult = try? taskContext.execute(batchInsertRequest),
-               let batchInsertResult = fetchResult as? NSBatchInsertResult,
-               let success = batchInsertResult.result as? Bool, success {
+            guard let fetchResult = try? taskContext.execute(batchInsertRequest),
+                  let batchInsertResult = fetchResult as? NSBatchInsertResult,
+                  let success = batchInsertResult.result as? Bool,
+                  success else {
+                self.logger.debug("Failed to execute batch insert request.")
                 return
             }
-            self.logger.debug("Failed to execute batch insert request.")
+            
+            self.logger.debug("Successfully inserted data.")
+            self.logger.debug("Finished importing data.")
+            completionHandler()
         }
-        
-        logger.debug("Successfully inserted data.")
-        logger.debug("Finished importing data.")
     }
     
     private func newBatchInsertRequest(with contactModels: [ContactModel]) -> NSBatchInsertRequest {
