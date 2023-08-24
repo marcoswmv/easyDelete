@@ -140,14 +140,14 @@ final class DeletedContactsListViewController: UITableViewController {
     private func setupToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, 
-                                           style: .plain, 
-                                           target: self, 
-                                           action: #selector(handleDelete))
+                                       style: .plain, 
+                                       target: self, 
+                                       action: #selector(handleDelete))
         deleteButton?.tintColor = .red
         recoverButton = UIBarButtonItem(title: Consts.DeletedContactsList.recover, 
-                                            style: .plain, 
-                                            target: self, 
-                                            action: #selector(handleRecover))
+                                        style: .plain, 
+                                        target: self, 
+                                        action: #selector(handleRecover))
         selectAllButton = UIBarButtonItem(title: Consts.DeletedContactsList.selectAll, 
                                           style: .plain, 
                                           target: self, 
@@ -212,14 +212,17 @@ extension DeletedContactsListViewController {
             Alert.showActionSheetToAskForConfirmationToDelete(on: self, numberOfContacts: indexPaths.count) { [weak self] confirmation in
                 guard let `self` = self else { return }
                 if confirmation {
-                    indexPaths.sorted(by: { $0 > $1 }).forEach { indexPath in
-                        if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
-                           self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
-                            let contactToDeleteID = self.viewModel.contactsViewModels[indexPath.section].names
-                                .filter { $0.isDeleted }[indexPath.row].identifier
-//                            self.viewModel.deleteContact(with: contactToDeleteID, permanently: true)
+                    let contactsToDelete = indexPaths.sorted(by: { $0 > $1 })
+                        .compactMap { indexPath in
+                            if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
+                               self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+                                return self.viewModel.contactsViewModels[indexPath.section].names
+                                    .filter { $0.isDeleted }[indexPath.row].identifier
+                            }
+                            return nil
                         }
-                    }
+                    
+                    self.viewModel.deleteContacts(with: contactsToDelete, permanently: true)
                 }
             }
             if isAllSelected {
@@ -313,7 +316,7 @@ extension DeletedContactsListViewController {
     }
 }
 
-    // MARK: - Table view data source
+// MARK: - Table view data source
 
 extension DeletedContactsListViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -325,7 +328,7 @@ extension DeletedContactsListViewController {
               section.names.allSatisfy({ $0.isDeleted == false }) == false else { return nil }
         return section.letter
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.contactsViewModels[section].names.filter { $0.isDeleted }.count
     }
