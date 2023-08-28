@@ -1,27 +1,38 @@
 # Easy Delete
 
+An iOS app that makes easy for the user to delete as many contacts as needed, as well as recovering them whenever needed in a period of 30 days.
 <br />
 <p align="center">
 <img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/IconappIcon.png" width="60" >  
 </p>
 <br />
 
-Looking to declutter and organize your contacts on your iPhone? Look no further than EasyDelete - the ultimate solution for deleting contacts seamlessly on your iOS device.
+## Screenshots
 
-With its user-friendly interface and simple but powerful features, EasyDelete makes it incredibly easy to remove unwanted contacts from your phonebook. No opening each and every contact and manually deleting it at a time. With just a few taps, you can efficiently select multiple contacts or swipe a contact to delete in one go.
+<p align="row">
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20swipe.png" width="200" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/Delete%20by%20selection.png" width="200" >
+<img src= "https://github.com/marcoswmv/easyDelete/blob/master/Media/recover%20by%20swipe.png" width="200" >
+</p>
 
-But that's not all! EasyDelete goes the extra mile to ensure you don't accidentally delete critical contact information. It provides a backup option to save a copy of your contacts before permanently deleting them, giving you peace of mind and an added layer of security.
+## Features
 
-In addition to contact deletion, EasyDelete offers another useful feature to optimize your experience. In case you need a contact you just deleted you are allowed to restore it in a period of time.
+- Delete contact on swipe or multiple selection
+- Recover contacts on swipe or multiple selection
 
-Download EasyDelete now and take control of your iPhone contacts in a new way. Say goodbye to clutter and hello to a streamlined and efficient contact list.
+## Tech Stack
 
-We value your feedback and are committed to making EasyDelete even better. If you have any questions, or suggestions, or encounter any issues, please reach out to us. Your satisfaction is our top priority.
+- UIKit
+- Contacts(from Apple)
+- Combine
+- CoreData
 
-Don't wait any longer! Simplify your contact management and enjoy a clutter-free iPhone experience with EasyDelete. Get it today from the App Store and start organizing your contacts with ease.
+## Requirements
 
+- iOS 13.0+
+- Xcode 12.5
+
+## 🔗 Links
 
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/marcoswmvicente/)
 [![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/__marcosvicente)
-
-  
