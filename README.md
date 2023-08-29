@@ -6,7 +6,7 @@
 </p>
 <br />
 
-An iOS app that makes easy for the user to delete as many contacts as needed, as well as recovering them whenever needed in a period of 30 days.
+An iOS app that makes easy for the user to delete as many contacts as needed, as well as recovering them whenever needed in a period of 30 days
 
 ## Screenshots
 
