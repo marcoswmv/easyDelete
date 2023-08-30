@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSContactsUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs to access your contacts</string>
+	<string>$(PRODUCT_NAME) accesses contacts to allow you to delete and/or recover them</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
