@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  EasyDelete
+
+  Created by Marcos Vicente on 08/09/2023.
+  
+*/
+
+"NSContactsUsageDescription" = "The app is accessing contacts to allow you to delete and recover contacts";

@@ -30,6 +30,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         NotificationCenter.default.removeObserver(self, name: .CNContactStoreDidChange, object: nil)
         print("Deinit \(self)")
     }
+    
     // MARK: - UI Declaration
     
     private var rightNavBarButton: UIBarButtonItem?
@@ -62,7 +63,6 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         setupUI()
         bindViewModel()
         viewModel.fetchContacts()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,9 +89,9 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
                 self.enableRightNavigationBarButton(hasContacts)
                 
                 if hasContacts {
-                    self.countLabel.text = "\(contactsCount) \(Consts.contacts)"
+                    self.countLabel.text = "\(contactsCount) \(Strings.Text.contactsCountText)"
                 } else {
-                    self.noContactsLabel.text = Consts.ListScreen.emptyList
+                    self.noContactsLabel.text = Strings.Text.noContactsText
                 }
                 self.tableView.reloadData()
                 self.updateSelectionCount()
@@ -107,7 +107,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     }
 
     private func setupNavigationBar() {
-        navigationItem.title = Consts.ContactsList.title
+        navigationItem.title = Strings.Title.contactsListTitle
         navigationController?.navigationBar.prefersLargeTitles = true
 
         searchController.searchBar.delegate = self
@@ -115,8 +115,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
 
-        let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .plain, target: self, action: #selector(handlePushDeleted))
-        rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.select, style: .plain, target: self, action: #selector(handleSelect))
+        let leftNavBarButton = UIBarButtonItem(title: Strings.Title.deletedButtonTitle, style: .plain, target: self, action: #selector(handlePushDeleted))
+        rightNavBarButton = UIBarButtonItem(title: Strings.Title.selectButtonTitle, style: .plain, target: self, action: #selector(handleSelect))
         navigationItem.leftBarButtonItem = leftNavBarButton
         navigationItem.rightBarButtonItem = rightNavBarButton
         
@@ -143,10 +143,10 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     private func setupToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        deleteButton = UIBarButtonItem(title: Consts.ContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
+        deleteButton = UIBarButtonItem(title: Strings.Title.deleteButtonTitle, style: .plain, target: self, action: #selector(handleDelete))
         deleteButton?.tintColor = .red
         
-        let doneButton = UIBarButtonItem(title: Consts.ListScreen.done, style: .plain, target: self, action: #selector(handleDone))
+        let doneButton = UIBarButtonItem(title: Strings.Title.doneButtonTitle, style: .plain, target: self, action: #selector(handleDone))
         
         if let deleteButton {
             toolbarItems = [deleteButton, flexibleSpace, doneButton]
@@ -155,7 +155,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     func enableEditingMode(_ enable: Bool) {
         if !enable {
-            self.navigationItem.title = Consts.ContactsList.title
+            self.navigationItem.title = Strings.Title.contactsListTitle
         }
         navigationItem.leftBarButtonItem?.isEnabled = !enable
         navigationItem.rightBarButtonItem?.isEnabled = !enable
@@ -219,9 +219,9 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     private func generateDeleteButtonTitle(with count: Int? = nil) -> String {
         if let count {
-            return "\(Consts.ContactsList.delete) (\(count))"
+            return "\(Strings.Title.deleteButtonTitle) (\(count))"
         } else {
-            return "\(Consts.ContactsList.delete)"
+            return "\(Strings.Title.deleteButtonTitle)"
         }
     }
     
@@ -291,12 +291,13 @@ extension ContactsListViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteContact(at: indexPath)
-        }  
+        }
+        tableView.contentSize.height += 52
     }
     
     override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let deleteAction = UIAction(title: Consts.ContactsList.delete) { [weak self] _ in
+            let deleteAction = UIAction(title: Strings.Title.deleteButtonTitle) { [weak self] _ in
                 guard let `self` = self else { return }
                 self.deleteContact(at: indexPath)
             }

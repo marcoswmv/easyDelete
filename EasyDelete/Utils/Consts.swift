@@ -14,71 +14,78 @@ struct Keys {
     static let dayOfDeletion = "dayOfDeletion"
     static let scheduledDayForDeletion = "scheduledDayForDeletion"
     static let remainingDaysForDeletion = "remainingDaysForDeletion"
+    static let isFirstLaunch = "isFirstLaunch"
 }
 
-struct Consts {
+struct Image {
+    static let onboardingStep1 = "onboarding-1"
+    static let onboardingStep2 = "onboarding-2"
+    static let onboardingStep3 = "onboarding-3"
+    static let onboardingStep4 = "onboarding-4"
+}
+
+struct Strings {
+    static let undefined = "UNDEFINED"
     
-    static var bag = Set<AnyCancellable>()
-    
-    static let contactPhotoPlaceholder = "person"
-    static let phoneNumbersLabelPlaceholder = NSLocalizedString("Mobile", comment: "Mobile label placeholder")
-    static let emailsLabelPlaceholder = NSLocalizedString("Email", comment: "Email label placeholder")
-    static let contacts = NSLocalizedString("contacts", comment: "100 contacts - label")
-    
-    struct Numbers {
-        static let dayInSeconds = 86400
+    struct Title {
+        static let contactsListTitle = NSLocalizedString("contactsListTitle", comment: "")
+        static let deletedContactsListTitle = NSLocalizedString("deletedContactsListTitle", comment: "")
+        static let contactDetailScreenTitle = NSLocalizedString("contactDetailScreenTitle", comment: "")
+        
+        static let emailsSectionTitle = NSLocalizedString("emailsSectionTitle", comment: "")
+        static let phoneNumbersSectionTitle = NSLocalizedString("phoneNumbersSectionTitle", comment: "")
+        
+        static let deleteActionSheetTitle = NSLocalizedString("deleteActionSheetTitle", comment: "")
+        static let permissionAlertTitle = NSLocalizedString("permissionAlertTitle", comment: "")
+        static let errorAlertTitle = NSLocalizedString("errorAlertTitle", comment: "")
+        static let noContactsAlertTitle = NSLocalizedString("noContactsAlertTitle", comment: "")
+        static let selectContactAlertTitle = NSLocalizedString("selectContactAlertTitle", comment: "")
+        
+        static let okButtonTitle = NSLocalizedString("okButtonTitle", comment: "")
+        static let cancelButtonTitle = NSLocalizedString("cancelButtonTitle", comment: "")
+        static let confirmButtonTitle = NSLocalizedString("confirmButtonTitle", comment: "")
+        static let deleteButtonTitle = NSLocalizedString("deleteButtonTitle", comment: "")
+        static let deletedButtonTitle = NSLocalizedString("deletedButtonTitle", comment: "")
+        static let doneButtonTitle = NSLocalizedString("doneButtonTitle", comment: "")
+        static let manageButtonTitle = NSLocalizedString("manageButtonTitle", comment: "")
+        static let openSettingsButtonTitle = NSLocalizedString("openSettingsButtonTitle", comment: "")
+        static let recoverButtonTitle = NSLocalizedString("recoverButtonTitle", comment: "")
+        static let selectButtonTitle = NSLocalizedString("selectButtonTitle", comment: "")
+        static let selectAllButtonTitle = NSLocalizedString("selectAllButtonTitle", comment: "")
+        static let unselectAllButtonTitle = NSLocalizedString("unselectAllButtonTitle", comment: "")
     }
     
-    struct ContactDetailView {
-        static let title = NSLocalizedString("Contact", comment: "Contact detail modal screen - title")
-        static let contactDetailsCell = "ContactDetailTableViewCell"
-        static let numbersSection = NSLocalizedString("Phone numbers", comment: "Contact detail modal screen - Phone numbers section title")
-        static let emailsSection = NSLocalizedString("Emails", comment: "Contact detail modal screen - Emails section title")
+    struct Placeholder {
+        static let emailLabelPlaceholder = NSLocalizedString("emailLabelPlaceholder", comment: "")
+        static let mobileLabelPlaceholder = NSLocalizedString("mobileLabelPlaceholder", comment: "")
     }
     
-    struct ListScreen {
-        static let done = NSLocalizedString("Done", comment: "Generic list string item - Done")
-        static let select = NSLocalizedString("Select", comment: "Generic list string item - Select")
-        static let noResults = NSLocalizedString("No results", comment: "Generic list string item - No results")
-        static let emptyList = NSLocalizedString("No contacts", comment: "Contacts list - No contacts")
+    struct Text {
+        static let contactsCountText = NSLocalizedString("contactsCountText", comment: "")
+        static let remainingDaysCountText = NSLocalizedString("remainingDaysCountText", comment: "")
+        static let noResultsText = NSLocalizedString("noResultsText", comment: "")
+        static let settingsText = NSLocalizedString("settingsText", comment: "")
+        static let actionSheetPluralText = NSLocalizedString("actionSheetPluralText", comment: "")
+        static let actionSheetText = NSLocalizedString("actionSheetText", comment: "")
+        static let noContactsText = NSLocalizedString("noContactsText", comment: "")
     }
     
-    struct ContactsList {
-        static let title = NSLocalizedString("Contacts", comment: "Contacts list - title")
-        static let cell = "ContactCell"
-        static let deleted = NSLocalizedString("Deleted", comment: "Contacts list - Deleted button title")
-        static let delete = NSLocalizedString("Delete", comment: "Contacts list - Delete button title")
+    struct Onboarding {
+        static let onboardingStepStartButtonTitle = NSLocalizedString("onboardingStepStartButtonTitle", comment: "")
+        static let onboardingStepButtonTitle = NSLocalizedString("onboardingStepButtonTitle", comment: "")
+        static let onboardingStepEndButtonTitle = NSLocalizedString("onboardingStepEndButtonTitle", comment: "")
+        
+        static let onboardingStep1Title = NSLocalizedString("onboardingStep1Title", comment: "")
+        static let onboardingStep2Title = NSLocalizedString("onboardingStep2Title", comment: "")
+        static let onboardingStep3Title = NSLocalizedString("onboardingStep3Title", comment: "")
+        static let onboardingStep4Title = NSLocalizedString("onboardingStep4Title", comment: "")
+        
+        static let onboardingStep1Message = NSLocalizedString("onboardingStep1Message", comment: "")
+        static let onboardingStep2Message = NSLocalizedString("onboardingStep2Message", comment: "")
+        static let onboardingStep3MessagePart1 = NSLocalizedString("onboardingStep3MessagePart1", comment: "")
+        static let onboardingStep3MessagePart2 = NSLocalizedString("onboardingStep3MessagePart2", comment: "")
+        static let onboardingStep3MessagePart3 = NSLocalizedString("onboardingStep3MessagePart3", comment: "")
+        static let onboardingStep4MessagePart1 = NSLocalizedString("onboardingStep4MessagePart1", comment: "")
+        static let onboardingStep4MessagePart2 = NSLocalizedString("onboardingStep4MessagePart2", comment: "")
     }
-    
-    struct DeletedContactsList {
-        static let title = NSLocalizedString("Deleted Contacts", comment: "Deleted Contacts list - title")
-        static let cell = "DeletedContactsList"
-        static let manage = NSLocalizedString("Manage", comment: "Deleted contacts screen - Manage button title")
-        static let delete = NSLocalizedString("Delete", comment: "Deleted contacts screen - Delete button title")
-        static let recover = NSLocalizedString("Recover", comment: "Deleted contacts screen - Recover button title")
-        static let selectAll = NSLocalizedString("Select all", comment: "Deleted contacts screen - Select all button title")
-        static let unselectAll = NSLocalizedString("Unselect all", comment: "Deleted contacts screen - Unselect all button title")
-        static let daysLeft = NSLocalizedString("days left", comment: "Deleted contacts screen - 100 days left - end of sentence")
-    }
-    
-    struct Alert {
-        static let okButton = NSLocalizedString("Ok", comment: "Ok button - title")
-        static let errorTitle = NSLocalizedString("An Error Occurred", comment: "Error alert - title")
-        static let selectContactsTitle = NSLocalizedString("Select a contact", comment: "Select a contact alert - title")
-        static let noContactsTitle = NSLocalizedString("No contacts to select", comment: "No contacts alert - title")
-        static let confirmationRequestTitle = NSLocalizedString("Are you sure?", comment: "Delete warning action sheet - title")
-        static let confirmationRequestMessage = NSLocalizedString("You won't be able to recover this contact.",
-                                                                  comment: "Delete warning action sheet - message")
-        static let pluralConfirmationRequestMessage = NSLocalizedString("You won't be able to recover these contacts.",
-                                                                        comment: "Delete warning action sheet - message")
-        static let cancelButton = NSLocalizedString("Cancel", comment: "Deletion button - title")
-        static let confirmButton = NSLocalizedString("Confirm", comment: "Deletion button - title")
-        static let settingsAlertMessage = NSLocalizedString("This app requires access to Contacts to proceed. Go to Settings to grant access.",
-                                                            comment: "Open settings - message")
-        static let settingsAlertActionTitle = NSLocalizedString("Open Settings", comment: "Open settings - button title")
-        static let settingsAlertTitle = NSLocalizedString("Access denied", comment: "Open settings - title")
-        static let accessDenied = "Access Denied"
-    }
-    
-    static let permissionError = NSLocalizedString("Access denied", comment: "Open settings - title") 
 }

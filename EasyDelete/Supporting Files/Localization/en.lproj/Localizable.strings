@@ -1,0 +1,61 @@
+/* 
+  Localizable.strings
+  EasyDelete
+
+  Created by Marcos Vicente on 08/09/2023.
+  
+*/
+
+"contactsListTitle" = "Contacts";
+"deletedContactsListTitle" = "Deleted Contacts";
+"contactDetailScreenTitle" = "Contact";
+
+"emailsSectionTitle" = "Emails";
+"phoneNumbersSectionTitle" = "Phone numbers";
+
+"deleteActionSheetTitle" = "Are you sure?";
+"permissionAlertTitle" = "Access denied";
+"errorAlertTitle" = "An Error Occurred";
+"noContactsAlertTitle" = "No contacts to select";
+"selectContactAlertTitle" = "Select a contact";
+
+"emailLabelPlaceholder" = "Email";
+"mobileLabelPlaceholder" = "Mobile";
+
+"contactsCountText" = "contacts";
+"remainingDaysCountText" = "days left";
+"noResultsText" = "No results";
+"settingsText" = "This app requires access to Contacts to proceed. Go to Settings to grant access.";
+"actionSheetPluralText" = "You won't be able to recover these contacts.";
+"actionSheetText" = "You won't be able to recover this contact.";
+"noContactsText" = "No contacts";
+
+"okButtonTitle" = "Ok";
+"cancelButtonTitle" = "Cancel";
+"confirmButtonTitle" = "Confirm";
+"deleteButtonTitle" = "Delete";
+"deletedButtonTitle" = "Deleted";
+"doneButtonTitle" = "Done";
+"manageButtonTitle" = "Manage";
+"openSettingsButtonTitle" = "Open Settings";
+"recoverButtonTitle" = "Recover";
+"selectButtonTitle" = "Select";
+"selectAllButtonTitle" = "Select all";
+"unselectAllButtonTitle" = "Unselect all";
+
+"onboardingStepStartButtonTitle" = "Let's go!";
+"onboardingStepButtonTitle" = "Next";
+"onboardingStepEndButtonTitle" = "Got it!";
+
+"onboardingStep1Title" = "Welcome";
+"onboardingStep2Title" = "Swipe to delete";
+"onboardingStep3Title" = "Select to delete";
+"onboardingStep4Title" = "Recover";
+
+"onboardingStep1Message" = "As the name says, it’s an easy and comfortable way of cleaning up your contacts list";
+"onboardingStep2Message" = "Swipe a row to the left to delete a contact.";
+"onboardingStep3MessagePart1" = "Too lazy to erase one by one?";
+"onboardingStep3MessagePart2" = "No problem!";
+"onboardingStep3MessagePart3" = "Just select as many contacts as you want and delete them all at once";
+"onboardingStep4MessagePart1" = "Don’t worry!";
+"onboardingStep4MessagePart2" = "If you need those contacts again you still have 30 days to recover them";

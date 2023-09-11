@@ -12,7 +12,7 @@ struct Alert {
                                        style: UIAlertController.Style,
                                        title: String?,
                                        message: String?,
-                                       actions: [UIAlertAction] = [UIAlertAction(title: Consts.Alert.okButton,
+                                       actions: [UIAlertAction] = [UIAlertAction(title: Strings.Title.okButtonTitle,
                                                                                  style: .cancel,
                                                                                  handler: nil)],
                                        completion: (() -> Void)? = nil) {
@@ -26,34 +26,34 @@ struct Alert {
     static func showErrorAlert(on viewController: UIViewController, message: String) {
         showBasicAlert(on: viewController,
                        style: .alert,
-                       title: Consts.Alert.errorTitle,
+                       title: Strings.Title.errorAlertTitle,
                        message: message)
     }
     
     static func showNoContactSelectedAlert(on viewController: UIViewController) {
         showBasicAlert(on: viewController,
                        style: .alert,
-                       title: Consts.Alert.selectContactsTitle, message: nil)
+                       title: Strings.Title.selectButtonTitle, message: nil)
     }
     
     static func showNoContactsAlert(on viewController: UIViewController) {
         showBasicAlert(on: viewController,
                        style: .alert,
-                       title: Consts.Alert.noContactsTitle, message: nil)
+                       title: Strings.Title.noContactsAlertTitle, message: nil)
     }
     
     static func showActionSheetToAskForConfirmationToDelete(on viewController: UIViewController, numberOfContacts: Int = 1, _ completionHandler: @escaping ((Bool) -> Void)) {
         
-        let cancel = UIAlertAction(title: Consts.Alert.cancelButton, style: .cancel, handler: nil)
-        let confirm = UIAlertAction(title: Consts.Alert.confirmButton, style: .destructive, handler: { _ in
+        let cancel = UIAlertAction(title: Strings.Title.cancelButtonTitle, style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: Strings.Title.confirmButtonTitle, style: .destructive, handler: { _ in
             completionHandler(true)
         })
         
-        let message = numberOfContacts > 1 ? Consts.Alert.pluralConfirmationRequestMessage: Consts.Alert.confirmationRequestMessage
+        let message = numberOfContacts > 1 ? Strings.Text.actionSheetPluralText : Strings.Text.actionSheetText
         
         showBasicAlert(on: viewController,
                        style: .actionSheet,
-                       title: Consts.Alert.confirmationRequestTitle,
+                       title: Strings.Title.deleteActionSheetTitle,
                        message: message,
                        actions: [cancel, confirm])
     }
@@ -62,16 +62,16 @@ struct Alert {
         if let settings = URL(string: UIApplication.openSettingsURLString),
             UIApplication.shared.canOpenURL(settings) {
             
-            let openSettingsAction = UIAlertAction(title: Consts.Alert.settingsAlertActionTitle,
+            let openSettingsAction = UIAlertAction(title: Strings.Title.openSettingsButtonTitle,
                                                    style: .default) { _ in
                 UIApplication.shared.open(settings)
             }
-            let cancel = UIAlertAction(title: Consts.Alert.cancelButton, style: .cancel, handler: nil)
+            let cancel = UIAlertAction(title: Strings.Title.cancelButtonTitle, style: .cancel, handler: nil)
             
             showBasicAlert(on: viewController,
                            style: .alert,
-                           title: Consts.Alert.settingsAlertTitle,
-                           message: Consts.Alert.settingsAlertMessage,
+                           title: Strings.Title.openSettingsButtonTitle,
+                           message: Strings.Title.permissionAlertTitle,
                            actions: [openSettingsAction, cancel])
         }
     }

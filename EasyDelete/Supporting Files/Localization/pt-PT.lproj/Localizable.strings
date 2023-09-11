@@ -1,0 +1,61 @@
+/* 
+  Localizable.strings
+  EasyDelete
+
+  Created by Marcos Vicente on 08/09/2023.
+  
+*/
+
+"contactsListTitle" = "Contactos";
+"deletedContactsListTitle" = "Contactos Apagados";
+"contactDetailScreenTitle" = "Contacto";
+
+"emailsSectionTitle" = "Emails";
+"phoneNumbersSectionTitle" = "Números de telefone";
+
+"deleteActionSheetTitle" = "Tem a certeza?";
+"permissionAlertTitle" = "Acesso negado";
+"errorAlertTitle" = "Ocorreu um erro";
+"noContactsAlertTitle" = "Sem contactos para selecionar";
+"selectContactAlertTitle" = "Selecionar um contacto";
+
+"emailLabelPlaceholder" = "Email";
+"mobileLabelPlaceholder" = "Telemóvel";
+
+"contactsCountText" = "contactos";
+"remainingDaysCountText" = "dias restantes";
+"noResultsText" = "Sem resultados";
+"settingsText" = "Esta aplicação requer acesso aos Contactos para prosseguir. Vá as Definições para conceder acesso.";
+"actionSheetPluralText" = "Não conseguirá recuperar estes contactos.";
+"actionSheetText" = "Não conseguirá recuperar este contacto.";
+"noContactsText" = "Sem contactos";
+
+"okButtonTitle" = "Ok";
+"cancelButtonTitle" = "Cancelar";
+"confirmButtonTitle" = "Confirmar";
+"deleteButtonTitle" = "Apagar";
+"deletedButtonTitle" = "Apagados";
+"doneButtonTitle" = "Feito";
+"manageButtonTitle" = "Gerir";
+"openSettingsButtonTitle" = "Abrir Definições";
+"recoverButtonTitle" = "Recuperar";
+"selectButtonTitle" = "Selecionar";
+"selectAllButtonTitle" = "Sel. todos";
+"unselectAllButtonTitle" = "Desel. todos";
+
+"onboardingStepStartButtonTitle" = "Vamos!";
+"onboardingStepButtonTitle" = "Próximo";
+"onboardingStepEndButtonTitle" = "Percebi!";
+
+"onboardingStep1Title" = "Bem vindo";
+"onboardingStep2Title" = "Deslize para apagar";
+"onboardingStep3Title" = "Seleccione para apagar";
+"onboardingStep4Title" = "Recupere";
+
+"onboardingStep1Message" = "Como diz o nome, é uma maneira fácil e confortável de limpar a sua lista de contactos";
+"onboardingStep2Message" = "Deslize o contacto para a esquerda para apagá-lo.";
+"onboardingStep3MessagePart1" = "Tem preguiça de apagar um de cada vez?";
+"onboardingStep3MessagePart2" = "Sem problema!";
+"onboardingStep3MessagePart3" = "Seleccione quantos contactos quiser e apague-os todos de uma vez";
+"onboardingStep4MessagePart1" = "Não se preocupe!";
+"onboardingStep4MessagePart2" = "Se precisar destes contactos outra vez ainda terá 30 dias para recuperá-los";

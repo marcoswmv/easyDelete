@@ -53,7 +53,7 @@ final class ContactsStore: ContactsStoreProtocol {
                     }
                 }
             } else {
-                completionHandler(.failure(.permission(Consts.permissionError)))
+                completionHandler(.failure(.permission(Strings.Title.permissionAlertTitle)))
             }
         }
     }
