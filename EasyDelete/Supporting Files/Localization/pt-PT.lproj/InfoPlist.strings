@@ -6,4 +6,4 @@
   
 */
 
-"NSContactsUsageDescription" = "The app is accessing contacts to allow you to delete and recover contacts";
+"NSContactsUsageDescription" = "O aplicativo acessa os contatos para salvar localmente aqueles que foram apagados e disponibilizá-los temporariamente caso precises recuperá-los mais tarde.";

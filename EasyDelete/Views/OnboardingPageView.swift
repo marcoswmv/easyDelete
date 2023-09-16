@@ -9,31 +9,22 @@ import UIKit
 
 class OnboardingPageView: UIView {
     
-    private lazy var closeButton: UIButton = UIButton()
     private lazy var imageView: UIImageView = UIImageView()
     private lazy var titleLabel: UILabel = UILabel()
     private lazy var messageLabel: UILabel = UILabel()
-    private lazy var nextButton: UIButton = UIButton()
-    private lazy var pageControl: UIPageControl = UIPageControl()
     
-    private var handleClose: ((Int) -> Void)? = nil
-    private var handleStep: ((Int) -> Void)? = nil
-
     override init(frame: CGRect) {
         super.init(frame: frame)
+        isUserInteractionEnabled = true
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(total: Int,
-               position: Int,
-               image: UIImage?,
+    func setup(image: UIImage?,
                title: String,
-               message: String,
-               handleStep: ((Int) -> Void)?,
-               handleClose: ((Int) -> Void)?) {
+               message: String) {
         
         let imageWidth: CGFloat = image?.size.width ?? 0.0
         let imageHeight: CGFloat = image?.size.height ?? 0.0
@@ -75,57 +66,36 @@ class OnboardingPageView: UIView {
         messageLabel.text = message
         messageLabel.sizeToFit()
         
-        let percentage: CGFloat = frame.size.height > 700 ? 0.20 : 0.15
-        yPos = frame.size.height - (frame.size.height * percentage)
-        pageControl.frame = CGRect(x: xPos,
-                                   y: yPos,
-                                   width: width,
-                                   height: 10.0)
-        pageControl.numberOfPages = total
-        pageControl.currentPage = position
-        pageControl.currentPageIndicatorTintColor = .link
-        pageControl.pageIndicatorTintColor = .lightGray
-        pageControl.isUserInteractionEnabled = false
+//        let percentage: CGFloat = frame.size.height > 700 ? 0.20 : 0.15
+//        yPos = frame.size.height - (frame.size.height * percentage)
+//        pageControl.frame = CGRect(x: xPos,
+//                                   y: yPos,
+//                                   width: width,
+//                                   height: 10.0)
+//        pageControl.numberOfPages = total
+//        pageControl.currentPage = position
+//        pageControl.currentPageIndicatorTintColor = .link
+//        pageControl.pageIndicatorTintColor = .lightGray
+//        pageControl.isUserInteractionEnabled = false
+//        
+//        yPos = frame.size.height - (frame.size.height * 0.10)
+//        nextButton.frame = CGRect(x: xPos,
+//                                  y: yPos,
+//                                  width: width,
+//                                  height: 30.0)
+//        nextButton.setTitle(setButtonTitle(page: position), for: .normal)
+//        nextButton.setTitleColor(.link, for: .normal)
+//        nextButton.tag = position + 1
+//        nextButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+//        self.handleStep = handleStep
+//        
+//        closeButton.frame = CGRect(x: 40.0, y: 80.0, width: 15.0, height: 15.0)
+//        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+//        closeButton.tintColor = .gray
+//        closeButton.tag = position + 1
+//        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
+//        self.handleClose = handleClose
         
-        yPos = frame.size.height - (frame.size.height * 0.10)
-        nextButton.frame = CGRect(x: xPos,
-                                  y: yPos,
-                                  width: width,
-                                  height: 30.0)
-        nextButton.setTitle(setButtonTitle(page: position), for: .normal)
-        nextButton.setTitleColor(.link, for: .normal)
-        nextButton.tag = position + 1
-        nextButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        self.handleStep = handleStep
-        
-        closeButton.frame = CGRect(x: 40.0, y: 80.0, width: 15.0, height: 15.0)
-        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        closeButton.tintColor = .gray
-        closeButton.tag = position + 1
-        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-        self.handleClose = handleClose
-        
-        addSubviews([closeButton, imageView, titleLabel, messageLabel, pageControl, nextButton])
-    }
-    
-    @objc private func didTapButton(button: UIButton) {
-        handleStep?(button.tag)
-    }
-    
-    @objc private func didTapClose(button: UIButton) {
-        handleClose?(button.tag)
-    }
-    
-    private func setButtonTitle(page: Int) -> String {
-        switch page {
-        case 0:
-            return Strings.Onboarding.onboardingStepStartButtonTitle
-        case 1...2:
-            return Strings.Onboarding.onboardingStepButtonTitle
-        case 3:
-            return Strings.Onboarding.onboardingStepEndButtonTitle
-        default:
-            return Strings.undefined
-        }
+        addSubviews([imageView, titleLabel, messageLabel])
     }
 }
