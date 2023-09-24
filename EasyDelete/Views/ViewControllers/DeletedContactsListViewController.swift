@@ -84,12 +84,19 @@ final class DeletedContactsListViewController: UITableViewController {
                 self.noContactsLabel.isHidden = hasContacts
                 
                 if hasContacts {
-                    self.countLabel.text = "\(contactsCount) \(Consts.contacts)"
+                    self.countLabel.text = "\(contactsCount) \(Strings.Text.contactsCountText)"
                 } else {
-                    self.noContactsLabel.text = Consts.ListScreen.emptyList
+                    self.noContactsLabel.text = Strings.Text.noContactsText
                 }
                 self.tableView.reloadData()
                 self.updateSelectionCount()
+            }
+        }.store(in: &cancellables)
+        
+        viewModel.$successMessage.sink { [weak self] result in
+            guard let `self` = self, let result else { return }
+            DispatchQueue.main.async {
+                self.showToast(message: result.1, action: result.0)
             }
         }.store(in: &cancellables)
         
@@ -102,7 +109,7 @@ final class DeletedContactsListViewController: UITableViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.title = Consts.DeletedContactsList.title
+        navigationItem.title = Strings.Title.deletedContactsListTitle
         navigationController?.navigationBar.prefersLargeTitles = true
         
         searchController.searchBar.delegate = self
@@ -110,7 +117,7 @@ final class DeletedContactsListViewController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
         
-        rightNavBarButton = UIBarButtonItem(title: Consts.DeletedContactsList.manage, 
+        rightNavBarButton = UIBarButtonItem(title: Strings.Title.manageButtonTitle, 
                                             style: .plain, 
                                             target: self, 
                                             action: #selector(handleManage))
@@ -139,16 +146,16 @@ final class DeletedContactsListViewController: UITableViewController {
     
     private func setupToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        deleteButton = UIBarButtonItem(title: Consts.DeletedContactsList.delete, 
+        deleteButton = UIBarButtonItem(title: Strings.Title.deleteButtonTitle,
                                        style: .plain, 
                                        target: self, 
                                        action: #selector(handleDelete))
         deleteButton?.tintColor = .red
-        recoverButton = UIBarButtonItem(title: Consts.DeletedContactsList.recover, 
+        recoverButton = UIBarButtonItem(title: Strings.Title.recoverButtonTitle,
                                         style: .plain, 
                                         target: self, 
                                         action: #selector(handleRecover))
-        selectAllButton = UIBarButtonItem(title: Consts.DeletedContactsList.selectAll, 
+        selectAllButton = UIBarButtonItem(title: Strings.Title.selectAllButtonTitle,
                                           style: .plain, 
                                           target: self, 
                                           action: #selector(handleSelectAll))
@@ -160,13 +167,13 @@ final class DeletedContactsListViewController: UITableViewController {
     
     private func manageDeletedContacts(enable: Bool) {
         if enable {
-            navigationItem.title = Consts.DeletedContactsList.title
-            rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.done, 
+            navigationItem.title = Strings.Title.deletedContactsListTitle
+            rightNavBarButton = UIBarButtonItem(title: Strings.Title.doneButtonTitle, 
                                                 style: .plain, 
                                                 target: self, 
                                                 action: #selector(handleDone))
         } else {
-            let buttonTitle = Consts.DeletedContactsList.manage
+            let buttonTitle = Strings.Title.manageButtonTitle
             rightNavBarButton = UIBarButtonItem(title: buttonTitle, 
                                                 style: .plain, 
                                                 target: self, 
@@ -226,10 +233,10 @@ extension DeletedContactsListViewController {
                 }
             }
             if isAllSelected {
-                selectAllButton?.title = Consts.DeletedContactsList.selectAll
+                selectAllButton?.title = Strings.Title.selectAllButtonTitle
                 isAllSelected = false
             }
-            navigationItem.title = Consts.DeletedContactsList.title
+            navigationItem.title = Strings.Title.deletedContactsListTitle
             
         } else {
             if viewModel.contactsViewModels.isEmpty {
@@ -254,10 +261,10 @@ extension DeletedContactsListViewController {
             viewModel.recoverContact(with: contactIDsToRecover)
             
             if isAllSelected {
-                selectAllButton?.title = Consts.DeletedContactsList.selectAll
+                selectAllButton?.title = Strings.Title.selectAllButtonTitle
                 isAllSelected = false
             }
-            navigationItem.title = Consts.DeletedContactsList.title
+            navigationItem.title = Strings.Title.deletedContactsListTitle
         } else {
             if viewModel.contactsViewModels.isEmpty {
                 Alert.showNoContactsAlert(on: self)
@@ -274,7 +281,7 @@ extension DeletedContactsListViewController {
                     tableView.deselectRow(at: IndexPath(row: row, section: section), animated: true)
                 }
             }
-            selectAllButton?.title = Consts.DeletedContactsList.selectAll
+            selectAllButton?.title = Strings.Title.selectAllButtonTitle
             isAllSelected = false
         } else {
             for section in 0..<tableView.numberOfSections {
@@ -282,7 +289,7 @@ extension DeletedContactsListViewController {
                     tableView.selectRow(at: IndexPath(row: row, section: section), animated: true, scrollPosition: .none)
                 }
             }
-            selectAllButton?.title = Consts.DeletedContactsList.unselectAll
+            selectAllButton?.title = Strings.Title.unselectAllButtonTitle
             isAllSelected = true
         }
         updateSelectionCount()
@@ -294,7 +301,7 @@ extension DeletedContactsListViewController {
     }
     
     private func generateButtonTitle(with count: Int? = nil, isRecover: Bool = false) -> String {
-        let text = isRecover ? Consts.DeletedContactsList.recover : Consts.DeletedContactsList.delete
+        let text = isRecover ? Strings.Title.recoverButtonTitle : Strings.Title.deleteButtonTitle
         if let count {
             return "\(text) (\(count))"
         } else {
@@ -379,7 +386,7 @@ extension DeletedContactsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let recoverAction = UIContextualAction(style: .normal, title: Consts.DeletedContactsList.recover) { [weak self] (_, _, completionHandler) in
+        let recoverAction = UIContextualAction(style: .normal, title: Strings.Title.recoverButtonTitle) { [weak self] (_, _, completionHandler) in
             guard let `self` = self else { return }
             
             if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
@@ -397,12 +404,12 @@ extension DeletedContactsListViewController {
     
     override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let deleteAction = UIAction(title: Consts.ContactsList.delete) { [weak self] _ in
+            let deleteAction = UIAction(title: Strings.Title.deleteButtonTitle) { [weak self] _ in
                 guard let `self` = self else { return }
                 self.deleteContact(at: indexPath)
             }
             
-            let recoverAction = UIAction(title: Consts.DeletedContactsList.recover) { _ in
+            let recoverAction = UIAction(title: Strings.Title.recoverButtonTitle) { _ in
                 self.recoverContact(at: indexPath) { _ in }
             }
             

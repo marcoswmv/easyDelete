@@ -18,6 +18,7 @@ final class ContactsListViewModel {
     private var isSearching: Bool = false
     
     @Published var error: Error?
+    @Published var successMessage: (ContactStoreSuccessfulAction, String)?
     @Published var contactsViewModels: GroupedContactsViewModels = []
     
     func fetchContacts(completionHandler: (() -> Void)? = nil) {
@@ -39,7 +40,9 @@ final class ContactsListViewModel {
         let contactsToDelete = ContactsPersistence.shared.getContactsForContactIDs(deletedContactViewModelIDs)
         if permanently {
             // Delete from database
-            ContactsPersistence.shared.deleteContacts(contactsToDelete)
+            ContactsPersistence.shared.deleteContacts(contactsToDelete) { [weak self] in
+                self?.successMessage = (.delete, Strings.Text.deletionSuccessfulText)
+            }
         } else {
             // Save deleted to data base
             ContactsPersistence.shared.setIsDeleted(true, contacts: contactsToDelete) { [weak self] in
@@ -48,8 +51,15 @@ final class ContactsListViewModel {
             }
             
             // Delete from Contacts store
-            contactsStore.delete(contacts: contactsToDelete) { [weak self] error in
-                self?.error = error
+            contactsStore.delete(contacts: contactsToDelete) { [weak self] result in
+                switch result {
+                case .success(let type): 
+                    if type == .delete {
+                        self?.successMessage = (type, Strings.Text.deletionSuccessfulText)
+                    }
+                case .failure(let error):
+                    self?.error = error
+                }
             }
         }
     }
@@ -63,8 +73,15 @@ final class ContactsListViewModel {
         }
         
         // Add to the contact store
-        contactsStore.add(contacts: contactsToRecover) { [weak self] error in
-            self?.error = error
+        contactsStore.add(contacts: contactsToRecover) { [weak self] result in
+            switch result {
+            case .success(let type): 
+                if type == .add {
+                    self?.successMessage = (type, Strings.Text.recoverySuccessfulText)
+                }
+            case .failure(let error):
+                self?.error = error
+            }
         }
     }
     

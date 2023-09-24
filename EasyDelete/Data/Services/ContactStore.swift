@@ -11,14 +11,19 @@ import Combine
 import CoreData
 
 enum ContactStoreError: Error {
-    case permission(String)
+    case accessDenied(CNError)
     case commonError(Error)
+}
+
+enum ContactStoreSuccessfulAction: Error {
+    case delete
+    case add
 }
 
 protocol ContactsStoreProtocol: AnyObject {
     func fetchContacts(completionHandler: @escaping ContactsRequestCompletionBlock)
-    func add(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void))
-    func delete(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void))
+    func add(contacts: [ContactProtocol], completionHandler: @escaping CRUDContactsCompletionBlock)
+    func delete(contacts: [ContactProtocol], completionHandler: @escaping CRUDContactsCompletionBlock)
 }
 
 final class ContactsStore: ContactsStoreProtocol {
@@ -31,12 +36,12 @@ final class ContactsStore: ContactsStoreProtocol {
     func fetchContacts(completionHandler: @escaping ContactsRequestCompletionBlock) {
         let request: CNContactFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactVCardSerialization.descriptorForRequiredKeys()])
         
-        store.requestAccess(for: .contacts) { granted, error in
-            if let error = error {
-                completionHandler(.failure(.commonError(error)))
-            }
-            if granted {
-                DispatchQueue.global().async { [weak self] in
+        store.requestAccess(for: .contacts) { [weak self] granted, error in
+            guard let `self` = self else { return }
+            if let error = error as? CNError {
+                completionHandler(.failure(.accessDenied(error)))
+            } else if granted {
+                self.queue.async { [weak self] in
                     guard let `self` = self else { return }
                     do {
                         var contactModels: [ContactModel] = []
@@ -44,7 +49,7 @@ final class ContactsStore: ContactsStoreProtocol {
                         try self.store.enumerateContacts(with: request, usingBlock: { (contact, _) in
                             let contactData = self.archiveContact(contact: contact) 
                             contactModels.append(ContactModel(contact: contact,
-                                                             vCard: contactData))
+                                                              vCard: contactData))
                         })
                         
                         completionHandler(.success(contactModels))
@@ -52,13 +57,11 @@ final class ContactsStore: ContactsStoreProtocol {
                         completionHandler(.failure(.commonError(error)))
                     }
                 }
-            } else {
-                completionHandler(.failure(.permission(Consts.permissionError)))
             }
         }
     }
     
-    func add(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void)) {
+    func add(contacts: [ContactProtocol], completionHandler: @escaping CRUDContactsCompletionBlock) {
         let saveRequest = CNSaveRequest()
         
         contacts.forEach { contact in
@@ -69,10 +72,17 @@ final class ContactsStore: ContactsStoreProtocol {
             saveRequest.add(mutableNewContact, toContainerWithIdentifier: nil)
         }
         
-        executeRequest(saveRequest, completionHandler)
+        executeRequest(saveRequest) { result in
+            switch result {
+            case .success:
+                completionHandler(.success(.add))
+            case .failure(let failure):
+                completionHandler(.failure(failure))
+            }
+        }
     }
     
-    func delete(contacts: [ContactProtocol], completionHandler: @escaping ((ContactStoreError) -> Void)) {
+    func delete(contacts: [ContactProtocol], completionHandler: @escaping CRUDContactsCompletionBlock) {
         let deleteRequest = CNSaveRequest()
         
         contacts.forEach { contact in
@@ -83,19 +93,27 @@ final class ContactsStore: ContactsStoreProtocol {
             deleteRequest.delete(mutableContact)
         }
         
-        executeRequest(deleteRequest, completionHandler)
+        executeRequest(deleteRequest) { result in
+            switch result {
+            case .success:
+                completionHandler(.success(.delete))
+            case .failure(let failure):
+                completionHandler(.failure(failure))
+            }
+        }
     }
 }
 
 // MARK: Helper methods
 extension ContactsStore {
-    private func executeRequest(_ request: CNSaveRequest, _ completionHandler: @escaping ((ContactStoreError) -> Void)) {
+    private func executeRequest(_ request: CNSaveRequest, _ completionHandler: @escaping ((Result<Bool, ContactStoreError>) -> Void)) {
         queue.async { [weak self] in
             guard let `self` = self else { return }
             do {
                 try self.store.execute(request)
+                completionHandler(.success(true))
             } catch {
-                completionHandler(.commonError(error))
+                completionHandler(.failure(.commonError(error)))
             }
         }
     }

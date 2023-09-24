@@ -30,6 +30,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         NotificationCenter.default.removeObserver(self, name: .CNContactStoreDidChange, object: nil)
         print("Deinit \(self)")
     }
+    
     // MARK: - UI Declaration
     
     private var rightNavBarButton: UIBarButtonItem?
@@ -39,7 +40,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         let searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
-
+        
         return searchController
     }()
     
@@ -57,12 +58,20 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         return label
     }()
     
+    private lazy var scrollToBottomButton: UIButton = {
+        let button = UIButton()
+        button.imageView?.contentMode = .scaleAspectFit
+        button.setImage(UIImage(systemName: "arrow.down.circle", 
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .light)), 
+                        for: .normal)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
         viewModel.fetchContacts()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +84,19 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         setupNavigationBar()
         setupTableView()
         setupToolbar()
+        
+        scrollToBottomButton.addTarget(self, action: #selector(didTapScrollToBottom), for: .touchUpInside)
+        
+        view.addSubview(scrollToBottomButton, aboveAll: true)
+        scrollToBottomButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-25.0)
+            make.bottom.equalToSuperview().offset(-60.0)
+            make.size.equalTo(40.0)
+        }
+        
+        scrollToBottomButton.imageView?.snp.makeConstraints { make in
+            make.size.equalTo(40.0)
+        }
     }
     
     private func bindViewModel() {
@@ -89,34 +111,47 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
                 self.enableRightNavigationBarButton(hasContacts)
                 
                 if hasContacts {
-                    self.countLabel.text = "\(contactsCount) \(Consts.contacts)"
+                    self.countLabel.text = "\(contactsCount) \(Strings.Text.contactsCountText)"
                 } else {
-                    self.noContactsLabel.text = Consts.ListScreen.emptyList
+                    self.noContactsLabel.text = Strings.Text.noContactsText
                 }
                 self.tableView.reloadData()
                 self.updateSelectionCount()
             }
         }.store(in: &cancellables)
         
-        viewModel.$error.sink { [weak self] error in
-            guard let `self` = self, let error else { return }
+        viewModel.$successMessage.sink { [weak self] result in
+            guard let `self` = self, let result else { return }
             DispatchQueue.main.async {
-                Alert.showErrorAlert(on: self, message: error.localizedDescription)
+                self.showToast(message: result.1, action: result.0)
+            }
+        }.store(in: &cancellables)
+        
+        viewModel.$error.sink { [weak self] error in
+            guard let `self` = self, let error = error as? ContactStoreError else { return }
+            switch error {
+            case .accessDenied(let error):
+                if let title = error.errorUserInfo[Strings.errorLocalizedDescription] as? String,
+                   let message = error.errorUserInfo[Strings.errorLocalizedFailureReason] as? String {
+                    Alert.showSettingsAlert(title: title, message: message, on: self)
+                }
+            case .commonError: break
             }
         }.store(in: &cancellables)
     }
-
+    
     private func setupNavigationBar() {
-        navigationItem.title = Consts.ContactsList.title
+        navigationItem.title = Strings.Title.contactsListTitle
         navigationController?.navigationBar.prefersLargeTitles = true
-
+        
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
-
-        let leftNavBarButton = UIBarButtonItem(title: Consts.ContactsList.deleted, style: .plain, target: self, action: #selector(handlePushDeleted))
-        rightNavBarButton = UIBarButtonItem(title: Consts.ListScreen.select, style: .plain, target: self, action: #selector(handleSelect))
+        
+        let leftNavBarButton = UIBarButtonItem(title: Strings.Title.deletedButtonTitle, 
+                                               style: .plain, target: self, action: #selector(handlePushDeleted))
+        rightNavBarButton = UIBarButtonItem(title: Strings.Title.selectButtonTitle, style: .plain, target: self, action: #selector(handleSelect))
         navigationItem.leftBarButtonItem = leftNavBarButton
         navigationItem.rightBarButtonItem = rightNavBarButton
         
@@ -143,10 +178,10 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     private func setupToolbar() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        deleteButton = UIBarButtonItem(title: Consts.ContactsList.delete, style: .plain, target: self, action: #selector(handleDelete))
+        deleteButton = UIBarButtonItem(title: Strings.Title.deleteButtonTitle, style: .plain, target: self, action: #selector(handleDelete))
         deleteButton?.tintColor = .red
         
-        let doneButton = UIBarButtonItem(title: Consts.ListScreen.done, style: .plain, target: self, action: #selector(handleDone))
+        let doneButton = UIBarButtonItem(title: Strings.Title.doneButtonTitle, style: .plain, target: self, action: #selector(handleDone))
         
         if let deleteButton {
             toolbarItems = [deleteButton, flexibleSpace, doneButton]
@@ -155,7 +190,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     func enableEditingMode(_ enable: Bool) {
         if !enable {
-            self.navigationItem.title = Consts.ContactsList.title
+            self.navigationItem.title = Strings.Title.contactsListTitle
         }
         navigationItem.leftBarButtonItem?.isEnabled = !enable
         navigationItem.rightBarButtonItem?.isEnabled = !enable
@@ -164,6 +199,12 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         tableView.setEditing(enable, animated: true)
         tableView.gestureRecognizers?.removeAll(where: { $0 is UITapGestureRecognizer })
         updateSelectionCount()
+        
+        scrollToBottomButton.snp.remakeConstraints { make in
+            make.trailing.equalToSuperview().offset(-25.0)
+            make.bottom.equalToSuperview().offset(enable ? -100.0 : -60.0)
+            make.size.equalTo(40.0)
+        }
     }
     
     // MARK: - Handlers
@@ -202,6 +243,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     @objc private func handlePushDeleted() {
         let deletedContactsVC = DeletedContactsListViewController(viewModel: viewModel)
+        viewModel.successMessage = nil
+        viewModel.contactsViewModels = []
         navigationController?.pushViewController(deletedContactsVC, animated: true)
     }
     
@@ -213,15 +256,21 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         }
     }
     
+    @objc private func didTapScrollToBottom() {
+        let lastIndexPath = IndexPath(row: (viewModel.contactsViewModels.last?.names.count ?? 0) - 1, 
+                                      section: viewModel.contactsViewModels.count - 1)
+        tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
+    }
+    
     private func updateSelectionCount() {  
         deleteButton?.title = generateDeleteButtonTitle(with: tableView.indexPathsForSelectedRows?.count)
     }
     
     private func generateDeleteButtonTitle(with count: Int? = nil) -> String {
         if let count {
-            return "\(Consts.ContactsList.delete) (\(count))"
+            return "\(Strings.Title.deleteButtonTitle) (\(count))"
         } else {
-            return "\(Consts.ContactsList.delete)"
+            return "\(Strings.Title.deleteButtonTitle)"
         }
     }
     
@@ -245,7 +294,7 @@ extension ContactsListViewController {
         }
         return viewModel.contactsViewModels[section].letter
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.contactsViewModels[section].names.filter { $0.isDeleted == false }.count
     }
@@ -291,12 +340,13 @@ extension ContactsListViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteContact(at: indexPath)
-        }  
+        }
+        tableView.contentSize.height += 52
     }
     
     override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let deleteAction = UIAction(title: Consts.ContactsList.delete) { [weak self] _ in
+            let deleteAction = UIAction(title: Strings.Title.deleteButtonTitle) { [weak self] _ in
                 guard let `self` = self else { return }
                 self.deleteContact(at: indexPath)
             }

@@ -8,6 +8,8 @@
 import Foundation
 
 typealias ContactsRequestCompletionBlock = (Result<[ContactModel], ContactStoreError>) -> Void
+typealias CRUDContactsCompletionBlock = (Result<ContactStoreSuccessfulAction, ContactStoreError>) -> Void
+
 typealias GroupedContactsViewModels = [(letter: String, names: [ContactCellViewModel])]
 
 typealias ExtractedIndexPaths = [Int: [Int]]
