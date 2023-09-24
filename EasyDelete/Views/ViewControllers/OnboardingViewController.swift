@@ -67,8 +67,8 @@ final class OnboardingViewController: UIViewController {
         setupComponents()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         configureScroll()
     }
     
@@ -77,24 +77,28 @@ final class OnboardingViewController: UIViewController {
         view.addSubviews([closeButton, scrollView, pageControl, nextButton])
         scrollView.addSubview(containerView)
         
+        let screenSize: CGSize? = UIScreen.main.bounds.size
+        
         closeButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(40.0)
-            make.top.equalToSuperview().offset(80.0)
+            make.top.equalToSuperview().offset(screenSize?.height ?? 0.0 > 670 ? 80.0 : 50.0)
         }
         
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(95.0)
+            make.top.lessThanOrEqualTo(closeButton.snp.bottom).offset(95.0)
             make.horizontalEdges.equalToSuperview()
             make.bottom.greaterThanOrEqualTo(pageControl.snp.top).offset(-30.0)
         }
         
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
         pageControl.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(40.0)
-            make.bottom.greaterThanOrEqualTo(nextButton.snp.top).offset(-82.0)
+            make.bottom.greaterThanOrEqualTo(nextButton.snp.top).offset(-70.0)
         }
         
         nextButton.snp.makeConstraints { make in
@@ -124,7 +128,8 @@ final class OnboardingViewController: UIViewController {
 
             containerView.addSubview(pageView)
         }
-        scrollView.contentSize = CGSize(width: scrollView.frame.size.width * CGFloat(viewModels.count), height: containerView.frame.size.height)
+        scrollView.contentSize = CGSize(width: scrollView.frame.size.width * CGFloat(viewModels.count),
+                                        height: containerView.frame.size.height)
     }
     
     @objc private func didTapNext(button: UIButton) {

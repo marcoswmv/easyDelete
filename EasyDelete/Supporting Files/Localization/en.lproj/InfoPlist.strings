@@ -6,4 +6,4 @@
   
 */
 
-"NSContactsUsageDescription" = "The app accesses contacts to locally save those that have been deleted and make them temporarily available in case you need to recover them later.";
+"NSContactsUsageDescription" = "The app accesses Contacts to locally save those that have been deleted and make them temporarily available in case you need to recover them later.";

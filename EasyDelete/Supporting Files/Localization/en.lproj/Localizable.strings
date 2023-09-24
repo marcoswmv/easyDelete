@@ -14,7 +14,6 @@
 "phoneNumbersSectionTitle" = "Phone numbers";
 
 "deleteActionSheetTitle" = "Are you sure?";
-"permissionAlertTitle" = "Access denied";
 "errorAlertTitle" = "An Error Occurred";
 "noContactsAlertTitle" = "No contacts to select";
 "selectContactAlertTitle" = "Select a contact";
@@ -29,6 +28,8 @@
 "actionSheetPluralText" = "You won't be able to recover these contacts.";
 "actionSheetText" = "You won't be able to recover this contact.";
 "noContactsText" = "No contacts";
+"deletionSuccessfulText" = "Successfully deleted";
+"recoverySuccessfulText" = "Successfully recovered";
 
 "okButtonTitle" = "Ok";
 "cancelButtonTitle" = "Cancel";

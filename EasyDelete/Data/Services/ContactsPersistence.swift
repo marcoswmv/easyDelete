@@ -186,7 +186,7 @@ class ContactsPersistence {
     }
     
     /// Asynchronously deletes records in the Core Data store with the specified `Contact` managed objects.
-    func deleteContacts(_ contacts: [Contact], shouldDeleteAll: Bool = false) {
+    func deleteContacts(_ contacts: [Contact], shouldDeleteAll: Bool = false, completionHandler: @escaping (() -> Void)) {
         guard contacts.allSatisfy({ $0.isContactDeleted }) else { return }
         
         let objectIDs = contacts.map { $0.objectID }
@@ -215,6 +215,7 @@ class ContactsPersistence {
                 self.logger.debug("Failed to execute batch delete request.")
                 return
             }
+            completionHandler()
         }
         
         logger.debug("Successfully deleted data.")

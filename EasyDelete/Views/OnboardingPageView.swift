@@ -6,12 +6,36 @@
 //
 
 import UIKit
+import SnapKit
 
 class OnboardingPageView: UIView {
     
-    private lazy var imageView: UIImageView = UIImageView()
-    private lazy var titleLabel: UILabel = UILabel()
-    private lazy var messageLabel: UILabel = UILabel()
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 27, weight: .semibold)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var messageLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.textColor = .gray
+        return label
+    }()
+    
+    private var isSmallScreen: Bool {
+        UIScreen.main.bounds.size.height < 670.0
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,77 +49,30 @@ class OnboardingPageView: UIView {
     func setup(image: UIImage?,
                title: String,
                message: String) {
+        imageView.image = image
+        titleLabel.text = title
+        messageLabel.text = message
         
-        let imageWidth: CGFloat = image?.size.width ?? 0.0
         let imageHeight: CGFloat = image?.size.height ?? 0.0
         
-        var xPos: CGFloat = frame.size.width - ((frame.size.width - imageWidth) / 2) - imageWidth
-        var yPos: CGFloat = frame.size.height - frame.size.height * (frame.size.height > 700 ? 0.80 : 0.90)
-        let width: CGFloat = frame.size.width - (40.0 * 2)
-        
-        if imageHeight < 271 {
-            yPos += 31
-        }
-        imageView.frame = CGRect(x: xPos,
-                                 y: yPos,
-                                 width: width - (7.0 * 2),
-                                 height: 271.0)
-        imageView.image = image
-        imageView.sizeToFit()
-        
-        xPos = frame.size.width - width - 40.0
-        yPos += imageView.frame.size.height + 40
-        titleLabel.frame = CGRect(x: xPos,
-                                  y: yPos,
-                                  width: width,
-                                  height: 32.0)
-        titleLabel.font = UIFont.systemFont(ofSize: 27, weight: .semibold)
-        titleLabel.textAlignment = .center
-        titleLabel.text = title
-        
-        yPos += titleLabel.frame.size.height + 30
-        messageLabel.frame = CGRect(x: xPos,
-                                    y: yPos,
-                                    width: width,
-                                    height: 60)
-        messageLabel.font = UIFont.systemFont(ofSize: 17)
-        messageLabel.textAlignment = .center
-        messageLabel.lineBreakMode = .byWordWrapping
-        messageLabel.numberOfLines = 0
-        messageLabel.textColor = .gray
-        messageLabel.text = message
-        messageLabel.sizeToFit()
-        
-//        let percentage: CGFloat = frame.size.height > 700 ? 0.20 : 0.15
-//        yPos = frame.size.height - (frame.size.height * percentage)
-//        pageControl.frame = CGRect(x: xPos,
-//                                   y: yPos,
-//                                   width: width,
-//                                   height: 10.0)
-//        pageControl.numberOfPages = total
-//        pageControl.currentPage = position
-//        pageControl.currentPageIndicatorTintColor = .link
-//        pageControl.pageIndicatorTintColor = .lightGray
-//        pageControl.isUserInteractionEnabled = false
-//        
-//        yPos = frame.size.height - (frame.size.height * 0.10)
-//        nextButton.frame = CGRect(x: xPos,
-//                                  y: yPos,
-//                                  width: width,
-//                                  height: 30.0)
-//        nextButton.setTitle(setButtonTitle(page: position), for: .normal)
-//        nextButton.setTitleColor(.link, for: .normal)
-//        nextButton.tag = position + 1
-//        nextButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-//        self.handleStep = handleStep
-//        
-//        closeButton.frame = CGRect(x: 40.0, y: 80.0, width: 15.0, height: 15.0)
-//        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-//        closeButton.tintColor = .gray
-//        closeButton.tag = position + 1
-//        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-//        self.handleClose = handleClose
-        
         addSubviews([imageView, titleLabel, messageLabel])
+        
+        imageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(imageHeight == 271 || isSmallScreen ? 0.0 : 31.0)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(titleLabel.snp.top).offset(isSmallScreen ? -30.0 : -40.0)
+            make.height.equalTo(isSmallScreen ? 120.0 : imageHeight)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(40.0)
+            make.bottom.equalTo(messageLabel.snp.top).offset(isSmallScreen ? -15.0 : -30.0)
+            make.height.equalTo(32.0)
+        }
+        
+        messageLabel.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(40.0)
+            make.bottom.equalToSuperview().priority(.low)
+        }
     }
 }

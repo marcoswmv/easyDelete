@@ -27,6 +27,9 @@ struct Image {
 struct Strings {
     static let undefined = "UNDEFINED"
     
+    static let errorLocalizedDescription = "NSLocalizedDescription"
+    static let errorLocalizedFailureReason = "NSLocalizedFailureReason"
+    
     struct Title {
         static let contactsListTitle = NSLocalizedString("contactsListTitle", comment: "")
         static let deletedContactsListTitle = NSLocalizedString("deletedContactsListTitle", comment: "")
@@ -68,6 +71,8 @@ struct Strings {
         static let actionSheetPluralText = NSLocalizedString("actionSheetPluralText", comment: "")
         static let actionSheetText = NSLocalizedString("actionSheetText", comment: "")
         static let noContactsText = NSLocalizedString("noContactsText", comment: "")
+        static let deletionSuccessfulText = NSLocalizedString("deletionSuccessfulText", comment: "")
+        static let recoverySuccessfulText = NSLocalizedString("recoverySuccessfulText", comment: "")
     }
     
     struct Onboarding {

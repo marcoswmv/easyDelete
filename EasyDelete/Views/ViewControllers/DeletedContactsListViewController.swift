@@ -93,6 +93,13 @@ final class DeletedContactsListViewController: UITableViewController {
             }
         }.store(in: &cancellables)
         
+        viewModel.$successMessage.sink { [weak self] result in
+            guard let `self` = self, let result else { return }
+            DispatchQueue.main.async {
+                self.showToast(message: result.1, action: result.0)
+            }
+        }.store(in: &cancellables)
+        
         viewModel.$error.sink { [weak self] error in
             guard let `self` = self, let error else { return }
             DispatchQueue.main.async {
@@ -102,7 +109,7 @@ final class DeletedContactsListViewController: UITableViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.title = Strings.Title.contactsListTitle
+        navigationItem.title = Strings.Title.deletedContactsListTitle
         navigationController?.navigationBar.prefersLargeTitles = true
         
         searchController.searchBar.delegate = self

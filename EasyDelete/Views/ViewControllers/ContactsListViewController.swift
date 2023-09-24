@@ -40,7 +40,7 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         let searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
-
+        
         return searchController
     }()
     
@@ -56,6 +56,15 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         label.textColor = .gray
         label.textAlignment = .center
         return label
+    }()
+    
+    private lazy var scrollToBottomButton: UIButton = {
+        let button = UIButton()
+        button.imageView?.contentMode = .scaleAspectFit
+        button.setImage(UIImage(systemName: "arrow.down.circle", 
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .light)), 
+                        for: .normal)
+        return button
     }()
     
     override func viewDidLoad() {
@@ -75,6 +84,19 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         setupNavigationBar()
         setupTableView()
         setupToolbar()
+        
+        scrollToBottomButton.addTarget(self, action: #selector(didTapScrollToBottom), for: .touchUpInside)
+        
+        view.addSubview(scrollToBottomButton, aboveAll: true)
+        scrollToBottomButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-25.0)
+            make.bottom.equalToSuperview().offset(-60.0)
+            make.size.equalTo(40.0)
+        }
+        
+        scrollToBottomButton.imageView?.snp.makeConstraints { make in
+            make.size.equalTo(40.0)
+        }
     }
     
     private func bindViewModel() {
@@ -98,24 +120,37 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
             }
         }.store(in: &cancellables)
         
-        viewModel.$error.sink { [weak self] error in
-            guard let `self` = self, let error else { return }
+        viewModel.$successMessage.sink { [weak self] result in
+            guard let `self` = self, let result else { return }
             DispatchQueue.main.async {
-                Alert.showErrorAlert(on: self, message: error.localizedDescription)
+                self.showToast(message: result.1, action: result.0)
+            }
+        }.store(in: &cancellables)
+        
+        viewModel.$error.sink { [weak self] error in
+            guard let `self` = self, let error = error as? ContactStoreError else { return }
+            switch error {
+            case .accessDenied(let error):
+                if let title = error.errorUserInfo[Strings.errorLocalizedDescription] as? String,
+                   let message = error.errorUserInfo[Strings.errorLocalizedFailureReason] as? String {
+                    Alert.showSettingsAlert(title: title, message: message, on: self)
+                }
+            case .commonError: break
             }
         }.store(in: &cancellables)
     }
-
+    
     private func setupNavigationBar() {
         navigationItem.title = Strings.Title.contactsListTitle
         navigationController?.navigationBar.prefersLargeTitles = true
-
+        
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
-
-        let leftNavBarButton = UIBarButtonItem(title: Strings.Title.deletedButtonTitle, style: .plain, target: self, action: #selector(handlePushDeleted))
+        
+        let leftNavBarButton = UIBarButtonItem(title: Strings.Title.deletedButtonTitle, 
+                                               style: .plain, target: self, action: #selector(handlePushDeleted))
         rightNavBarButton = UIBarButtonItem(title: Strings.Title.selectButtonTitle, style: .plain, target: self, action: #selector(handleSelect))
         navigationItem.leftBarButtonItem = leftNavBarButton
         navigationItem.rightBarButtonItem = rightNavBarButton
@@ -164,6 +199,12 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         tableView.setEditing(enable, animated: true)
         tableView.gestureRecognizers?.removeAll(where: { $0 is UITapGestureRecognizer })
         updateSelectionCount()
+        
+        scrollToBottomButton.snp.remakeConstraints { make in
+            make.trailing.equalToSuperview().offset(-25.0)
+            make.bottom.equalToSuperview().offset(enable ? -100.0 : -60.0)
+            make.size.equalTo(40.0)
+        }
     }
     
     // MARK: - Handlers
@@ -202,6 +243,8 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     
     @objc private func handlePushDeleted() {
         let deletedContactsVC = DeletedContactsListViewController(viewModel: viewModel)
+        viewModel.successMessage = nil
+        viewModel.contactsViewModels = []
         navigationController?.pushViewController(deletedContactsVC, animated: true)
     }
     
@@ -211,6 +254,12 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
                 self?.tableView.refreshControl?.endRefreshing()
             }
         }
+    }
+    
+    @objc private func didTapScrollToBottom() {
+        let lastIndexPath = IndexPath(row: (viewModel.contactsViewModels.last?.names.count ?? 0) - 1, 
+                                      section: viewModel.contactsViewModels.count - 1)
+        tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
     }
     
     private func updateSelectionCount() {  
@@ -245,7 +294,7 @@ extension ContactsListViewController {
         }
         return viewModel.contactsViewModels[section].letter
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.contactsViewModels[section].names.filter { $0.isDeleted == false }.count
     }

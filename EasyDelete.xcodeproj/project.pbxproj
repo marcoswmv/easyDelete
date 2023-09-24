@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F7084F972AB6900E0052EF99 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7084F962AB6900E0052EF99 /* UIViewController+Extension.swift */; };
 		F70A5CCC2988969A00B602B9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCB2988969A00B602B9 /* ContactTableViewCell.swift */; };
 		F70A5CCE298896EC00B602B9 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */; };
 		F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */; };
@@ -31,7 +32,6 @@
 		F7810CA6299D888E0085CF5A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F7810CA5299D888E0085CF5A /* SnapKit */; };
 		F7AB9DCD2AA2335F006C465D /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AB9DCC2AA2335F006C465D /* OnboardingViewController.swift */; };
 		F7AB9DD12AA24147006C465D /* OnboardingViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AB9DD02AA24147006C465D /* OnboardingViewViewModel.swift */; };
-		F7AB9DD32AA25B9C006C465D /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AB9DD22AA25B9C006C465D /* EntryViewController.swift */; };
 		F7BC54B026BAAF4E006C41A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */; };
 		F7BC54BB26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */; };
 		F7BC54C726BB05CD006C41A5 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BC54C626BB05CD006C41A5 /* ContactModel.swift */; };
@@ -56,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F7084F962AB6900E0052EF99 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		F70A5CCB2988969A00B602B9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ContactsVC+SearchBarDelegate.swift"; sourceTree = "<group>"; };
@@ -83,7 +84,6 @@
 		F768DFC32989AB0200969914 /* EasyDelete.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyDelete.xcdatamodel; sourceTree = "<group>"; };
 		F7AB9DCC2AA2335F006C465D /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F7AB9DD02AA24147006C465D /* OnboardingViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewViewModel.swift; sourceTree = "<group>"; };
-		F7AB9DD22AA25B9C006C465D /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		F7BC54B826BACE05006C41A5 /* EasyDeleteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyDeleteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BC54BA26BACE05006C41A5 /* EasyDeleteDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyDeleteDataSourceTests.swift; sourceTree = "<group>"; };
@@ -163,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				F768DF992989477900969914 /* ContactsListViewController.swift */,
-				F7AB9DD22AA25B9C006C465D /* EntryViewController.swift */,
 				F7F55464298D91B3004F062C /* DeletedContactsListViewController.swift */,
 				F7AB9DCC2AA2335F006C465D /* OnboardingViewController.swift */,
 			);
@@ -226,6 +225,7 @@
 			children = (
 				F7BC54AF26BAAF4E006C41A5 /* UIView+Extension.swift */,
 				F7BF154629D87FAF00F9730A /* Array+Extension.swift */,
+				F7084F962AB6900E0052EF99 /* UIViewController+Extension.swift */,
 				F70A5CCD298896EC00B602B9 /* UITableViewCell+Extension.swift */,
 				F7F55472298DAE12004F062C /* CNMutableContact+Extension.swift */,
 				F70A5CCF2988979700B602B9 /* ContactsVC+SearchBarDelegate.swift */,
@@ -409,8 +409,8 @@
 				F722DE0226A8773D0017493B /* Consts.swift in Sources */,
 				F70A5CCC2988969A00B602B9 /* ContactTableViewCell.swift in Sources */,
 				F768DFC42989AB0200969914 /* EasyDelete.xcdatamodeld in Sources */,
+				F7084F972AB6900E0052EF99 /* UIViewController+Extension.swift in Sources */,
 				F7AB9DD12AA24147006C465D /* OnboardingViewViewModel.swift in Sources */,
-				F7AB9DD32AA25B9C006C465D /* EntryViewController.swift in Sources */,
 				F7F55473298DAE12004F062C /* CNMutableContact+Extension.swift in Sources */,
 				F7BF154729D87FAF00F9730A /* Array+Extension.swift in Sources */,
 				F70A5CD02988979700B602B9 /* ContactsVC+SearchBarDelegate.swift in Sources */,

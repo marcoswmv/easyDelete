@@ -58,7 +58,7 @@ struct Alert {
                        actions: [cancel, confirm])
     }
     
-    static func showSettingsAlert(on viewController: UIViewController) {
+    static func showSettingsAlert(title: String, message: String, on viewController: UIViewController) {
         if let settings = URL(string: UIApplication.openSettingsURLString),
             UIApplication.shared.canOpenURL(settings) {
             
@@ -70,8 +70,8 @@ struct Alert {
             
             showBasicAlert(on: viewController,
                            style: .alert,
-                           title: Strings.Title.openSettingsButtonTitle,
-                           message: Strings.Title.permissionAlertTitle,
+                           title: title,
+                           message: message,
                            actions: [openSettingsAction, cancel])
         }
     }

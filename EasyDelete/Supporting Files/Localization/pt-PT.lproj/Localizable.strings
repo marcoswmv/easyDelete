@@ -14,7 +14,8 @@
 "phoneNumbersSectionTitle" = "Números de telefone";
 
 "deleteActionSheetTitle" = "Tem a certeza?";
-"permissionAlertTitle" = "Acesso negado";
+"deletionSuccessfulText" = "Acesso negado";
+"recoverySuccessfulText" = "Acesso negado";
 "errorAlertTitle" = "Ocorreu um erro";
 "noContactsAlertTitle" = "Sem contactos para selecionar";
 "selectContactAlertTitle" = "Selecionar um contacto";
@@ -29,6 +30,8 @@
 "actionSheetPluralText" = "Não conseguirá recuperar estes contactos.";
 "actionSheetText" = "Não conseguirá recuperar este contacto.";
 "noContactsText" = "Sem contactos";
+"deletionSuccessfulText" = "Apagado com sucesso";
+"recoverySuccessfulText" = "Recuperado com sucesso";
 
 "okButtonTitle" = "Ok";
 "cancelButtonTitle" = "Cancelar";
