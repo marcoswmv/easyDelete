@@ -46,14 +46,14 @@ extension UIViewController {
         
         view.addSubview(toastView, aboveAll: true)
         
-        UIView.animate(withDuration: 1.5, delay: 0.0, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseOut, animations: {
             toastView.frame = CGRect(x: viewCenter - viewWidthWithMargin, 
                                       y: self.view.frame.size.height - 90, 
                                       width: viewWidthWithMargin, 
                                       height: 60)
         }, completion: { isDone in
             if isDone {
-                UIView.animate(withDuration: 0.5, delay: 1.0, options: .curveEaseOut, animations: {
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
                     toastView.alpha = 0.0
                     toastView.frame = CGRect(x: viewCenter - viewWidthWithMargin, 
                                               y: self.view.frame.size.height, 

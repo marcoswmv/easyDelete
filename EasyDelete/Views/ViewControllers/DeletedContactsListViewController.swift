@@ -55,6 +55,15 @@ final class DeletedContactsListViewController: UITableViewController {
         return countLabel
     }()
     
+    private lazy var scrollToBottomButton: UIButton = {
+        let button = UIButton()
+        button.imageView?.contentMode = .scaleAspectFit
+        button.setImage(UIImage(systemName: "arrow.down.circle", 
+                                withConfiguration: UIImage.SymbolConfiguration(weight: .light)), 
+                        for: .normal)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -62,22 +71,31 @@ final class DeletedContactsListViewController: UITableViewController {
         viewModel.fetchContacts()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        layoutJumpToBottomButton()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setToolbarHidden(true, animated: true)
+        layoutJumpToBottomButton(shouldAdd: false)
     }
     
     private func setupUI() {
         setupNavigationBar()
         setupTableView()
         setupToolbar()
+        
+        scrollToBottomButton.addTarget(self, action: #selector(didTapScrollToBottom), for: .touchUpInside)
     }
     
     private func bindViewModel() {
-        viewModel.$contactsViewModels.sink { [weak self] _ in
+        viewModel.$deletedContactsViewModels.sink { [weak self] values in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
-                let contactsCount = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.filter { $0.isDeleted }.count }
+                self.scrollToBottomButton.isHidden = values.isEmpty
+                let contactsCount = values.flatMap({ $0.names }).count
                 let hasContacts = contactsCount > 0
                 
                 self.countLabel.isHidden = !hasContacts
@@ -165,6 +183,23 @@ final class DeletedContactsListViewController: UITableViewController {
         }
     }
     
+    private func layoutJumpToBottomButton(shouldAdd: Bool = true) {
+        if shouldAdd {
+            view.addSubview(scrollToBottomButton, aboveAll: true)
+            
+            scrollToBottomButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().offset(-25.0)
+                make.bottom.equalToSuperview().offset(-60.0)
+            }
+            
+            scrollToBottomButton.imageView?.snp.makeConstraints { make in
+                make.size.equalTo(40.0)
+            }
+        } else {
+            scrollToBottomButton.removeFromSuperview()
+        }
+    }
+    
     private func manageDeletedContacts(enable: Bool) {
         if enable {
             navigationItem.title = Strings.Title.deletedContactsListTitle
@@ -183,6 +218,12 @@ final class DeletedContactsListViewController: UITableViewController {
         navigationController?.setToolbarHidden(!enable, animated: true)
         tableView.setEditing(enable, animated: enable)
         updateSelectionCount()
+        
+        scrollToBottomButton.snp.remakeConstraints { make in
+            make.trailing.equalToSuperview().offset(-25.0)
+            make.bottom.equalToSuperview().offset(enable ? -100.0 : -60.0)
+            make.size.equalTo(40.0)
+        }
     }
 }
 
@@ -193,7 +234,7 @@ extension DeletedContactsListViewController {
     @objc private func handleNavigationBarTap() {
         view.endEditing(true)
         navigationController?.navigationBar.endEditing(true)
-        if viewModel.contactsViewModels.filter({ $0.names.allSatisfy({ $0.isDeleted }) }).isEmpty == false {
+        if viewModel.deletedContactsViewModels.isEmpty == false {
             tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
         }
     }
@@ -221,10 +262,9 @@ extension DeletedContactsListViewController {
                 if confirmation {
                     let contactsToDelete = indexPaths.sorted(by: { $0 > $1 })
                         .compactMap { indexPath in
-                            if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
-                               self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
-                                return self.viewModel.contactsViewModels[indexPath.section].names
-                                    .filter { $0.isDeleted }[indexPath.row].identifier
+                            if self.viewModel.deletedContactsViewModels.indices.contains(indexPath.section),
+                               self.viewModel.deletedContactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+                                return self.viewModel.deletedContactsViewModels[indexPath.section].names[indexPath.row].identifier
                             }
                             return nil
                         }
@@ -239,7 +279,7 @@ extension DeletedContactsListViewController {
             navigationItem.title = Strings.Title.deletedContactsListTitle
             
         } else {
-            if viewModel.contactsViewModels.isEmpty {
+            if viewModel.deletedContactsViewModels.isEmpty {
                 Alert.showNoContactsAlert(on: self)
             } else {
                 Alert.showNoContactSelectedAlert(on: self)
@@ -251,10 +291,9 @@ extension DeletedContactsListViewController {
         if let indexPaths = self.tableView.indexPathsForSelectedRows {
             let contactIDsToRecover = indexPaths.sorted(by: { $0 > $1 })
                 .compactMap { indexPath in
-                    if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
-                       self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
-                        return self.viewModel.contactsViewModels[indexPath.section].names
-                            .filter { $0.isDeleted }[indexPath.row].identifier
+                    if self.viewModel.deletedContactsViewModels.indices.contains(indexPath.section),
+                       self.viewModel.deletedContactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+                        return self.viewModel.deletedContactsViewModels[indexPath.section].names[indexPath.row].identifier
                     }
                     return nil
                 }
@@ -266,7 +305,7 @@ extension DeletedContactsListViewController {
             }
             navigationItem.title = Strings.Title.deletedContactsListTitle
         } else {
-            if viewModel.contactsViewModels.isEmpty {
+            if viewModel.deletedContactsViewModels.isEmpty {
                 Alert.showNoContactsAlert(on: self)
             } else {
                 Alert.showNoContactSelectedAlert(on: self)
@@ -295,6 +334,16 @@ extension DeletedContactsListViewController {
         updateSelectionCount()
     }
     
+    @objc private func didTapScrollToBottom() {
+        if !viewModel.deletedContactsViewModels.isEmpty {
+            let lastSection = viewModel.deletedContactsViewModels.count - 1
+            let lastRow = viewModel.deletedContactsViewModels[lastSection].names.count - 1
+            let lastIndexPath = IndexPath(row: lastRow, 
+                                          section: lastSection)
+            tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
+        }
+    }
+    
     private func updateSelectionCount() {  
         deleteButton?.title = generateButtonTitle(with: tableView.indexPathsForSelectedRows?.count)
         recoverButton?.title = generateButtonTitle(with: tableView.indexPathsForSelectedRows?.count, isRecover: true)
@@ -310,14 +359,12 @@ extension DeletedContactsListViewController {
     }
     
     private func deleteContact(at indexPath: IndexPath) {
-        let contactToDeleteID = self.viewModel.contactsViewModels[indexPath.section].names
-            .filter { $0.isDeleted }[indexPath.row].identifier
+        let contactToDeleteID = self.viewModel.deletedContactsViewModels[indexPath.section].names[indexPath.row].identifier
         viewModel.deleteContacts(with: [contactToDeleteID], permanently: true)
     }
     
     private func recoverContact(at indexPath: IndexPath, _ completionHandler: (Bool) -> Void) {
-        let contactToRecoverID = self.viewModel.contactsViewModels[indexPath.section].names
-            .filter { $0.isDeleted }[indexPath.row].identifier
+        let contactToRecoverID = self.viewModel.deletedContactsViewModels[indexPath.section].names[indexPath.row].identifier
         self.viewModel.recoverContact(with: [contactToRecoverID])
         completionHandler(true)
     }
@@ -327,30 +374,27 @@ extension DeletedContactsListViewController {
 
 extension DeletedContactsListViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.contactsViewModels.count
+        return viewModel.deletedContactsViewModels.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let section = viewModel.contactsViewModels[safe: section],
-              section.names.allSatisfy({ $0.isDeleted == false }) == false else { return nil }
-        return section.letter
+        return viewModel.deletedContactsViewModels[section].letter
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.contactsViewModels[section].names.filter { $0.isDeleted }.count
+        return viewModel.deletedContactsViewModels[section].names.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: DeletedContactTableViewCell.identifier, 
-            for: indexPath) as? DeletedContactTableViewCell,
-              let section = viewModel.contactsViewModels[safe: indexPath.section],
-              let contactViewModel = section.names.filter({ $0.isDeleted })[safe: indexPath.row] else { 
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DeletedContactTableViewCell.identifier, 
+                                                       for: indexPath) as? DeletedContactTableViewCell,
+              viewModel.deletedContactsViewModels.indices.contains(indexPath.section),
+              viewModel.deletedContactsViewModels[indexPath.section].names.indices.contains(indexPath.row)
+        else { 
             print("Something went wrong!")
             return DeletedContactTableViewCell()
         }
-        
-        cell.fill(with: contactViewModel)
+        cell.fill(with: viewModel.deletedContactsViewModels[indexPath.section].names[indexPath.row])
         
         return cell
     }
@@ -377,8 +421,8 @@ extension DeletedContactsListViewController {
                 guard let `self` = self else { return }
                 
                 if confirmation,
-                   self.viewModel.contactsViewModels.indices.contains(indexPath.section),
-                   self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+                   self.viewModel.deletedContactsViewModels.indices.contains(indexPath.section),
+                   self.viewModel.deletedContactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
                     self.deleteContact(at: indexPath)
                 }
             }
@@ -389,8 +433,8 @@ extension DeletedContactsListViewController {
         let recoverAction = UIContextualAction(style: .normal, title: Strings.Title.recoverButtonTitle) { [weak self] (_, _, completionHandler) in
             guard let `self` = self else { return }
             
-            if self.viewModel.contactsViewModels.indices.contains(indexPath.section),
-               self.viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
+            if self.viewModel.deletedContactsViewModels.indices.contains(indexPath.section),
+               self.viewModel.deletedContactsViewModels[indexPath.section].names.indices.contains(indexPath.row) {
                 self.recoverContact(at: indexPath, completionHandler)
             }
         }
@@ -418,7 +462,6 @@ extension DeletedContactsListViewController {
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return viewModel.contactsViewModels
-            .compactMap { $0.names.contains(where: { $0.isDeleted }) ? $0.letter : nil }
+        return viewModel.deletedContactsViewModels.compactMap { $0.letter }
     }
 }

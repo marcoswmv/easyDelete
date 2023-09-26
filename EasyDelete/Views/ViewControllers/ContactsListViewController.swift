@@ -78,6 +78,12 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        layoutJumpToBottomButton()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        layoutJumpToBottomButton(shouldAdd: false)
     }
     
     private func setupUI() {
@@ -86,24 +92,14 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         setupToolbar()
         
         scrollToBottomButton.addTarget(self, action: #selector(didTapScrollToBottom), for: .touchUpInside)
-        
-        view.addSubview(scrollToBottomButton, aboveAll: true)
-        scrollToBottomButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-25.0)
-            make.bottom.equalToSuperview().offset(-60.0)
-            make.size.equalTo(40.0)
-        }
-        
-        scrollToBottomButton.imageView?.snp.makeConstraints { make in
-            make.size.equalTo(40.0)
-        }
     }
     
     private func bindViewModel() {
-        viewModel.$contactsViewModels.sink { [weak self] _ in
+        viewModel.$contactsViewModels.sink { [weak self] values in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
-                let contactsCount = self.viewModel.contactsViewModels.reduce(0) { $0 + $1.names.filter { $0.isDeleted == false }.count }
+                self.scrollToBottomButton.isHidden = values.isEmpty
+                let contactsCount = values.flatMap { $0.names }.count
                 let hasContacts = contactsCount > 0
                 
                 self.countLabel.isHidden = !hasContacts
@@ -188,6 +184,23 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
         }
     }
     
+    private func layoutJumpToBottomButton(shouldAdd: Bool = true) {
+        if shouldAdd {
+            view.addSubview(scrollToBottomButton, aboveAll: true)
+            
+            scrollToBottomButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().offset(-25.0)
+                make.bottom.equalToSuperview().offset(-60.0)
+            }
+            
+            scrollToBottomButton.imageView?.snp.makeConstraints { make in
+                make.size.equalTo(40.0)
+            }
+        } else {
+            scrollToBottomButton.removeFromSuperview()
+        }
+    }
+    
     func enableEditingMode(_ enable: Bool) {
         if !enable {
             self.navigationItem.title = Strings.Title.contactsListTitle
@@ -257,9 +270,13 @@ final class ContactsListViewController: UITableViewController, UISearchControlle
     }
     
     @objc private func didTapScrollToBottom() {
-        let lastIndexPath = IndexPath(row: (viewModel.contactsViewModels.last?.names.count ?? 0) - 1, 
-                                      section: viewModel.contactsViewModels.count - 1)
-        tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
+        if !viewModel.contactsViewModels.isEmpty {
+            let lastSection = viewModel.contactsViewModels.count - 1
+            let lastRow = viewModel.contactsViewModels[lastSection].names.count - 1
+            let lastIndexPath = IndexPath(row: lastRow, 
+                                          section: lastSection)
+            tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
+        }
     }
     
     private func updateSelectionCount() {  
@@ -289,24 +306,20 @@ extension ContactsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if viewModel.contactsViewModels[section].names.allSatisfy({ $0.isDeleted }) {
-            return nil
-        }
         return viewModel.contactsViewModels[section].letter
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.contactsViewModels[section].names.filter { $0.isDeleted == false }.count
+        return viewModel.contactsViewModels[section].names.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.identifier, 
                                                        for: indexPath) as? ContactTableViewCell,
               viewModel.contactsViewModels.indices.contains(indexPath.section),
-              viewModel.contactsViewModels[indexPath.section].names
-            .filter({ $0.isDeleted == false }).indices.contains(indexPath.row) else { return ContactTableViewCell() }
+              viewModel.contactsViewModels[indexPath.section].names.indices.contains(indexPath.row) else { return ContactTableViewCell() }
         
-        let contactViewModel = viewModel.contactsViewModels[indexPath.section].names.filter { $0.isDeleted == false }[indexPath.row]
+        let contactViewModel = viewModel.contactsViewModels[indexPath.section].names[indexPath.row]
         
         let name = contactViewModel.name
         let phoneNumbers = contactViewModel.phoneNumbers
@@ -356,8 +369,7 @@ extension ContactsListViewController {
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return viewModel.contactsViewModels
-            .compactMap { $0.names.contains(where: { !$0.isDeleted }) ? $0.letter : nil }
+        return viewModel.contactsViewModels.compactMap { $0.letter }
     }
 }
 
