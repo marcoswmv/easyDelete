@@ -12,14 +12,12 @@ import CoreData
 final class ContactsListViewModel {
     
     private let contactsStore: ContactsStoreProtocol = ContactsStore()
-    
     private var localContactsViewModels: GroupedContactsViewModels = []
-    private var filteredContactsViewModels: GroupedContactsViewModels = []
-    private var isSearching: Bool = false
     
     @Published var error: Error?
     @Published var successMessage: (ContactStoreSuccessfulAction, String)?
     @Published var contactsViewModels: GroupedContactsViewModels = []
+    @Published var deletedContactsViewModels: GroupedContactsViewModels = []
     
     func fetchContacts(completionHandler: (() -> Void)? = nil) {
         contactsStore.fetchContacts { [weak self] result in
@@ -36,12 +34,14 @@ final class ContactsListViewModel {
         }
     }
     
-    func deleteContacts(with deletedContactViewModelIDs: [String], permanently: Bool = false) {
+    func deleteContacts(with deletedContactViewModelIDs: [String], permanently: Bool = false, didExpire: Bool = false) {
         let contactsToDelete = ContactsPersistence.shared.getContactsForContactIDs(deletedContactViewModelIDs)
         if permanently {
             // Delete from database
             ContactsPersistence.shared.deleteContacts(contactsToDelete) { [weak self] in
-                self?.successMessage = (.delete, Strings.Text.deletionSuccessfulText)
+                if !didExpire {
+                    self?.successMessage = (.delete, Strings.Text.deletionSuccessfulText)
+                }
             }
         } else {
             // Save deleted to data base
@@ -87,15 +87,23 @@ final class ContactsListViewModel {
     
     func startQuery(with text: String?, ofDeleted: Bool = false) {
         if let text, text.isEmpty == false {
-            isSearching = true
-            filteredContactsViewModels = groupContactsBySections(localContactsViewModels
-                .filter({ $0.names.allSatisfy({ $0.isDeleted == ofDeleted })})
-                .flatMap({ $0.names })
-                .filter({ $0.name.lowercased().contains(text.lowercased()) }))
+            let filteredContactsViewModels = groupContactsBySections(
+                localContactsViewModels
+                    .flatMap({ $0.names })
+                    .filter({ $0.name.lowercased().contains(text.lowercased()) })
+            )
             
-            contactsViewModels = isSearching ? filteredContactsViewModels : localContactsViewModels
+            contactsViewModels = filteredContactsViewModels
+                .filter({ $0.names.contains { !$0.isDeleted } })
+                .map({ (letter: String, names: [ContactCellViewModel]) in
+                    (letter: letter, names: names.filter({ !$0.isDeleted }))
+                })
+            deletedContactsViewModels = filteredContactsViewModels
+                .filter({ $0.names.contains { $0.isDeleted } })
+                .map({ (letter: String, names: [ContactCellViewModel]) in
+                    (letter: letter, names: names.filter({ $0.isDeleted }))
+                })
         } else {
-            isSearching = false
             generateViewModels()
         }
     }
@@ -120,11 +128,22 @@ extension ContactsListViewModel {
         localContactsViewModels = groupContactsBySections(
             retrievedContactModels.map { 
                 ContactCellViewModel(contact: $0) { [weak self] identifier in
-                    self?.deleteContacts(with: [identifier], permanently: true)
+                    self?.deleteContacts(with: [identifier], 
+                                         permanently: true, 
+                                         didExpire: true)
                 }
             }
         )
         
-        contactsViewModels = isSearching ? filteredContactsViewModels : localContactsViewModels
+        contactsViewModels = localContactsViewModels
+            .filter({ $0.names.contains { !$0.isDeleted } })
+            .map({ (letter: String, names: [ContactCellViewModel]) in
+                (letter: letter, names: names.filter({ !$0.isDeleted }))
+            })
+        deletedContactsViewModels = localContactsViewModels
+            .filter({ $0.names.contains { $0.isDeleted } })
+            .map({ (letter: String, names: [ContactCellViewModel]) in
+                (letter: letter, names: names.filter({ $0.isDeleted }))
+            })
     }
 }
